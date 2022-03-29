@@ -1,3 +1,3 @@
 ### Thunder-market
 
-<a href="https://dashboard.heroku.com/apps/thunder-market">published</a>
+<a href="https://thunder-market.herokuapp.com/">published</a>
