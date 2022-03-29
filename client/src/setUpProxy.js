@@ -28,4 +28,3 @@ module.exports = function (app) {
   );
 };
 
-// proxy 설정 때문에 /user 또는 /api 하나만 가능함.
