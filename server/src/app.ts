@@ -38,6 +38,10 @@ app.use("/api", apiRouter);
 app.use("/product", productRouter);
 app.use("/user", userRouter);
 
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/build/index.html");
+});
+
 app.get("*", (req, res) => {
   if (isHeroku) {
     res.sendFile(__dirname + "/build/index.html");
