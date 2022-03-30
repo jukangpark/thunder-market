@@ -17,8 +17,9 @@ import "./db";
 import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import userRouter from "./routers/userRouter";
 import apiRouter from "./routers/apiRouter";
+import productRouter from "./routers/productRouter";
+import userRouter from "./routers/userRouter";
 
 const logger = morgan("dev");
 
@@ -33,8 +34,9 @@ app.use(express.json());
 app.use(express.static("build"));
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/user", userRouter);
 app.use("/api", apiRouter);
+app.use("/product", productRouter);
+app.use("/user", userRouter);
 
 app.get("*", (req, res) => {
   if (isHeroku) {
@@ -45,7 +47,7 @@ app.get("*", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is listening on ${PORT}`);
+  console.log("hello world!");
 });
 
 // app.ts 를 실행시키려면 지금 타입스크립트로 작성이 되어 있기 때문에
