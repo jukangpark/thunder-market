@@ -1,18 +1,12 @@
 import Header from "../components/Header";
-import { Wrapper } from "../components/fundamental";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import HeaderMenu from "../components/HeaderMenu";
 
 const Home = () => {
   return (
-    <Wrapper>
-      <HelmetProvider>
-        <Helmet>
-          <title>Thunder Market | Home</title>
-        </Helmet>
-      </HelmetProvider>
-      <Header />
-      Home
-    </Wrapper>
+    <>
+    <HeaderMenu />
+    <Header />
+    </>
   );
 };
 
