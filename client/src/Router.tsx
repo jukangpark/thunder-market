@@ -11,7 +11,7 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/join" element={<Join />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/product/upload" element={<Upload />} />
+        <Route path="/upload" element={<Upload />} />
       </Routes>
     </>
   );

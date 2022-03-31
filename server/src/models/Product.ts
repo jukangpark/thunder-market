@@ -4,11 +4,11 @@ const productSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
   name: { type: String, required: true },
   categories: { type: String, required: true },
-  meta: {
-    views: { type: Number, default: 0, required: true },
-  },
+  // meta: {
+  //   views: { type: Number, default: 0, required: true },
+  // },
   location: { type: String, required: true },
-  owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
+  // owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
   comments: [
     { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Comments" },
   ],

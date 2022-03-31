@@ -20,6 +20,9 @@ require("./db");
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const apiRouter_1 = __importDefault(require("./routers/apiRouter"));
+const productRouter_1 = __importDefault(require("./routers/productRouter"));
+const userRouter_1 = __importDefault(require("./routers/userRouter"));
 const logger = (0, morgan_1.default)("dev");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 9000;
@@ -28,6 +31,12 @@ app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.static("build"));
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use("/api", apiRouter_1.default);
+app.use("/product", productRouter_1.default);
+app.use("/user", userRouter_1.default);
+app.get("/", function (req, res) {
+    res.sendFile(__dirname + "/build/index.html");
+});
 app.get("*", (req, res) => {
     if (isHeroku) {
         res.sendFile(__dirname + "/build/index.html");

@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Product from "../models/Product";
-// import User from "../models/User";
 
 export const upload = async (req: any, res: Response) => {
   console.log(req.body);
@@ -33,7 +32,6 @@ export const upload = async (req: any, res: Response) => {
       hashtags,
       imageUrl,
     });
-    // product 를 올린 User 도 찾아서 그 유저의 products 배열에 데이터 넣어주기.
   } catch (error) {
     return res.status(400).redirect("/");
   }
