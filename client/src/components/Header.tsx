@@ -88,10 +88,7 @@ const TalkBtn = styled.button`
   height: 24px;
   margin-left: 30px;
   color: rgb(33, 33, 33);
-  background-color: transparent;
-  border: none;
   cursor: pointer;
-  outline: none;
   font-size: 100%;
 `
 const HeaderMenu = styled.div`
