@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+import Header from "./components/Header";
 import Router from "./Router";
 import { darkTheme } from "./theme";
 
@@ -54,23 +55,14 @@ table {
 `;
 
 const App = () => {
-  useEffect(() => {
-    fetch("/api/connect")
-      .then((res) => res.json())
-      .then((data) => alert(data.message));
-    // api 호출 잘 되는 지 테스트해보기 위해 넣은겁니당..
-    // server 와 proxy 서버를 통해 ajax 통신 잘 되는지 먼저 확인해주세요
-    // mongodb 설치 후
-    // .env 파일 만든 다음 DB_URL 작성해주셔야 합니다.
-    // DB_URL=mongodb://127.0.0.1:27017/tundermarket 이런 형태입니다.
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
       <ThemeProvider theme={darkTheme}>
         <HelmetProvider>
           <Helmet>
-            <title>Thunder Market App</title>
+            <title>Thunder Market</title>
           </Helmet>
         </HelmetProvider>
         <GlobalStyle />

@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
+import Product from "../models/Product";
 
-export const uploadProduct = (req: Request, res: Response) => {
+export const uploadProduct = async (req: Request, res: Response) => {
+  console.log(req.body);
+  await Product.create({});
+
   return res.send({ message: "상품이 업로드 되었습니다." });
 };
 
