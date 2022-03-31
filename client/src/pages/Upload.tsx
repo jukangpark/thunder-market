@@ -1,49 +1,66 @@
+import { useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "../components/fundamental";
 import Header from "../components/Header";
 
 const Form = styled.form`
   width: 300px;
-  margin: 0 auto;
+  margin: 20px auto;
   input {
     display: block;
   }
 `;
 
-interface IProduct {
-  imageUrl: string[];
-  name: string;
-  categories: string[];
-  meta: {
-    views: number;
-  };
-  location: string;
-  new: boolean;
-  change: boolean;
-  price: number;
-  delivery: boolean;
-  description: boolean;
-  hashtags: string[];
-}
+// interface IProduct {
+//   FileList: any;
+//   name: string;
+//   categories: string;
+//   meta: {
+//     views: number;
+//   };
+//   location: string;
+//   newProduct: string;
+//   change: string;
+//   price: number;
+//   delivery: boolean;
+//   description: string;
+//   hashtags: string;
+// }
 
 const Upload = () => {
-  const {
-    handleSubmit,
-    register,
-    setValue,
-    formState: { errors },
-  } = useForm<IProduct>();
+  const [state, setState] = useState({
+    file: null,
+    base64URL: "",
+  });
+  const navigate = useNavigate();
 
-  const onValid = ({ imageUrl, name }: IProduct) => {
-    fetch("/product/upload", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        imageUrl: ["asdfa"],
-      }),
+  const getBase64 = (file: any) => {
+    return new Promise((resolve) => {
+      let baseURL: any = ""; // arrayBuffer 가 들어올 변수
+
+      let reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        baseURL = reader.result;
+        resolve(baseURL);
+      };
+    });
+  };
+
+  const handleFileInputChange = (event: any) => {
+    const file = event.target.files[0];
+
+    getBase64(file).then((result: any) => {
+      file["base64"] = result;
+
+      setState({
+        base64URL: result,
+        file,
+      });
     });
   };
 
@@ -56,10 +73,42 @@ const Upload = () => {
       </HelmetProvider>
       <Header />
       <div>
-        <Form onSubmit={handleSubmit(onValid)}>
-          <input type="file" accept="image/*" {...register("imageUrl")} />
-          <input type="text" placeholder="상품제목을 입력해주세요." />
-          <select name="categories">
+        <Form
+          method="POST"
+          action="/product/upload"
+          encType="multipart/form-data"
+        >
+          {state.base64URL ? (
+            <img
+              style={{ width: "200px" }}
+              src={state.base64URL}
+              alt="이미지를 첨부해주세요"
+            />
+          ) : (
+            <div
+              style={{
+                width: "200px",
+                backgroundColor: "#999999",
+                height: "200px",
+              }}
+            />
+          )}
+
+          <input
+            type="file"
+            id="productImage"
+            name="productImage"
+            onChange={handleFileInputChange}
+          />
+
+          <input
+            type="text"
+            placeholder="상품제목을 입력해주세요."
+            name="name"
+          />
+
+          <label htmlFor="categories">카테고리 : </label>
+          <select name="categories" required>
             <option value="womenclothing">여성의류</option>
             <option value="menclothing">남성의류</option>
             <option value="shoes">신발</option>
@@ -87,26 +136,37 @@ const Upload = () => {
             <option value="talent">재능</option>
             <option value="community">커뮤니티</option>
           </select>
+
           <button>내 위치</button>
           <button>주소 검색</button>
-          <input placeholder="지역"></input>
-          <select>
-            <option>중고상품</option>
-            <option>새상품</option>
+
+          <input placeholder="지역" name="location" />
+
+          <select name="newProduct">
+            <option value="중고상품">중고상품</option>
+            <option value="새상품">새상품</option>
           </select>
-          <select>
-            <option>교환불가</option>
-            <option>교환가능</option>
+
+          <select name="change">
+            <option value="교환불가">교환불가</option>
+            <option value="교환가능">교환가능</option>
           </select>
-          <input placeholder="가격" type="number"></input>
-          <label htmlFor="true">배송비 포함</label>
-          <input type="checkbox" name="true"></input>
+
+          <input placeholder="가격" type="number" name="price" />
+
+          <label htmlFor="delivery">배송비 포함</label>
+          <input type="checkbox" name="delivery" />
+
           <label htmlFor="description">설명</label>
           <textarea
             style={{ width: "100%", height: "200px" }}
             id="description"
-          ></textarea>
-          <input placeholder="hashtags"></input>
+            name="description"
+          />
+
+          <input placeholder="hashtags" name="hashtags" />
+
+          <button>등록</button>
         </Form>
       </div>
     </Wrapper>
