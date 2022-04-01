@@ -6,7 +6,7 @@ const size = {
 };
 
 export const darkTheme: DefaultTheme = {
-  bgColor: "#222222",
+  bgColor: "#fff",
   textColor: "white",
   accentColor: "whitesmoke",
   mobile: `(max-width: ${size.mobile}px)`,
@@ -15,8 +15,8 @@ export const darkTheme: DefaultTheme = {
 };
 
 export const lightTheme: DefaultTheme = {
-  bgColor: "white",
-  textColor: "#222222",
+  bgColor: "#222",
+  textColor: "#fff",
   accentColor: "whitesmoke",
   mobile: `(max-width: ${size.mobile}px)`,
   tablet: `(min-width: ${size.mobile + 1}px) and (max-width: ${size.tablet}px)`,
