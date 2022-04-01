@@ -3,8 +3,9 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Router from "./Router";
-import { darkTheme } from "./theme";
-
+import { darkTheme, lightTheme } from "./theme";
+import { useRecoilValue } from "recoil";
+import { isDarkState } from "./atoms";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -68,11 +69,11 @@ button {
 `;
 
 const App = () => {
-  useEffect(() => {}, []);
+  const isDark = useRecoilValue(isDarkState);
 
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <HelmetProvider>
           <Helmet>
             <title>Thunder Market</title>

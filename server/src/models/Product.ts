@@ -4,14 +4,12 @@ const productSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
   name: { type: String, required: true },
   categories: { type: String, required: true },
-  // meta: {
-  //   views: { type: Number, default: 0, required: true },
-  // },
+  meta: {
+    views: { type: Number, default: 0 },
+  },
   location: { type: String, required: true },
-  // owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
-  comments: [
-    { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Comments" },
-  ],
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  // comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   newProduct: { type: String, required: true }, // 새상품인지 중고상품인지.
   change: { type: String, required: true }, // 교환 가능상품인지 아닌지.
   price: { type: Number, required: true },

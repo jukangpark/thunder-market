@@ -19,6 +19,14 @@ export const upload = async (req: any, res: Response) => {
     hashtags,
   } = req.body;
 
+  let deliveryValue;
+
+  if (delivery === "on") {
+    deliveryValue = true; // 배송비 포함
+  } else {
+    deliveryValue = false; // 배송비 미포함
+  }
+
   try {
     await Product.create({
       name,
@@ -27,7 +35,7 @@ export const upload = async (req: any, res: Response) => {
       newProduct,
       change,
       price,
-      delivery: true,
+      delivery: deliveryValue,
       description,
       hashtags,
       imageUrl,
@@ -39,6 +47,8 @@ export const upload = async (req: any, res: Response) => {
   return res.redirect("/");
 };
 
-export const getProductList = (req: Request, res: Response) => {
-  return res.send({ message: "조회된 상품이 없습니다." });
+export const getProductList = async (req: Request, res: Response) => {
+  const list = await Product.find({});
+
+  return res.send(list);
 };
