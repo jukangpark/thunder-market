@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import Header from "./components/Header";
 import Router from "./Router";
 import { darkTheme, lightTheme } from "./theme";
 import { useRecoilValue } from "recoil";

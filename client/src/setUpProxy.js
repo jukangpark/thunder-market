@@ -20,11 +20,10 @@ module.exports = function (app) {
 
   app.use(
     "/product",
-    // localhost:9000/user
+    // localhost:9000/product
     createProxyMiddleware({
       target: "http://localhost:9000", // 서버의 포트를 여기에 작성해주면됨.
       changeOrigin: true, // cross Origin 가능하게.
     })
   );
 };
-

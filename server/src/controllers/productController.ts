@@ -52,3 +52,12 @@ export const getProductList = async (req: Request, res: Response) => {
 
   return res.send(list);
 };
+
+export const getProductDetail = async (req: any, res: Response) => {
+  const { id } = req.params;
+  console.log(id);
+
+  const product = await Product.findById(id);
+
+  return res.send(product);
+};

@@ -12,22 +12,6 @@ const Form = styled.form`
   }
 `;
 
-// interface IProduct {
-//   FileList: any;
-//   name: string;
-//   categories: string;
-//   meta: {
-//     views: number;
-//   };
-//   location: string;
-//   newProduct: string;
-//   change: string;
-//   price: number;
-//   delivery: boolean;
-//   description: string;
-//   hashtags: string;
-// }
-
 const Upload = () => {
   const [state, setState] = useState({
     file: null,

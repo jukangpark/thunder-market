@@ -1,9 +1,6 @@
-import React from "react";
-
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import {
   Btn,
   BtnContainer,
