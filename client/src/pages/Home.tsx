@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import HeaderMenu from "../components/HeaderMenu";
 import Slider from "../components/Slider";
+import TodayProduct from "../components/TodayProduct";
 
 const Home = () => {
 
@@ -10,6 +11,7 @@ const Home = () => {
       <HeaderMenu />
       <Header />
       <Slider />
+      <TodayProduct />
     </>
   );
 };
