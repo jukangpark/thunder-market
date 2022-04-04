@@ -170,6 +170,9 @@ const DirectTopBtn = styled.button`
     cursor: pointer;
 `
 const Slider = () => {
+    const onClick = (document: any) => {
+        document.scrollingElement?.scrollTop()
+    }
     return (
         <Container>
             <Wrapper>
@@ -222,7 +225,7 @@ const Slider = () => {
                     </DownloadImgBox>
                 </DownloadBox>
                 <DirectTopBox>
-                    <DirectTopBtn>
+                    <DirectTopBtn onClick={onClick}>
                         TOP
                     </DirectTopBtn>
                 </DirectTopBox>
