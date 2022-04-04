@@ -111,7 +111,11 @@ const TodayProduct = () => {
                 <ProductInfo>
                   <Description>{product.description}</Description>
                   <PriceAndTime>
-                    <Price>{product.price}</Price>
+                    <Price>
+                      {product.price
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    </Price>
                   </PriceAndTime>
                 </ProductInfo>
               </Link>
