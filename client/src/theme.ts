@@ -15,8 +15,8 @@ export const darkTheme: DefaultTheme = {
 };
 
 export const lightTheme: DefaultTheme = {
-  bgColor: "#222",
-  textColor: "#fff",
+  bgColor: "fff",
+  textColor: "#222222",
   accentColor: "whitesmoke",
   mobile: `(max-width: ${size.mobile}px)`,
   tablet: `(min-width: ${size.mobile + 1}px) and (max-width: ${size.tablet}px)`,
