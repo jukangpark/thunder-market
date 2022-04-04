@@ -15,55 +15,53 @@ interface IProducts {
   location: string;
   meta: {
     views: number;
-  }
+  };
   name: string;
   newProduct: string;
   price: number;
   __v: number;
   _id: string;
 }
-const Main = styled.div`
-  
-`
+const Main = styled.div``;
 const Container = styled.div`
   display: flex;
   -webkit-box-pack: center;
   justify-content: center;
   background-color: rgb(255, 255, 255);
-`
+`;
 const ContainerWidth = styled.div`
   width: 1024px;
-`
+`;
 const Wrapper = styled.div`
   display: flex;
   padding: 30px 0;
-`
+`;
 const ImgWrapper = styled.div`
   border: 1px solid rgb(238, 238, 238);
   position: relative;
   width: 100%;
   height: 100%;
-`
+`;
 const ImgBox = styled.div`
   width: 430px;
   height: 430px;
   flex-shrink: 0;
   margin-right: 40px;
-`
+`;
 const ProductImg = styled.img`
   width: 428px;
   height: 428px;
   position: absolute;
   transition: opacity 0.2s ease-in-out 0s;
   opacity: 1;
-`
+`;
 const ImgBtnBox = styled.div`
   position: absolute;
   bottom: -30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-`
+`;
 const ImgBtn = styled.button`
   width: 10px;
   height: 10px;
@@ -71,11 +69,11 @@ const ImgBtn = styled.button`
   border-radius: 50%;
   background: rgb(33, 33, 33);
   border: 0px;
-`
+`;
 const InfoContainer = styled.div`
   -webkit-box-flex: 1;
   flex-grow: 1;
-`
+`;
 const InfoWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -83,54 +81,52 @@ const InfoWrapper = styled.div`
   flex-direction: column;
   -webkit-box-pack: justify;
   justify-content: space-between;
-`
+`;
 const TitleWrapper = styled.div`
   padding-bottom: 30px;
   border-bottom: 1px solid rgb(238, 238, 238);
   width: 100%;
-`
+`;
 const Description = styled.div`
   font-size: 24px;
   margin-bottom: 25px;
   font-weight: 600;
   line-height: 1.4;
-`
+`;
 const PriceBox = styled.div`
   display: flex;
   -webkit-box-pack: justify;
   justify-content: space-between;
   align-items: flex-end;
-`
+`;
 const Price = styled.div`
   font-size: 40px;
   font-weight: 500;
-`
+`;
 const Won = styled.span`
   font-size: 28px;
   font-weight: 400;
   margin-left: 5px;
-`
+`;
 const AppDownBtn = styled.div`
   background-color: transparent;
   cursor: pointer;
   outline: none;
-`
+`;
 const AppDownImg = styled.img`
   width: 216px;
   aspect-ratio: auto 216 / 30;
   height: 30;
-`
-const DetailWrapper = styled.div`
-  
-`
+`;
+const DetailWrapper = styled.div``;
 const NumDetail = styled.div`
-  height:30px;
+  height: 30px;
   margin-top: 15px;
   margin-bottom: 25px;
   display: flex;
   -webkit-box-pack: justify;
   justify-content: space-between;
-`
+`;
 const NumBox = styled.div`
   height: 100%;
   display: flex;
@@ -143,35 +139,34 @@ const NumBox = styled.div`
     color: rgb(204, 204, 204);
     font-size: 16px;
     height: 100%;
-      ::after {
-        content: "";
-        width: 1px;
-        height: 12px;
-        border-right: 1px solid rgb(238, 238, 238);
-        margin-left: 10px;
-        margin-right: 10px;
+    ::after {
+      content: "";
+      width: 1px;
+      height: 12px;
+      border-right: 1px solid rgb(238, 238, 238);
+      margin-left: 10px;
+      margin-right: 10px;
     }
   }
   img {
     margin-right: 5px;
   }
-`
-const Num = styled.div`
-`
+`;
+const Num = styled.div``;
 const LovedImg = styled.img`
   width: 16px;
   height: 16px;
-`
+`;
 
 const WatchedImg = styled.img`
   width: 21px;
   height: 13px;
-`
+`;
 
 const TimeImg = styled.img`
   width: 16px;
   height: 16px;
-`
+`;
 const TextDetail = styled.div`
   div {
     display: flex;
@@ -186,27 +181,27 @@ const TextDetail = styled.div`
       background: rgb(204, 204, 204);
     }
   }
-`
+`;
 const Text = styled.div`
   margin-bottom: 25px;
-`
+`;
 const Request = styled.div`
   position: relative;
   width: 90px;
   padding-left: 15px;
   color: rgb(153, 153, 153);
-`
+`;
 const Response = styled.div`
   display: flex;
   position: relative;
-`
+`;
 const LocationImg = styled.img`
   width: 12px;
   height: 15px;
   position: absolute;
   top: 0;
   left: 0;
-`
+`;
 const BtnBox = styled.div`
   display: flex;
   -webkit-box-pack: justify;
@@ -223,11 +218,11 @@ const BtnBox = styled.div`
     -webkit-box-align: center;
     align-items: center;
   }
-`
+`;
 
 const ZimBox = styled.div`
   position: relative;
-`
+`;
 const ZimBtn = styled.button`
   width: 100%;
   height: 100%;
@@ -245,22 +240,22 @@ const ZimBtn = styled.button`
     margin-left: 5px;
     font-size: 18px;
   }
-`
+`;
 const Message = styled.button`
   background: rgb(255, 164, 37);
   border: 1px solid rgb(243, 150, 20);
   color: rgb(255, 255, 255);
   cursor: pointer;
-`
+`;
 const DirectBuy = styled.button`
   margin-right: 0;
   background: rgb(247, 0, 0);
   border: 1px solid rgb(223, 0, 0);
   color: rgb(255, 255, 255);
   cursor: pointer;
-`
+`;
 const ProductDetail = () => {
-  const [product, setProduct] = useState<IProducts>()
+  const [product, setProduct] = useState<IProducts>();
   const { id } = useParams();
 
   console.log(id);
@@ -289,12 +284,12 @@ const ProductDetail = () => {
             <InfoContainer>
               <InfoWrapper>
                 <TitleWrapper>
-                  <Description>
-                    {product?.description}
-                  </Description>
+                  <Description>{product?.description}</Description>
                   <PriceBox>
                     <Price>
-                      {product?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      {product?.price
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       <Won>원</Won>
                     </Price>
                     <AppDownBtn>
@@ -321,33 +316,21 @@ const ProductDetail = () => {
                   </NumDetail>
                   <TextDetail>
                     <Text>
-                      <Request>
-                        상품상태
-                      </Request>
-                      <Response>
-                        {product?.newProduct}
-                      </Response>
+                      <Request>상품상태</Request>
+                      <Response>{product?.newProduct}</Response>
                     </Text>
                     <Text>
-                      <Request>
-                        교환여부
-                      </Request>
-                      <Response>
-                        {product?.change}
-                      </Response>
+                      <Request>교환여부</Request>
+                      <Response>{product?.change}</Response>
                     </Text>
                     <Text>
-                      <Request>
-                        배송비
-                      </Request>
+                      <Request>배송비</Request>
                       <Response style={{ color: "rgb(110, 71, 238)" }}>
                         {product?.delivery}
                       </Response>
                     </Text>
                     <Text>
-                      <Request>
-                        거래지역
-                      </Request>
+                      <Request>거래지역</Request>
                       <Response style={{ paddingLeft: "17px" }}>
                         <LocationImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAeCAYAAAA2Lt7lAAAAAXNSR0IArs4c6QAAA0VJREFUSA2tVktoE0EYnmwejUlDCYUcJD3YGooJGA1RYgJtKh6KtJ6q+EAvvQn25EnEHjx56qGgCJ5EPCqIBxE1j/YmiFJSYkvQBiExqRRJNNGkid+/uMvsdjZJtQOT+Z/fN/+/M7sxsQ4jkUgcNJlMV9rtdhTrEEK9mD8x85ifYX/qcrmehMNhsgmHSWRNpVKHkHwXMy7y8zYQVyjW6/XO+3y+X7yP5B0EyWRyDvY7SLLrgzvpIFrBvDQ+Pr7Cx2kI0JKbcN7mA3Yjg2ALG4tOTExklTyVADu/DOdDxfGvK0g+2e32E5FI5CthSPSzvLy8H8t9kv93YJMH6vX6ooIjEzQajVtw7FOMe7DOpNPpEOFIODFDKGt2D0BVCGzW1Gq15mUCKJOYFtW7C6Gvr48NDw8zbFCUdSqTydgI+KTI281GoH6/nw0MDMgEuVxOk4JNO0ql0nEJwlGNp0dlZGREBscDZRsbG8IsbOKwhB+ryEs7xHETuZjH42G4uQx9ZmgDazabwjgY21SBWe9Vyg+FQszpdGrcDoeDjY6Oyrb19XVWqVQ0fl4BzjYd0y+8kZdtNhsLBoMqidlsZoFAgNFaLBZZoVDgw3fIIMhRi1J6D6piq6urrFwuM56Edk4VVatVtra2pk/T6MCtDg4OLlGLEhrPX0VPQu2i3lO/qe/U/y7jFar9LcXj8TcI/CgK5kmoLTSy2Syr1WqicI1NkqRHZKAWtaDc0Hg5hSfJ5/Nsc3OT8xqKH3AYnpFXvYJ4mz4G2AWjFGyEEVm3gbgtq9V6LBaLyTdPftlREh7mLJxvjQB6BG+iG2cVcMJSCaLRaA0gZ0CSNyLpwT43Njb2mo9TCciIL1ERBFOYxreHz+Zk5CziwNzjTLKoPgPegU/nJPTnmDtuOR+nyAB/iW/xaazbik1ZNRUoRlTyAsHXFL3Tirhsf3//ORE45QkJyEHlImmB5A7jG07MFP4XfTeKMSSgBJR9HSTyedYDwN6AbYY/MfoY0jsSAKTldrsvYn2nT8aJu4pWJvV2vd6RgILxNv1hsVimQaK+dSEvAPyBHkykC0+RKBAn6wiAl+BLo3VE2PVtRzhdK1DIsOP3aMs0qjnfKzjl/gFgkydRSXu9AAAAAABJRU5ErkJggg==" />
                         {product?.location}
