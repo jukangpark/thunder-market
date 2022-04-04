@@ -77,12 +77,13 @@ const SellLink = styled.a`
   background-color: transparent;
   color: rgb(33, 33, 33);
 `;
-const ShopLink = styled.a`
+const ShopLink = styled.div`
   height: 24px;
   margin-left: 30px;
   text-decoration: none;
   background-color: transparent;
   color: rgb(33, 33, 33);
+  display: inline-block;
 `;
 const TalkBtn = styled.button`
   height: 24px;
@@ -145,7 +146,9 @@ const Header = () => {
           </InputWrapper>
           <MenuWrapper>
             <SellLink href="/upload">판매하기</SellLink>
-            <ShopLink href="/">내 상점</ShopLink>
+            <ShopLink>
+              <Link to="/myshop">내상점</Link>
+            </ShopLink>
             <TalkBtn>번개톡</TalkBtn>
           </MenuWrapper>
         </HeaderWrapper>
