@@ -114,7 +114,7 @@ const TodayProduct = () => {
                                     </Description>
                                     <PriceAndTime>
                                         <Price>
-                                            {product.price}
+                                            {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         </Price>
                                     </PriceAndTime>
                                 </ProductInfo>

@@ -63,6 +63,7 @@ button {
   border: 0;
   background-color: transparent;
   font-family: 'Noto Sans KR', sans-serif;
+  padding: 0;
 }
 `;
 

@@ -7,7 +7,7 @@ const size = {
 
 export const darkTheme: DefaultTheme = {
   bgColor: "#fff",
-  textColor: "white",
+  textColor: "rgb(33, 33, 33)",
   accentColor: "whitesmoke",
   mobile: `(max-width: ${size.mobile}px)`,
   tablet: `(min-width: ${size.mobile + 1}px) and (max-width: ${size.tablet}px)`,
