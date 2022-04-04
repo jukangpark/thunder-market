@@ -147,7 +147,7 @@ const Header = () => {
           <MenuWrapper>
             <SellLink href="/upload">판매하기</SellLink>
             <ShopLink>
-              <Link to="/myshop">내상점</Link>
+              <Link to="/shop">내상점</Link>
             </ShopLink>
             <TalkBtn>번개톡</TalkBtn>
           </MenuWrapper>

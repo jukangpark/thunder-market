@@ -62,3 +62,12 @@ export const login = async (req: Request, res: Response) => {
   res.cookie("user", token);
   return res.status(200).send({ result: "ok", message: "로그인 완료" }).end();
 };
+
+export const getUserInfo = async (req: Request, res: Response) => {
+  const { user_id } = res.locals.user;
+  const findedUser = await User.findById(user_id); // db 에서 User 조회
+  const { email, products } = findedUser; // user email, products 조회
+
+  const userInfo = { email, products };
+  return res.send(userInfo);
+};
