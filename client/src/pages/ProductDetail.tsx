@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/Header";
 import HeaderMenu from "../components/HeaderMenu";
-import Slider from "../components/SideSlider";
 
 interface IProducts {
   categories: string;
@@ -269,13 +268,12 @@ const ProductDetail = () => {
     <Main>
       <HeaderMenu />
       <Header />
-      <Slider />
       <Container>
         <ContainerWidth>
           <Wrapper>
             <ImgBox>
               <ImgWrapper>
-                <ProductImg src={`/${product?.imageUrl}`} />
+                <ProductImg src={`${product?.imageUrl}`} />
                 <ImgBtnBox>
                   <ImgBtn></ImgBtn>
                 </ImgBtnBox>
