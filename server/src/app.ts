@@ -35,7 +35,7 @@ app.use(express.static("build"));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", apiRouter);
-app.use("/product", productRouter);
+app.use("/productapi", productRouter);
 app.use("/user", userRouter);
 
 app.get("/", function (req, res) {

@@ -93,7 +93,7 @@ const Price = styled.div`
 const TodayProduct = () => {
   const [products, setProducts] = useState<IProducts[]>([]);
   useEffect(() => {
-    fetch(`/product/showlist`)
+    fetch(`/productapi/showlist`)
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);

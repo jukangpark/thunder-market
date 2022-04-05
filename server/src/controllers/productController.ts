@@ -39,7 +39,9 @@ export const upload = async (req: any, res: Response) => {
       delivery: deliveryValue,
       description,
       hashtags,
-      imageUrl: isHeroku ? productImage[0].location : productImage[0].path,
+      imageUrl: isHeroku
+        ? productImage[0].location
+        : "/" + productImage[0].path,
     });
   } catch (error) {
     return res.status(400).redirect("/");

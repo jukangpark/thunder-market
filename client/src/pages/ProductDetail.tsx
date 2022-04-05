@@ -259,11 +259,12 @@ const ProductDetail = () => {
 
   console.log(id);
   useEffect(() => {
-    fetch(`/product/${id}`)
+    fetch(`/productapi/${id}`)
       .then((res) => res.json())
       .then((data) => setProduct(data));
   }, []);
 
+  console.log(product);
   return (
     <Main>
       <HeaderMenu />
