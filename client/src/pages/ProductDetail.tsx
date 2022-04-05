@@ -264,7 +264,6 @@ const ProductDetail = () => {
       .then((data) => setProduct(data));
   }, []);
 
-  console.log(product);
   return (
     <Main>
       <HeaderMenu />
@@ -274,7 +273,7 @@ const ProductDetail = () => {
           <Wrapper>
             <ImgBox>
               <ImgWrapper>
-                <ProductImg src={`${product?.imageUrl}`} />
+                <ProductImg />
                 <ImgBtnBox>
                   <ImgBtn></ImgBtn>
                 </ImgBtnBox>
