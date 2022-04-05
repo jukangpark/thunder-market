@@ -59,6 +59,7 @@ table {
 }
 a{
   text-decoration: none;
+  color: rgb(33, 33, 33);
 }
 button {
   outline: none;
@@ -71,8 +72,6 @@ button {
 
 const App = () => {
   const isDark = useRecoilValue(isDarkState);
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   return (
     <>

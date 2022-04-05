@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { isLoggedInState } from "../atoms";
@@ -55,27 +56,28 @@ const BookMarkImg = styled.img`
 const RightMenu = styled.div`
   display: flex;
   flex-shrink: 0;
+  a {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 13px;
+    padding: 0 15px;
+    position: relative;
+    line-height: 1.4;
+    color: rgb(102, 102, 102);
+  }
 `;
 const LogInBtn = styled.button`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
   font-size: 13px;
-  color: rgb(102, 102, 102);
   padding: 0px 15px;
   position: relative;
   line-height: 1.4;
-`;
-const MyShop = styled.a`
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  font-size: 13px;
   color: rgb(102, 102, 102);
-  padding: 0 15px;
-  position: relative;
-  line-height: 1.4;
 `;
+
 
 const HeaderMenu = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -98,10 +100,14 @@ const HeaderMenu = () => {
             // 여기에 이제 현재 로그인된 유저 아이디 넣어줄겁니당
             <LogInBtn>박주강님</LogInBtn>
           ) : (
-            <LogInBtn>로그인/회원가입</LogInBtn>
+            <LogInBtn>
+                로그인/회원가입
+            </LogInBtn>
           )}
 
-          <MyShop>내 상점</MyShop>
+          <Link to={isLoggedIn ? `/shop` : `/login`}>
+              내 상점
+          </Link>
         </RightMenu>
       </Wrapper>
     </Container>

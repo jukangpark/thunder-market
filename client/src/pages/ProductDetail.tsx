@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/Header";
 import HeaderMenu from "../components/HeaderMenu";
-import Slider from "../components/Slider";
+import Slider from "../components/SideSlider";
 
 interface IProducts {
   categories: string;
