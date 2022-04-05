@@ -5,7 +5,8 @@ export const upload = async (req: any, res: Response) => {
   console.log(req.body);
   console.log(req.files);
   const { productImage } = req.files;
-  const imageUrl = productImage[0].path;
+
+  const isHeroku = process.env.NODE_ENV === "production";
 
   const {
     name,
@@ -38,7 +39,7 @@ export const upload = async (req: any, res: Response) => {
       delivery: deliveryValue,
       description,
       hashtags,
-      imageUrl,
+      imageUrl: isHeroku ? productImage[0].location : productImage[0].path,
     });
   } catch (error) {
     return res.status(400).redirect("/");

@@ -97,6 +97,9 @@ const TodayProduct = () => {
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
+
+  console.log(products);
+
   return (
     <MainSection>
       <Title>오늘의 상품 추천</Title>
