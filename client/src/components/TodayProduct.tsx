@@ -109,7 +109,7 @@ const TodayProduct = () => {
             <ProductContainer key={product._id}>
               <Link to={`/product/${product._id}`}>
                 <ImgBox>
-                  <ProductImage src={`/${product.imageUrl}`} />
+                  <ProductImage src={`${product.imageUrl}`} />
                 </ImgBox>
                 <ProductInfo>
                   <Description>{product.description}</Description>
