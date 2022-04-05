@@ -1,27 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { IProducts, IProps } from "../typeScript";
 
-interface IProducts {
-  categories: string;
-  change: string;
-  delivery: string;
-  description: string;
-  hashtags: string;
-  imageUrl: string;
-  location: string;
-  meta: {
-    views: number;
-  };
-  name: string;
-  newProduct: string;
-  price: number;
-  __v: number;
-  _id: string;
-}
-interface IProps {
-  imageUrl: string;
-}
 const MainSection = styled.section`
   width: 1024px;
   margin: 0 auto;

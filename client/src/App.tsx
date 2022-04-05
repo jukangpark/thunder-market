@@ -40,7 +40,8 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
   background-color: ${(props) => props.theme.bgColor};
-  color: ${(props) => props.theme.textColor}
+  color: ${(props) => props.theme.textColor};
+  min-width: 1236px;
 }
 ol, ul {
 	list-style: none;

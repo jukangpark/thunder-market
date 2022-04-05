@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -169,9 +170,13 @@ const DirectTopBtn = styled.button`
     cursor: pointer;
 `
 const SideSlider = () => {
-    const onClick = (document: any) => {
-        document.scrollingElement?.scrollTop()
+    const onClick = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
     }
+    //눌렀을 때 스크롤을 탑으로 보내주는 함수
     return (
         <Container>
             <Wrapper>

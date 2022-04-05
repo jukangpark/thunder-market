@@ -73,12 +73,12 @@ const MenuWrapper = styled.div`
   -webkit-box-flex: 1;
   flex-grow: 1;
   line-height: 1.15;
-`;
-const SellLink = styled.a`
-  height: 26px;
-  margin-left: 30px;
-  text-decoration: none;
-  background-color: transparent;
+  > a {
+    height: 26px;
+    margin-left: 30px;
+    text-decoration: none;
+    background-color: transparent;
+  }
 `;
 const ShopLink = styled.div`
   height: 24px;
@@ -130,11 +130,6 @@ const MenuB = styled.b`
   color: ${(props) => props.theme.textColor};
   font-weight: bolder;
 `;
-const InnerImg = styled.div`
-  width: 6px;
-  height: 9px;
-  margin-left: 5px;
-`;
 const Header = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
 
@@ -157,9 +152,7 @@ const Header = () => {
             </InputBg>
           </InputWrapper>
           <MenuWrapper>
-            <SellLink>
               <Link to={isLoggedIn ? "/upload" : "/login"}>판매하기</Link>
-            </SellLink>
             <ShopLink>
               <Link to={isLoggedIn ? "/shop" : "/login"}>내상점</Link>
             </ShopLink>

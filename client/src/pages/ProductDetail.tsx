@@ -3,25 +3,10 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/Header";
 import HeaderMenu from "../components/HeaderMenu";
+import { IProducts, IProps } from "../typeScript";
 
-interface IProducts {
-  categories: string;
-  change: string;
-  delivery: string;
-  description: string;
-  hashtags: string;
-  imageUrl: string;
-  location: string;
-  meta: {
-    views: number;
-  };
-  name: string;
-  newProduct: string;
-  price: number;
-  __v: number;
-  _id: string;
-}
-const Main = styled.div``;
+const Main = styled.div`
+`;
 const Container = styled.div`
   display: flex;
   -webkit-box-pack: center;
@@ -47,12 +32,13 @@ const ImgBox = styled.div`
   flex-shrink: 0;
   margin-right: 40px;
 `;
-const ProductImg = styled.img`
+const ProductImg = styled.img<IProps>`
   width: 428px;
   height: 428px;
   position: absolute;
   transition: opacity 0.2s ease-in-out 0s;
   opacity: 1;
+  background-image: url(${(props) => props.imageUrl});
 `;
 const ImgBtnBox = styled.div`
   position: absolute;
@@ -117,7 +103,8 @@ const AppDownImg = styled.img`
   aspect-ratio: auto 216 / 30;
   height: 30;
 `;
-const DetailWrapper = styled.div``;
+const DetailWrapper = styled.div`
+`;
 const NumDetail = styled.div`
   height: 30px;
   margin-top: 15px;
@@ -273,7 +260,7 @@ const ProductDetail = () => {
           <Wrapper>
             <ImgBox>
               <ImgWrapper>
-                <ProductImg />
+                <ProductImg imageUrl={`${product?.imageUrl}`} />
                 <ImgBtnBox>
                   <ImgBtn></ImgBtn>
                 </ImgBtnBox>
