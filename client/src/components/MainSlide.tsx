@@ -7,7 +7,6 @@ const Wrapper = styled.div`
     max-width: 1024px;
     position: relative;
     margin: 0 auto;
-    background-color: white;
 `
 const SlickSlide = styled.div`
     div {

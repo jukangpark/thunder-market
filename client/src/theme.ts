@@ -1,3 +1,4 @@
+import { RecoilBridge } from "recoil";
 import { DefaultTheme } from "styled-components";
 
 const size = {
@@ -6,18 +7,20 @@ const size = {
 };
 
 export const darkTheme: DefaultTheme = {
-  bgColor: "#fff",
+  bgColor: "rgb(255, 255, 255)",
   textColor: "rgb(33, 33, 33)",
-  accentColor: "whitesmoke",
+  btnColor: "rgb(102, 102, 102)",
+  accentColor: "rgb(247, 47, 51)",
   mobile: `(max-width: ${size.mobile}px)`,
   tablet: `(min-width: ${size.mobile + 1}px) and (max-width: ${size.tablet}px)`,
   desktop: `(min-width: ${size.tablet + 1}px)`,
 };
 
 export const lightTheme: DefaultTheme = {
-  bgColor: "fff",
-  textColor: "#222222",
-  accentColor: "whitesmoke",
+  bgColor: "rgb(33, 33, 33)",
+  textColor: "rgb(255, 255, 255)",
+  btnColor: "rgb(168, 168, 168)",
+  accentColor: "rgb(247, 0 ,0)",
   mobile: `(max-width: ${size.mobile}px)`,
   tablet: `(min-width: ${size.mobile + 1}px) and (max-width: ${size.tablet}px)`,
   desktop: `(min-width: ${size.tablet + 1}px)`,

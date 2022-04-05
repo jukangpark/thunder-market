@@ -12,7 +12,7 @@ const Wrapper = styled.div`
         padding: 10px;
         width: 100%;
         border: 1px solid rgb(204, 204, 204);
-        background: rgb(255, 255, 255);
+        background: ${(props) => props.theme.bgColor};
         margin-bottom: 6px;
         box-sizing: border-box;
         :first-child {
@@ -31,7 +31,7 @@ const FirstBox = styled.div`
 const FirstText = styled.div`
     font-size: 12px;
     font-weight: 600;
-    color: rgb(102, 102, 102);
+    color: ${(props) => props.theme.btnColor};
     text-align: center;
     margin-bottom: 8px;
 `
@@ -59,7 +59,7 @@ const SecondBox = styled.div`
 const SecondText = styled.div`
     font-size: 12px;
     font-weight: 600;
-    color: rgb(102, 102, 102);
+    color: ${(props) => props.theme.btnColor};
     text-align: center;
     margin-bottom: 8px;
 `
@@ -74,7 +74,7 @@ const CurrentNum = styled.div`
     -webkit-box-pack: center;
     justify-content: center;
     font-size: 12px;
-    color: rgb(247, 0 ,0);
+    color: ${(props) => props.theme.accentColor};
     font-weight: 600;
     width: 38px;
     border-bottom: 2px dotted rgb(136, 136, 136);
@@ -137,7 +137,7 @@ const DownloadBox = styled.div`
 const DownloadText = styled.div`
     font-size: 12px;
     font-weight: 600;
-    color: rgb(102, 102, 102);
+    color: ${(props) => props.theme.btnColor};
     text-align: center;
     margin-bottom: 8px;
 `

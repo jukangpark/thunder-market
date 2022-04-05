@@ -7,7 +7,7 @@ import SideSlider from "./SideSlider";
 const Container = styled.div`
   width: 100%;
   min-width: 1236px;
-  background-color: rgb(255, 255, 255);
+  background-color: ${(props) => props.theme.bgColor};
   border-bottom: 1px solid rgb(238, 238, 238);
   margin: 0 auto;
   padding-top: 35px;
@@ -51,7 +51,8 @@ const MainInput = styled.input`
   width: 410px;
   outline: none;
   border: none;
-  color: rgb(102, 102, 102);
+  color: ${(props) => props.theme.btnColor};
+  background: ${(props) => props.theme.bgColor};;
   appearance: none;
   -webkit-box-flex: 1;
   flex-grow: 1;
@@ -78,20 +79,17 @@ const SellLink = styled.a`
   margin-left: 30px;
   text-decoration: none;
   background-color: transparent;
-  color: rgb(33, 33, 33);
 `;
 const ShopLink = styled.div`
   height: 24px;
   margin-left: 30px;
   text-decoration: none;
   background-color: transparent;
-  color: rgb(33, 33, 33);
   display: inline-block;
 `;
 const TalkBtn = styled.button`
   height: 24px;
   margin-left: 30px;
-  color: rgb(33, 33, 33);
   cursor: pointer;
   font-size: 100%;
 `;
@@ -102,11 +100,20 @@ const HeaderMenu = styled.div`
   -webkit-box-align: center;
   align-items: center;
 `;
-const MenuImg = styled.img`
+const MenuHamberg = styled.div`
   width: 20px;
   height: 16px;
   margin-right: 20px;
   vertical-align: bottom;
+  align-items: baseline;
+  span {
+  width: 20px;
+  height: 2px;
+  display: grid;
+  margin-right: 20px;
+  margin-bottom: 6px;
+  background: ${(props) => props.theme.textColor};
+  }
 `;
 const MenuLink = styled.a`
   height: 21px;
@@ -120,10 +127,10 @@ const MenuLink = styled.a`
 const MenuB = styled.b`
   height: 21px;
   font-size: 14px;
-  color: #212121;
+  color: ${(props) => props.theme.textColor};
   font-weight: bolder;
 `;
-const InnerImg = styled.img`
+const InnerImg = styled.div`
   width: 6px;
   height: 9px;
   margin-left: 5px;
@@ -162,10 +169,13 @@ const Header = () => {
           </MenuWrapper>
         </HeaderWrapper>
         <HeaderMenu>
-          <MenuImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAgCAYAAABgrToAAAAAAXNSR0IArs4c6QAAAExJREFUWAnt1sEJACAMA0DrJt1/SAVXyKfI9V8Il0+qu88afHtwthdNwOkNyUeAAAECvwuUNRNWbM2EgN4JECBAgEAoYM2EgMuaSQUv1d0EPE4sEMMAAAAASUVORK5CYII=" />
-          <MenuLink href="/">
+            <MenuHamberg>
+              <span></span>
+              <span></span>
+              <span></span>
+            </MenuHamberg>
+            <MenuLink href="/">
             <MenuB>번개장터 판매자센터</MenuB>
-            <InnerImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAAAXNSR0IArs4c6QAAAfZJREFUKBVtkstq21AQhi3pqCpWUllWkippCjY2WcWbLPoahS76Bl2XkscIhe7zAllkVbrMY8S0pGCwsWIS2U6ELFRfJPUbg4ubeGA0M2f+fy7nSKvX679KpVKEXmqaFsRx/D0MwwnxRtE5DYuieARcxndM06zWarUKvuSeieG6bh/wTzIf0BMIb3VdP/I874bu88FgkK+zlGEYAYA/s9lMxpCqVTpmFPEnk4lJHKIZuiRqOC9Qs9Fo7C8Wi10KfCKuQFpAGmG/lcvlsN1uPwpJ8Zmhc6XUXZZlAhoS63me70onChxMp1ODs6ngpMNKZBzd930XcoVd3hPvUeAEYsLZV+xImCspcHLmTknObds+JDYBvYNk072Nr9Y7rIhitWazuc1FHEI+B+hzNkazjXctBHQpgGmgSXeRQpZ+KobjOK8AfmThN9iXAIZcwhnE0TpBuhk8lryDy8yvAbjokDjmEm4hDVet9Var5SRJskPyM7rDY1rYCOI5e9x3Op2AgnPFclYURWaapvtU2OOwim4DHlNdFh1AlrdJ0UKROGZmj0pfSGxxeI3+Jr4gHvd6veXtCBgtKaoeYGVWGyv3PsKXV7/rdrvy28t/9E9k6VNACdV+4N/zG1xZlhX3+/2Y+L8/VVhC8Kgoo8WQHvgBH4IgSCS5Sf4Cbfj85T5s+hEAAAAASUVORK5CYII=" />
           </MenuLink>
         </HeaderMenu>
       </Wrapper>

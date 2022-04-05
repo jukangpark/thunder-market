@@ -11,7 +11,6 @@ const Container = styled.div`
   justify-content: center;
   border-bottom: 1px solid rgb(238, 238, 238);
   height: 40px;
-  background: rgb(255, 255, 255);
 `;
 const Wrapper = styled.div`
   width: 1024px;
@@ -28,7 +27,7 @@ const AppDownload = styled.a`
   -webkit-box-align: center;
   align-items: center;
   font-size: 13px;
-  color: rgb(102, 102, 102);
+  color: ${(props) => props.theme.btnColor};
   padding: 0 15px;
   position: relative;
   line-height: 1.4;
@@ -43,7 +42,6 @@ const BookMark = styled.button`
   -webkit-box-align: center;
   align-items: center;
   font-size: 13px;
-  color: rgb(102, 102, 102);
   padding: 0px 15px;
   position: relative;
   line-height: 1.4;
@@ -64,7 +62,7 @@ const RightMenu = styled.div`
     padding: 0 15px;
     position: relative;
     line-height: 1.4;
-    color: rgb(102, 102, 102);
+    color: ${(props) => props.theme.btnColor};
   }
 `;
 const LogInBtn = styled.button`
@@ -75,7 +73,6 @@ const LogInBtn = styled.button`
   padding: 0px 15px;
   position: relative;
   line-height: 1.4;
-  color: rgb(102, 102, 102);
 `;
 
 

@@ -19,6 +19,9 @@ interface IProducts {
   __v: number;
   _id: string;
 }
+interface IProps {
+  imageUrl: string;
+}
 const MainSection = styled.section`
   width: 1024px;
   margin: 0 auto;
@@ -27,7 +30,6 @@ const MainSection = styled.section`
 const Title = styled.h2`
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: rgb(33, 33, 33);
 `;
 const ProductSection = styled.div`
   position: relative;
@@ -43,9 +45,7 @@ const ProductContainer = styled.div`
   margin-bottom: 11px;
   a {
     text-decoration: none;
-    color: rgb(33, 33, 33);
     display: block;
-    background: rgb(255, 255, 255);
     border: 1px solid rgb(238, 238, 238);
   }
 `;
@@ -54,9 +54,10 @@ const ImgBox = styled.div`
   width: 100%;
   height: 194px;
 `;
-const ProductImage = styled.img`
+const ProductImage = styled.div<IProps>`
   width: 194px;
   height: 194px;
+  background-image: url(${(props) => props.imageUrl});
 `;
 const ProductInfo = styled.div`
   padding: 15px 10px;
@@ -91,28 +92,26 @@ const Price = styled.div`
   }
 `;
 const TodayProduct = () => {
-  const [products, setProducts] = useState<IProducts[]>([]);
+  const [products, setProducts] = useState<IProducts[]>();
+  console.log(products);
   useEffect(() => {
     fetch(`/product/showlist`)
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
-
-  console.log(products);
-
   return (
     <MainSection>
       <Title>오늘의 상품 추천</Title>
       <ProductSection>
         <ProductsWrapper>
-          {products.map((product) => (
+          {products?.map((product) => (
             <ProductContainer key={product._id}>
               <Link to={`/product/${product._id}`}>
                 <ImgBox>
-                  <ProductImage src={`${product.imageUrl}`} />
+                  <ProductImage imageUrl={`${product.imageUrl}`} />
                 </ImgBox>
                 <ProductInfo>
-                  <Description>{product.description}</Description>
+                  <Description>{product.name}</Description>
                   <PriceAndTime>
                     <Price>
                       {product.price

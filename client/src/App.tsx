@@ -59,7 +59,7 @@ table {
 }
 a{
   text-decoration: none;
-  color: rgb(33, 33, 33);
+  color: ${(props) => props.theme.textColor};
 }
 button {
   outline: none;
@@ -67,6 +67,7 @@ button {
   background-color: transparent;
   font-family: 'Noto Sans KR', sans-serif;
   padding: 0;
+  color: ${(props) => props.theme.btnColor};
 }
 `;
 

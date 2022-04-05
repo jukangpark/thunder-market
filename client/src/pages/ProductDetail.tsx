@@ -26,7 +26,7 @@ const Container = styled.div`
   display: flex;
   -webkit-box-pack: center;
   justify-content: center;
-  background-color: rgb(255, 255, 255);
+  background-color: ${(props) => props.theme.bgColor};
 `;
 const ContainerWidth = styled.div`
   width: 1024px;
@@ -66,7 +66,7 @@ const ImgBtn = styled.button`
   height: 10px;
   opacity: 0.6;
   border-radius: 50%;
-  background: rgb(33, 33, 33);
+  background: ${(props) => props.theme.bgColor};
   border: 0px;
 `;
 const InfoContainer = styled.div`
@@ -86,7 +86,7 @@ const TitleWrapper = styled.div`
   border-bottom: 1px solid rgb(238, 238, 238);
   width: 100%;
 `;
-const Description = styled.div`
+const Name = styled.div`
   font-size: 24px;
   margin-bottom: 25px;
   font-weight: 600;
@@ -282,7 +282,7 @@ const ProductDetail = () => {
             <InfoContainer>
               <InfoWrapper>
                 <TitleWrapper>
-                  <Description>{product?.description}</Description>
+                  <Name>{product?.name}</Name>
                   <PriceBox>
                     <Price>
                       {product?.price
