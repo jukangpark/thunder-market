@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { isLoggedInState } from "../atoms";
 
 const Container = styled.div`
   width: 100%;
@@ -126,6 +128,8 @@ const InnerImg = styled.img`
   margin-left: 5px;
 `;
 const Header = () => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+
   return (
     <Container>
       <Wrapper>
@@ -145,11 +149,15 @@ const Header = () => {
             </InputBg>
           </InputWrapper>
           <MenuWrapper>
-            <SellLink href="/upload">판매하기</SellLink>
+            <SellLink>
+              <Link to={isLoggedIn ? "/upload" : "/login"}>판매하기</Link>
+            </SellLink>
             <ShopLink>
-              <Link to="/shop">내상점</Link>
+              <Link to={isLoggedIn ? "/shop" : "/login"}>내상점</Link>
             </ShopLink>
-            <TalkBtn>번개톡</TalkBtn>
+            <TalkBtn>
+              <Link to={isLoggedIn ? "/talk" : "/login"}>번개톡</Link>
+            </TalkBtn>
           </MenuWrapper>
         </HeaderWrapper>
         <HeaderMenu>

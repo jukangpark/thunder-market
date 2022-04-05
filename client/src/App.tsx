@@ -2,8 +2,10 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { darkTheme, lightTheme } from "./theme";
-import { useRecoilValue } from "recoil";
-import { isDarkState } from "./atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { isDarkState, isLoggedInState } from "./atoms";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -69,6 +71,8 @@ button {
 
 const App = () => {
   const isDark = useRecoilValue(isDarkState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   return (
     <>

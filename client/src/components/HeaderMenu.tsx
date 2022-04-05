@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { isLoggedInState } from "../atoms";
 
 const Container = styled.div`
   width: 100%;
@@ -75,7 +76,10 @@ const MyShop = styled.a`
   position: relative;
   line-height: 1.4;
 `;
+
 const HeaderMenu = () => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+
   return (
     <Container>
       <Wrapper>
@@ -90,7 +94,13 @@ const HeaderMenu = () => {
           </BookMark>
         </LeftMenu>
         <RightMenu>
-          <LogInBtn>로그인/회원가입</LogInBtn>
+          {isLoggedIn ? (
+            // 여기에 이제 현재 로그인된 유저 아이디 넣어줄겁니당
+            <LogInBtn>박주강님</LogInBtn>
+          ) : (
+            <LogInBtn>로그인/회원가입</LogInBtn>
+          )}
+
           <MyShop>내 상점</MyShop>
         </RightMenu>
       </Wrapper>
