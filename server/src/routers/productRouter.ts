@@ -4,14 +4,17 @@ import {
   getProductList,
   upload,
 } from "../controllers/productController";
-import { uploadProduct } from "../middleware/middlewares";
+import { uploadProductImage } from "../middleware/middlewares";
 
 const productRouter = express.Router();
 
 productRouter.route("/showlist").get(getProductList);
 productRouter
   .route("/upload")
-  .post(uploadProduct.fields([{ name: "productImage", maxCount: 1 }]), upload);
+  .post(
+    uploadProductImage.fields([{ name: "productImage", maxCount: 1 }]),
+    upload
+  );
 
 productRouter.route("/:id").get(getProductDetail);
 
