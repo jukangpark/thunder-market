@@ -95,7 +95,7 @@ const TodayProduct = () => {
   const [products, setProducts] = useState<IProducts[]>();
   console.log(products);
   useEffect(() => {
-    fetch(`/product/showlist`)
+    fetch(`/productapi/showlist`)
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);

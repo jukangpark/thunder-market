@@ -15,6 +15,7 @@ const Router = () => {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
         {isLoggedIn ? (
           <>
             <Route path="/upload" element={<Upload />} />
@@ -24,7 +25,6 @@ const Router = () => {
           <>
             <Route path="/join" element={<Join />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
           </>
         )}
       </Routes>

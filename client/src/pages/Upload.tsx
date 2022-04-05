@@ -57,7 +57,7 @@ const Upload = () => {
       <div>
         <Form
           method="POST"
-          action="/product/upload"
+          action="/productapi/upload"
           encType="multipart/form-data"
         >
           {state.base64URL ? (

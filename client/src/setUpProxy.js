@@ -19,7 +19,7 @@ module.exports = function (app) {
   );
 
   app.use(
-    "/product",
+    "/productapi",
     // localhost:9000/product
     createProxyMiddleware({
       target: "http://localhost:9000", // 서버의 포트를 여기에 작성해주면됨.
