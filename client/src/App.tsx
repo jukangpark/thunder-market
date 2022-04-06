@@ -42,6 +42,7 @@ body {
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
   min-width: 1236px;
+  box-sizing: border-box;
 }
 ol, ul {
 	list-style: none;
