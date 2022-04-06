@@ -7,6 +7,9 @@ import ProductDetail from "./pages/ProductDetail";
 import Shop from "./pages/Shop";
 import { useRecoilState } from "recoil";
 import { isLoggedInState } from "./atoms";
+import New from "./pages/New";
+import ProductManage from "./pages/ProductManage";
+import Purchases from "./pages/Purchases";
 
 const Router = () => {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
@@ -18,7 +21,11 @@ const Router = () => {
         <Route path="/product/:id" element={<ProductDetail />} />
         {isLoggedIn ? (
           <>
-            <Route path="/upload" element={<Upload />} />
+            <Route path="/upload" element={<Upload />}>
+              <Route path="new" element={<New />} />
+              <Route path="manage" element={<ProductManage />} />
+              <Route path="purchases" element={<Purchases />} />
+            </Route>
             <Route path="/shop" element={<Shop />} />
           </>
         ) : (

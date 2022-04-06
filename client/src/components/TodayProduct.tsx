@@ -17,13 +17,18 @@ const ProductSection = styled.div`
   overflow: hidden;
 `;
 const ProductsWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+
+  /* display: flex;
+  flex-wrap: wrap; */
 `;
 const ProductContainer = styled.div`
-  width: 196px;
+  /* width: 196px;
   margin-right: 11px;
-  margin-bottom: 11px;
+  margin-bottom: 11px; */
+
   a {
     text-decoration: none;
     display: block;
@@ -31,14 +36,14 @@ const ProductContainer = styled.div`
   }
 `;
 const ImgBox = styled.div`
-  position: relative;
-  width: 100%;
-  height: 194px;
+  /* position: relative; */
+  height: 195px;
 `;
 const ProductImage = styled.div<IProps>`
-  width: 194px;
-  height: 194px;
+  height: 100%;
   background-image: url(${(props) => props.imageUrl});
+  background-position: center;
+  background-size: cover;
 `;
 const ProductInfo = styled.div`
   padding: 15px 10px;
@@ -74,7 +79,6 @@ const Price = styled.div`
 `;
 const TodayProduct = () => {
   const [products, setProducts] = useState<IProducts[]>();
-  console.log(products);
   useEffect(() => {
     fetch(`/productapi/showlist`)
       .then((res) => res.json())

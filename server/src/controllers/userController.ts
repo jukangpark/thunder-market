@@ -56,7 +56,7 @@ export const login = async (req: Request, res: Response) => {
     },
     process.env.SECRET_KEY || "secret key",
     {
-      expiresIn: "5h",
+      expiresIn: "10h",
     }
   );
   res.cookie("user", token);
@@ -65,9 +65,26 @@ export const login = async (req: Request, res: Response) => {
 
 export const getUserInfo = async (req: Request, res: Response) => {
   const { user_id } = res.locals.user;
-  const findedUser = await User.findById(user_id); // db 에서 User 조회
-  const { email, products } = findedUser; // user email, products 조회
+  const findedUser = await User.findById(user_id).populate("products"); // db 에서 User 조회
 
-  const userInfo = { email, products };
+  const {
+    email,
+    products,
+    comments,
+    favorites,
+    reviews,
+    followings,
+    followers,
+  } = findedUser; // user email, products 조회
+
+  const userInfo = {
+    email,
+    products,
+    comments,
+    favorites,
+    reviews,
+    followings,
+    followers,
+  };
   return res.send(userInfo);
 };

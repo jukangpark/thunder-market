@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 import Product from "../models/Product";
+import User from "../models/User";
 
 export const upload = async (req: any, res: Response) => {
-  console.log(req.body);
-  console.log(req.files);
+  const {
+    user: { user_id: _id },
+  } = res.locals;
+
   const { productImage } = req.files;
 
   const isHeroku = process.env.NODE_ENV === "production";
@@ -29,7 +32,7 @@ export const upload = async (req: any, res: Response) => {
   }
 
   try {
-    await Product.create({
+    const product = await Product.create({
       name,
       categories,
       location,
@@ -42,7 +45,11 @@ export const upload = async (req: any, res: Response) => {
       imageUrl: isHeroku
         ? productImage[0].location
         : "/" + productImage[0].path,
+      owner: _id,
     });
+    const user = await User.findById(_id);
+    user.products.push(product._id);
+    await user.save();
   } catch (error) {
     return res.status(400).redirect("/");
   }
@@ -58,9 +65,7 @@ export const getProductList = async (req: Request, res: Response) => {
 
 export const getProductDetail = async (req: any, res: Response) => {
   const { id } = req.params;
-  console.log(id);
-
-  const product = await Product.findById(id);
+  const product = await Product.findById(id).populate("owner");
 
   return res.send(product);
 };

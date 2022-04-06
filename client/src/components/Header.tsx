@@ -52,7 +52,7 @@ const MainInput = styled.input`
   outline: none;
   border: none;
   color: ${(props) => props.theme.btnColor};
-  background: ${(props) => props.theme.bgColor};;
+  background: ${(props) => props.theme.bgColor};
   appearance: none;
   -webkit-box-flex: 1;
   flex-grow: 1;
@@ -107,12 +107,12 @@ const MenuHamberg = styled.div`
   vertical-align: bottom;
   align-items: baseline;
   span {
-  width: 20px;
-  height: 2px;
-  display: grid;
-  margin-right: 20px;
-  margin-bottom: 6px;
-  background: ${(props) => props.theme.textColor};
+    width: 20px;
+    height: 2px;
+    display: grid;
+    margin-right: 20px;
+    margin-bottom: 6px;
+    background: ${(props) => props.theme.textColor};
   }
 `;
 const MenuLink = styled.a`
@@ -152,7 +152,7 @@ const Header = () => {
             </InputBg>
           </InputWrapper>
           <MenuWrapper>
-              <Link to={isLoggedIn ? "/upload" : "/login"}>판매하기</Link>
+            <Link to={isLoggedIn ? "/upload/new" : "/login"}>판매하기</Link>
             <ShopLink>
               <Link to={isLoggedIn ? "/shop" : "/login"}>내상점</Link>
             </ShopLink>
@@ -162,12 +162,12 @@ const Header = () => {
           </MenuWrapper>
         </HeaderWrapper>
         <HeaderMenu>
-            <MenuHamberg>
-              <span></span>
-              <span></span>
-              <span></span>
-            </MenuHamberg>
-            <MenuLink href="/">
+          <MenuHamberg>
+            <span></span>
+            <span></span>
+            <span></span>
+          </MenuHamberg>
+          <MenuLink href="/">
             <MenuB>번개장터 판매자센터</MenuB>
           </MenuLink>
         </HeaderMenu>
