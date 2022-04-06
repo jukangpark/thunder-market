@@ -6,10 +6,8 @@ import SideSlider from "./SideSlider";
 
 const Container = styled.div`
   width: 100%;
-  min-width: 1236px;
   background-color: ${(props) => props.theme.bgColor};
   border-bottom: 1px solid rgb(238, 238, 238);
-  margin: 0 auto;
   padding-top: 35px;
   position: sticky;
   display: flex;
@@ -20,13 +18,11 @@ const Container = styled.div`
   z-index: 10;
 `;
 const Wrapper = styled.div`
-  width: 1024px;
   display: flex;
   flex-direction: column;
 `;
 
 const HeaderWrapper = styled.div`
-  width: 1024px;
   height: 40px;
   display: flex;
   -webkit-box-align: center;

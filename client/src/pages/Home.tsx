@@ -4,14 +4,15 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { isLoggedInState } from "../atoms";
 import Banner from "../components/Banner";
+import { Wrapper } from "../components/fundamental";
 import Header from "../components/Header";
 import HeaderMenu from "../components/HeaderMenu";
 import MainSlide from "../components/MainSlide";
 import TodayProduct from "../components/TodayProduct";
 
-const Wrapper = styled.div`
-  min-width: 1236px;
-`;
+// const Wrapper = styled.div`
+//   min-width: 1236px;
+// `;
 
 const Home = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);

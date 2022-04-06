@@ -78,7 +78,7 @@ const App = () => {
 
   return (
     <>
-      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <ThemeProvider theme={isDark ? lightTheme : darkTheme}>
         <HelmetProvider>
           <Helmet>
             <title>Thunder Market</title>
