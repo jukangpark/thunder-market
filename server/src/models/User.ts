@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema({
   profileImageUrl: String,
   password: { type: String },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-  comments: [{ type: mongoose.Schema.Types.ObjectId }],
   reviews: [{ type: mongoose.Schema.Types.ObjectId }],
   followings: [{ type: mongoose.Schema.Types.ObjectId }],
   followers: [{ type: mongoose.Schema.Types.ObjectId }],
