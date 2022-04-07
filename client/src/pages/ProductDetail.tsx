@@ -337,6 +337,46 @@ const ProductDetail = () => {
               </InfoWrapper>
             </InfoContainer>
           </Wrapper>
+          <div>
+            <div>
+              <div>
+                <h1>상품 정보</h1>
+              </div>
+
+              <div>
+                <p>{product?.description}</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <h1>상품 문의</h1>
+              </div>
+
+              <div>
+                <form>
+                  <input placeholder="상품문의 입력" />
+                  <button>등록</button>
+                </form>
+              </div>
+            </div>
+            <div>
+              <div>
+                <div>
+                  <h1>상점정보</h1>
+                </div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div>
+                  <h1>상점후기</h1>
+                </div>
+              </div>
+              <div>
+                <button>연락하기</button>
+                <button>바로구매</button>
+              </div>
+            </div>
+          </div>
         </ContainerWidth>
       </Container>
     </Main>

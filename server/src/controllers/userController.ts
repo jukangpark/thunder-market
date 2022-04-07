@@ -19,6 +19,11 @@ export const join = async (req: Request, res: Response) => {
     await User.create({
       email,
       password,
+      products: [],
+      comments: [],
+      reviews: [],
+      followings: [],
+      followers: [],
     });
   } catch (error) {
     return res.status(400).send({ message: "에러가 발생했습니다." }).end();
@@ -87,4 +92,46 @@ export const getUserInfo = async (req: Request, res: Response) => {
     followers,
   };
   return res.send(userInfo);
+};
+
+export const getUserComment = async (req: Request, res: Response) => {
+  const { user_id } = res.locals.user;
+  // 현재 로그인된 유저의 comments 들을 가져와서 보여줌.
+
+  return res.send([]);
+};
+
+export const postUserComment = (req: Request, res: Response) => {
+  const { id } = req.params;
+  return res.send();
+};
+
+export const getUserProducts = (req: Request, res: Response) => {
+  const { id } = req.params;
+  return res.send();
+};
+
+export const getUserComments = (req: Request, res: Response) => {
+  const { id } = req.params;
+  return res.send();
+};
+
+export const getUserFavorites = (req: Request, res: Response) => {
+  const { id } = req.params;
+  return res.send();
+};
+
+export const getUserReviews = (req: Request, res: Response) => {
+  const { id } = req.params;
+  return res.send();
+};
+
+export const getUserFollowings = (req: Request, res: Response) => {
+  const { id } = req.params;
+  return res.send();
+};
+
+export const getUserFollowers = (req: Request, res: Response) => {
+  const { id } = req.params;
+  return res.send();
 };

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "../components/fundamental";
 import Header from "../components/Header";
@@ -9,7 +9,7 @@ const Container = styled.div`
   display: flex;
   -webkit-box-pack: center;
   justify-content: center;
-`
+`;
 const ShopWrapper = styled.div`
   width: 1024px;
   margin-top: 30px;
@@ -20,10 +20,10 @@ const ShopWrapper = styled.div`
       width: 100%;
     }
   }
-`
+`;
 const Profile = styled.div`
   flex-shrink: 0;
-`
+`;
 const MyInfo = styled.div`
   flex: 1 0 0%;
   padding: 0px 30px;
@@ -69,12 +69,12 @@ const MyInfo = styled.div`
     align-items: center;
     flex-shrink: 0;
   }
-`
+`;
 const InfoName = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-`
+`;
 const ShopNameModify = styled.button`
   margin-left: 10px;
   height: 20px;
@@ -85,7 +85,7 @@ const ShopNameModify = styled.button`
   color: rgb(136, 136, 136);
   border: 1px solid rgb(238, 238, 238);
   font-size: 11px;
-`
+`;
 const SelfAuth = styled.div`
   font-size: 11px;
   color: ${(props) => props.theme.textColor};
@@ -102,7 +102,7 @@ const SelfAuth = styled.div`
     left: -25px;
     box-sizing: border-box;
   }
-`
+`;
 const TextBox = styled.div`
   margin-right: 30px;
   font-size: 13px;
@@ -112,12 +112,12 @@ const TextBox = styled.div`
     margin-left: 5px;
     color: ${(props) => props.theme.textColor};
   }
-`
+`;
 const TextImg = styled.img`
   width: 14px;
   height: 13px;
   margin-right: 10px;
-`
+`;
 const IntroModify = styled.button`
   height: 20px;
   display: flex;
@@ -127,7 +127,7 @@ const IntroModify = styled.button`
   color: ${(props) => props.theme.textColor};
   border: 1px solid rgb(238, 238, 238);
   font-size: 11px;
-`
+`;
 const ProfileSize = styled.div`
   width: 310px;
   height: 310px;
@@ -152,7 +152,7 @@ const ProfileSize = styled.div`
     flex-direction: column;
     box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px;
   }
-`
+`;
 const ProfileBg = styled.div`
   position: absolute;
   background-size: cover;
@@ -162,7 +162,7 @@ const ProfileBg = styled.div`
   height: 100%;
   background-image: url("/pc-static/media/pattern-shop.066ca385.png");
   background-color: rgb(181, 181, 181);
-`
+`;
 const ProfileImg = styled.div`
   border-radius: 50%;
   margin-bottom: 15px;
@@ -170,19 +170,19 @@ const ProfileImg = styled.div`
   height: 100px;
   cursor: pointer;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxjaXJjbGUgZmlsbD0iI0ZBRkFGQSIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+CiAgICAgICAgPHBhdGggZD0iTTM2LjIxNiA0MS42ODNjLjI0OC0xLjkzMS40OTgtMy44NjIuNzUtNS43OTRoNi43OWwtLjI4MyA1LjUzN2MwIC4wMTcuMDA3LjAzNC4wMDcuMDUxLS4wMDIuMDEtLjAwMi4wMi0uMDAyLjAzLS4wOTggMS44NzYtMS44OTcgMy4zOTItNC4wMzUgMy4zOTItMS4wNjYgMC0yLjAxOC0uMzktMi42MTUtMS4wNzItLjUxLS41ODUtLjcyMi0xLjMyNS0uNjEyLTIuMTQ0em04Ljg4OCA0LjA3OGMxLjIyNCAxLjI4OSAzLjAwOSAyLjAyOCA0Ljg5IDIuMDI4IDEuODkgMCAzLjY3NC0uNzQgNC45LTIuMDMzLjEwNy0uMTEyLjIwNy0uMjI4LjMwNC0uMzQ1IDEuMjggMS40NDcgMy4yMTcgMi4zNzggNS4zNSAyLjM3OC4xMTIgMCAuMjE2LS4wMjcuMzI4LS4wMzJWNjMuNkgzOS4xMTVWNDcuNzU3Yy4xMTIuMDA1LjIxNS4wMzIuMzI4LjAzMiAyLjEzMyAwIDQuMDcxLS45MzEgNS4zNTEtMi4zOC4wOTkuMTIxLjIuMjM4LjMxLjM1MnptMS41NDUtOS44NzJoNi42OThsLjI4MiA1LjYxOWMwIC4wMTUtLjAwNy4wMjctLjAwNy4wNGwuMDA0LjA4NmEyLjkzOSAyLjkzOSAwIDAgMS0uODI2IDIuMTMyYy0xLjM2NyAxLjQ0LTQuMjMzIDEuNDQxLTUuNjA0LjAwM2EyLjk1IDIuOTUgMCAwIDEtLjgzLTIuMTQybC4wMDQtLjA3OGMwLS4wMTYtLjAwOC0uMDMtLjAwOC0uMDQ4bC4yODctNS42MTJ6bTE2LjM3NiAwYy4yNTIgMS45MzMuNTAyIDMuODY1Ljc1MyA1LjgwNC4xMDkuODEtLjEwNCAxLjU0Ny0uNjE0IDIuMTMyLS41OTYuNjgzLTEuNTUgMS4wNzQtMi42MTYgMS4wNzQtMi4xMzcgMC0zLjkzMi0xLjUxNC00LjAzNC0zLjM4OGEuMzU5LjM1OSAwIDAgMC0uMDAzLS4wNDRjMC0uMDE1LjAwNi0uMDI3LjAwNi0uMDRsLS4yNzgtNS41MzhoNi43ODZ6TTM2LjIyNiA0Ni45NDZ2MTguMDk4YzAgLjc5OC42NDYgMS40NDUgMS40NDQgMS40NDVoMjQuNjVjLjc5OSAwIDEuNDQ1LS42NDcgMS40NDUtMS40NDVWNDYuOTQ2Yy41OS0uMzI4IDEuMTM3LS43MTkgMS41NzUtMS4yMiAxLjA2MS0xLjIxNCAxLjUyMi0yLjc4NSAxLjMwMS00LjQxLS4zLTIuMzU1LS42MDctNC43MDctLjkxOC03LjA2YTEuNDQzIDEuNDQzIDAgMCAwLTEuNDMxLTEuMjU3SDM1LjY5OWMtLjcyNCAwLTEuMzM4LjUzOC0xLjQzMSAxLjI1Ny0uMzExIDIuMzU0LS42MTcgNC43MDctLjkxNiA3LjA1LS4yMjEgMS42MzcuMjQgMy4yMDggMS4zIDQuNDIxLjQzOS41MDIuOTg0Ljg5MyAxLjU3NCAxLjIyeiIgZmlsbD0iI0NDQyIvPgogICAgPC9nPgo8L3N2Zz4K");
-`
+`;
 const ShopName = styled.div`
   font-size: 16px;
   margin-bottom: 10px;
-`
+`;
 const Scope = styled.div`
   display: flex;
-`
+`;
 const StarImg = styled.img`
   vertical-align: bottom;
   width: 15px;
   height: 14px;
-`
+`;
 const ShopManagement = styled.div`
   display: flex;
   margin-top: 20px;
@@ -197,7 +197,7 @@ const ShopManagement = styled.div`
     align-items: center;
     font-size: 13px;
   }
-`
+`;
 const MenuBox = styled.div`
   display: flex;
   height: 50px;
@@ -215,7 +215,7 @@ const MenuBox = styled.div`
   a:first-child {
     border-left: 1px solid rgb(238, 238, 238);
   }
-`
+`;
 const ContentBlock = styled.div`
   display: block;
   > div:first-child {
@@ -255,7 +255,7 @@ const ContentBlock = styled.div`
     color: ${(props) => props.theme.btnColor};
     margin: 30px 0px 100px;
   }
-`
+`;
 const OptionImg = styled.img`
   width: 10px;
   height: 6px;
@@ -263,8 +263,14 @@ const OptionImg = styled.img`
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-`
+`;
 const Shop = () => {
+  // useEffect(() => {
+  //   fetch("/user/comment")
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data));
+  // }, []);
+
   useEffect(() => {
     fetch("/user/info")
       .then((res) => res.json())
@@ -304,7 +310,8 @@ const Shop = () => {
               </Profile>
               <MyInfo>
                 <div>
-                  <InfoName>상점79149721호
+                  <InfoName>
+                    상점79149721호
                     <ShopNameModify>상점명 수정</ShopNameModify>
                   </InfoName>
                   <SelfAuth>본인인증 완료</SelfAuth>
@@ -340,12 +347,13 @@ const Shop = () => {
           </div>
           <div>
             <MenuBox>
-              <Link to={`/`}>상품</Link>
-              <Link to={`/`}>상점문의</Link>
+              <Link to="products">상품</Link>
+              {/* <Link to={`/`}>상점문의</Link>
               <Link to={`/`}>찜</Link>
               <Link to={`/`}>상점후기</Link>
               <Link to={`/`}>팔로잉</Link>
-              <Link to={`/`}>팔로워</Link>
+              <Link to={`/`}>팔로워</Link> */}
+              <Outlet />
             </MenuBox>
             <ContentBlock>
               <div>

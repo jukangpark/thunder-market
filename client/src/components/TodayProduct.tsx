@@ -93,7 +93,10 @@ const TodayProduct = () => {
             <ProductContainer key={product._id}>
               <Link to={`/product/${product._id}`}>
                 <ImgBox>
-                  <ProductImage imageUrl={`${product.imageUrl}`} />
+                  <ProductImage
+                    imageUrl={`${product.imageUrl.replaceAll("\\", "/")}`}
+                    // 위도우 홤경에서 이렇게 해야 이미지 뜸
+                  />
                 </ImgBox>
                 <ProductInfo>
                   <Description>{product.name}</Description>
