@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { Wrapper } from "../components/fundamental";
+import { Wrapper } from "../components/StyleTS/fundamental";
 import Header from "../components/Header";
 import HeaderMenu from "../components/HeaderMenu";
 
@@ -174,6 +174,7 @@ const ProfileImg = styled.div`
 const ShopName = styled.div`
   font-size: 16px;
   margin-bottom: 10px;
+  color: rgb(255, 255, 255);
 `
 const Scope = styled.div`
   display: flex;
@@ -196,6 +197,7 @@ const ShopManagement = styled.div`
     -webkit-box-align: center;
     align-items: center;
     font-size: 13px;
+    color: rgb(255, 255, 255);
   }
 `
 const MenuBox = styled.div`
@@ -216,61 +218,7 @@ const MenuBox = styled.div`
     border-left: 1px solid rgb(238, 238, 238);
   }
 `
-const ContentBlock = styled.div`
-  display: block;
-  > div:first-child {
-    font-size: 18px;
-    padding: 50px 0px 20px;
-    border-bottom: 1px solid rgb(238, 238, 238);
-    display: flex;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    > div > span {
-      color: ${(props) => props.theme.accentColor};
-    }
-    > div:last-child {
-      width: 140px;
-    }
-    > div:last-child > div {
-      border: 1px solid rgb(238, 238, 238);
-      display: flex;
-      width: 100%;
-      height: 28px;
-      -webkit-box-align: center;
-      align-items: center;
-      position: relative;
-      font-size: 12px;
-      color: rgb(77, 77, 77);
-      > div {
-        display: flex;
-        -webkit-box-align: center;
-        align-items: center;
-        padding: 0 25px 0px 10px;
-        position: relative;
-        width: 100%;
-      }
-    }
-  }
-  > div:last-child {
-    color: ${(props) => props.theme.btnColor};
-    margin: 30px 0px 100px;
-  }
-`
-const OptionImg = styled.img`
-  width: 10px;
-  height: 6px;
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-`
 const Shop = () => {
-  useEffect(() => {
-    fetch("/user/info")
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
-
   return (
     <Wrapper>
       <HeaderMenu />
@@ -340,30 +288,14 @@ const Shop = () => {
           </div>
           <div>
             <MenuBox>
-              <Link to={`/`}>상품</Link>
+              <Link to={`products`}>상품</Link>
               <Link to={`/`}>상점문의</Link>
               <Link to={`/`}>찜</Link>
               <Link to={`/`}>상점후기</Link>
               <Link to={`/`}>팔로잉</Link>
               <Link to={`/`}>팔로워</Link>
             </MenuBox>
-            <ContentBlock>
-              <div>
-                <div>
-                  상품
-                  <span>0</span>
-                </div>
-                <div>
-                  <div>
-                    <div>
-                      전체
-                      <OptionImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAAAXNSR0IArs4c6QAAASVJREFUOBGlks9qwkAQxrMLihRKQXyUHjx58dBLEXqxUPCavIKvkpCQgxcTD0LpSQQfoBfpRXwHj16av37fYWWrJhvqwDCbb2d+O5NdYcFc120hzIQQkW3bS2pNzPf9blEUC+ROUffNGkEYQWVZvuE7xfq9CRR1T8hfw5/hR/jIcZyN8DyPsDEEZUZoEASPeZ6vUNdXRYi/aOZVYjGHp9pGC4kRDmLHV4bOHrIs+7qAWYDtoW0lx+OYqDRCwzDsIO8TPtBPQv0PYEOMfGCHVhNoHMftJEl4YcMqGHWhb3JMjguNt64slVJOoH/AR0pk1DtT+h8gxQqoyj/HWzBuXgEpmqBVsEpgHbQOVgu8BTXBjEAdCthOPQ3qdxn+6QsedO8uyH+LT8nvvwPGjeHzAAAAAElFTkSuQmCC" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>등록된 상품이 없습니다.</div>
-            </ContentBlock>
+            <Outlet />
           </div>
           <div></div>
         </ShopWrapper>

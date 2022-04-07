@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { IProducts, IProps } from "../typeScript";
+import { IProducts } from "../typeScript";
+import {
+  Description,
+  ImgBox,
+  Price,
+  PriceAndTime,
+  ProductContainer,
+  ProductImage,
+  ProductInfo,
+  ProductsWrapper
+} from "./StyleTS/ProductStyle";
 
 const MainSection = styled.section`
   width: 1024px;
@@ -15,67 +25,6 @@ const Title = styled.h2`
 const ProductSection = styled.div`
   position: relative;
   overflow: hidden;
-`;
-const ProductsWrapper = styled.div`
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-
-  /* display: flex;
-  flex-wrap: wrap; */
-`;
-const ProductContainer = styled.div`
-  /* width: 196px;
-  margin-right: 11px;
-  margin-bottom: 11px; */
-
-  a {
-    text-decoration: none;
-    display: block;
-    border: 1px solid rgb(238, 238, 238);
-  }
-`;
-const ImgBox = styled.div`
-  /* position: relative; */
-  height: 195px;
-`;
-const ProductImage = styled.div<IProps>`
-  height: 100%;
-  background-image: url(${(props) => props.imageUrl});
-  background-position: center;
-  background-size: cover;
-`;
-const ProductInfo = styled.div`
-  padding: 15px 10px;
-  height: 80px;
-`;
-const Description = styled.div`
-  position: relative;
-  font-size: 14px;
-  padding-bottom: 20px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-`;
-const PriceAndTime = styled.div`
-  display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  align-items: center;
-  height: 20px;
-`;
-const Price = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  ::after {
-    content: "원";
-    font-size: 13px;
-    margin-left: 3px;
-  }
 `;
 const TodayProduct = () => {
   const [products, setProducts] = useState<IProducts[]>();
@@ -93,7 +42,7 @@ const TodayProduct = () => {
             <ProductContainer key={product._id}>
               <Link to={`/product/${product._id}`}>
                 <ImgBox>
-                  <ProductImage imageUrl={`${product.imageUrl}`} />
+                  <ProductImage imageUrl={`${product.imageUrl.replaceAll("\\", "/")}`} />
                 </ImgBox>
                 <ProductInfo>
                   <Description>{product.name}</Description>

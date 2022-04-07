@@ -9,7 +9,7 @@ import {
   Title,
   Error,
   IFormData,
-} from "../components/fundamental";
+} from "../components/StyleTS/fundamental";
 import Header from "../components/Header";
 
 const Login = () => {

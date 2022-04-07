@@ -5,7 +5,7 @@ export interface IProps {
 export interface IProducts {
     categories: string;
     change: string;
-    delivery: string;
+    delivery: boolean;
     description: string;
     hashtags: string;
     imageUrl: string;
@@ -18,4 +18,5 @@ export interface IProducts {
     price: number;
     __v: number;
     _id: string;
+    owner:string;
 }

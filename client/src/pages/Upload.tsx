@@ -2,7 +2,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { Wrapper } from "../components/fundamental";
+import { Wrapper } from "../components/StyleTS/fundamental";
 import Header from "../components/Header";
 import HeaderMenu from "../components/HeaderMenu";
 

@@ -260,7 +260,7 @@ const ProductDetail = () => {
           <Wrapper>
             <ImgBox>
               <ImgWrapper>
-                <ProductImg imageUrl={`${product?.imageUrl}`} />
+                <ProductImg imageUrl={`${product?.imageUrl.replaceAll("\\", "/")}`} />
                 <ImgBtnBox>
                   <ImgBtn></ImgBtn>
                 </ImgBtnBox>
