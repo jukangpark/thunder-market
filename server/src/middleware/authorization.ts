@@ -12,7 +12,9 @@ export const verifyToken = (req: any, res: any, next: any) => {
       res.locals.user = decoded;
       next();
     } else {
-      res.status(401).json({ error: "unauthorized" });
+      res.status(401).send({
+        error: "unauthorized",
+      });
     }
   } catch (err) {
     res.status(401).json({ error: "token expired" });

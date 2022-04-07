@@ -10,7 +10,12 @@ import { isLoggedInState } from "./atoms";
 import New from "./pages/New";
 import ProductManage from "./pages/ProductManage";
 import Purchases from "./pages/Purchases";
-import Product from "./pages/Product";
+import Product from "./pages/shop/Product";
+import Comment from "./pages/shop/Comment";
+import Favorite from "./pages/shop/Favorite";
+import Review from "./pages/shop/Review";
+import Following from "./pages/shop/Following";
+import Follower from "./pages/shop/Follower";
 
 const Router = () => {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
@@ -21,22 +26,26 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         {isLoggedIn ? (
-          <>
-            <Route path="upload" element={<Upload />}>
-              <Route path="new" element={<New />} />
-              <Route path="manage" element={<ProductManage />} />
-              <Route path="purchases" element={<Purchases />} />
-            </Route>
-            <Route path="/shop" element={<Shop />} >
-              <Route path="products" element={<Product />} />
-            </Route>
-          </>
+          <Route path="/upload" element={<Upload />}>
+            <Route path="new" element={<New />} />
+            <Route path="manage" element={<ProductManage />} />
+            <Route path="purchases" element={<Purchases />} />
+          </Route>
         ) : (
           <>
-            <Route path="join" element={<Join />} />
-            <Route path="login" element={<Login />} />
+            <Route path="/join" element={<Join />} />
+            <Route path="/login" element={<Login />} />
           </>
         )}
+
+        <Route path="/shop/:id" element={<Shop />}>
+          <Route path="products" element={<Product />} />
+          <Route path="comments" element={<Comment />} />
+          <Route path="favorites" element={<Favorite />} />
+          <Route path="reviews" element={<Review />} />
+          <Route path="followings" element={<Following />} />
+          <Route path="followers" element={<Follower />} />
+        </Route>
       </Routes>
     </>
   );

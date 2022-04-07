@@ -2,6 +2,7 @@ import { Express, Request, Response } from "express";
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Product from "../models/Product";
 
 export const join = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -80,6 +81,7 @@ export const getUserInfo = async (req: Request, res: Response) => {
     reviews,
     followings,
     followers,
+    _id,
   } = findedUser; // user email, products 조회
 
   const userInfo = {
@@ -90,48 +92,87 @@ export const getUserInfo = async (req: Request, res: Response) => {
     reviews,
     followings,
     followers,
+    _id,
   };
   return res.send(userInfo);
 };
 
-export const getUserComment = async (req: Request, res: Response) => {
+// 1. 상품
+export const getUserProducts = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate("products");
+  const { products } = user;
+  return res.send(products);
+};
+
+// 2. 상품 문의
+export const getUserComments = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  const { comments } = user;
+  return res.send(comments);
+};
+
+// 3. 찜
+export const getUserFavorites = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate("products");
+  const { favorites } = user;
+  console.log(favorites);
+  return res.send(favorites);
+};
+
+// 4. 상점 후기
+export const getUserReviews = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  const { reviews } = user;
+  return res.send(reviews);
+};
+
+// 5. 팔로잉 (내가 팔로잉 하는 유저)
+export const getUserFollowings = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  const { followings } = user;
+  return res.send(followings);
+};
+
+// 6. 팔로워 (나를 팔로우 하는 유저)
+export const getUserFollowers = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  const { followers } = user;
+  return res.send(followers);
+};
+
+// 팔로잉을 누르면 처리할 컨트럴러
+export const postUserFollowings = async (req: Request, res: Response) => {
   const { user_id } = res.locals.user;
-  // 현재 로그인된 유저의 comments 들을 가져와서 보여줌.
+  const { id } = req.params;
 
-  return res.send([]);
+  if (user_id === id) {
+    return res.send({ message: "자기 자신을 팔로우 할 수는 없어요" });
+  }
+
+  const user = await User.findById(id);
+  const clickFollowUser = await User.findById(user_id);
+
+  // clickFollowUser.followings.push(user);
+  user.followers.push(clickFollowUser);
+
+  await user.save();
+  // await clickFollowUser.save();
+  return res.send({ message: "정상적으로 팔로우 되었습니다." });
 };
 
-export const postUserComment = (req: Request, res: Response) => {
+export const postUserFollowers = async (req: Request, res: Response) => {
   const { id } = req.params;
-  return res.send();
-};
+  const user = await User.findById(id);
 
-export const getUserProducts = (req: Request, res: Response) => {
-  const { id } = req.params;
-  return res.send();
-};
+  user.followings.push();
 
-export const getUserComments = (req: Request, res: Response) => {
-  const { id } = req.params;
-  return res.send();
-};
+  await user.save();
 
-export const getUserFavorites = (req: Request, res: Response) => {
-  const { id } = req.params;
-  return res.send();
-};
-
-export const getUserReviews = (req: Request, res: Response) => {
-  const { id } = req.params;
-  return res.send();
-};
-
-export const getUserFollowings = (req: Request, res: Response) => {
-  const { id } = req.params;
-  return res.send();
-};
-
-export const getUserFollowers = (req: Request, res: Response) => {
-  const { id } = req.params;
   return res.send();
 };

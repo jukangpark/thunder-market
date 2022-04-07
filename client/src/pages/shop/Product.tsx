@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { Wrapper } from "../components/StyleTS/fundamental";
-import { Description, ImgBox, Price, PriceAndTime, ProductContainer, ProductImage, ProductInfo, ProductsWrapper } from "../components/StyleTS/ProductStyle";
-import { IProducts } from "../typeScript";
+import { Wrapper } from "../../components/StyleTS/fundamental";
+import {
+  Description,
+  ImgBox,
+  Price,
+  PriceAndTime,
+  ProductContainer,
+  ProductImage,
+  ProductInfo,
+  ProductsWrapper,
+} from "../../components/StyleTS/ProductStyle";
+import { IProducts } from "../../interface";
 
 const ContentBlock = styled.div`
   display: block;
@@ -44,7 +53,7 @@ const ContentBlock = styled.div`
     color: ${(props) => props.theme.btnColor};
     margin: 30px 0px 100px;
   }
-`
+`;
 const OptionImg = styled.img`
   width: 10px;
   height: 6px;
@@ -52,16 +61,18 @@ const OptionImg = styled.img`
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-`
+`;
 
 const Product = () => {
-  const [products, setProducts] = useState<IProducts[]>()
+  const [products, setProducts] = useState<IProducts[]>();
+  const { id } = useParams();
+
   useEffect(() => {
-    fetch("/user/info")
+    fetch(`/user/${id}/products`)
       .then((res) => res.json())
-      .then((data) => setProducts(data.products));
+      .then((data) => setProducts(data));
   }, []);
-  console.log(products)
+
   return (
     <Wrapper>
       <ContentBlock>
@@ -84,9 +95,11 @@ const Product = () => {
       <ProductsWrapper>
         {products?.map((product) => (
           <ProductContainer key={product._id}>
-            <Link to={`product/${product._id}`}>
+            <Link to={`/product/${product._id}`}>
               <ImgBox>
-                <ProductImage imageUrl={`${product.imageUrl.replaceAll("\\", "/")}`} />
+                <ProductImage
+                  imageUrl={`${product.imageUrl.replaceAll("\\", "/")}`}
+                />
               </ImgBox>
               <ProductInfo>
                 <Description>{product.name}</Description>
@@ -103,7 +116,7 @@ const Product = () => {
         ))}
       </ProductsWrapper>
     </Wrapper>
-  )
-}
+  );
+};
 
 export default Product;

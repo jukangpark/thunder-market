@@ -69,3 +69,16 @@ export const getProductDetail = async (req: any, res: Response) => {
 
   return res.send(product);
 };
+
+export const addFavorite = async (req: Request, res: Response) => {
+  const { user_id } = res.locals.user;
+  const { id } = req.params;
+  const user = await User.findById(user_id);
+
+  const product = await Product.findById(id);
+  user.favorites.push(product);
+
+  await user.save();
+
+  return res.send({ message: "정상적으로 찜하기 목록에 등록되었습니다." });
+};

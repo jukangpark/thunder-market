@@ -1,7 +1,10 @@
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { isLoggedInState } from "../atoms";
+import { IUser } from "../interface";
 import SideSlider from "./SideSlider";
 
 const Container = styled.div`
@@ -129,6 +132,17 @@ const MenuB = styled.b`
 const Header = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
 
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [user, setUser] = useState<IUser>();
+
+  useEffect(() => {
+    if (cookies.user) {
+      fetch("/user/info")
+        .then((res) => res.json())
+        .then((data) => setUser(data));
+    }
+  }, []);
+
   return (
     <Container>
       <Wrapper>
@@ -150,7 +164,9 @@ const Header = () => {
           <MenuWrapper>
             <Link to={isLoggedIn ? "/upload/new" : "/login"}>판매하기</Link>
             <ShopLink>
-              <Link to={isLoggedIn ? "/shop/products" : "/login"}>내상점</Link>
+              <Link to={isLoggedIn ? `/shop/${user?._id}/products` : "/login"}>
+                내상점
+              </Link>
             </ShopLink>
             <TalkBtn>
               <Link to={isLoggedIn ? "/talk" : "/login"}>번개톡</Link>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IProps } from "../../typeScript";
+import { IProps } from "../../interface";
 
 export const ProductsWrapper = styled.div`
   display: grid;

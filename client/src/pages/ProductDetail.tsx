@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { isLoggedInState } from "../atoms";
 import Header from "../components/Header";
 import HeaderMenu from "../components/HeaderMenu";
-import { IProducts, IProps } from "../typeScript";
+import { Btn } from "../components/StyleTS/fundamental";
+import { IProducts, IProps } from "../interface";
 
 const Main = styled.div``;
 const Container = styled.div`
@@ -243,13 +246,43 @@ const DirectBuy = styled.button`
 const ProductDetail = () => {
   const [product, setProduct] = useState<IProducts>();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   console.log(product);
+
+  const handleFollow = () => {
+    fetch(`/user/${product?.owner._id}/followings`, { method: "POST" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          alert(data.message);
+        }
+        if (data.message === undefined) {
+          alert("로그인 먼저 해주세요");
+          navigate("/login");
+        }
+      });
+  };
+
   useEffect(() => {
     fetch(`/productapi/${id}`)
       .then((res) => res.json())
       .then((data) => setProduct(data));
   }, []);
+
+  const addFavorite = () => {
+    fetch(`/productapi/${id}/addFavorites`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          alert(data.message); // 정상적으로 찜하기 목록에 등록되었습니다.
+        }
+        if (data.message === undefined) {
+          alert("로그인 먼저 해주세요");
+          navigate("/login");
+        }
+      });
+  };
 
   return (
     <Main>
@@ -260,7 +293,9 @@ const ProductDetail = () => {
           <Wrapper>
             <ImgBox>
               <ImgWrapper>
-                <ProductImg imageUrl={`${product?.imageUrl.replaceAll("\\", "/")}`} />
+                <ProductImg
+                  imageUrl={`${product?.imageUrl.replaceAll("\\", "/")}`}
+                />
                 <ImgBtnBox>
                   <ImgBtn></ImgBtn>
                 </ImgBtnBox>
@@ -323,7 +358,7 @@ const ProductDetail = () => {
                     </Text>
                   </TextDetail>
                   <BtnBox>
-                    <ZimBox>
+                    <ZimBox onClick={addFavorite}>
                       <ZimBtn>
                         <LovedImg src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICAgIDxwYXRoIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTTcuMDA1IDEuMDQ1aC4yMzNjLjI4LjIyOC41MzcuNDkuNzYyLjc3Ny4yMjUtLjI4OC40ODEtLjU0OS43NjItLjc3N2guMjMzYTYuMTYgNi4xNiAwIDAgMC0uMDktLjExM0M5LjY4NC4zNDQgMTAuNjI4IDAgMTEuNiAwIDE0LjA2NCAwIDE2IDIuMTEgMTYgNC43OTZjMCAzLjI5Ni0yLjcyIDUuOTgxLTYuODQgMTAuMDYyTDggMTZsLTEuMTYtMS4xNTFDMi43MiAxMC43NzcgMCA4LjA5MiAwIDQuNzk2IDAgMi4xMSAxLjkzNiAwIDQuNCAwYy45NzIgMCAxLjkxNi4zNDQgMi42OTUuOTMyYTYuMTYgNi4xNiAwIDAgMC0uMDkuMTEzeiIvPgo8L3N2Zz4K" />
                         <span>찜</span>
@@ -364,7 +399,14 @@ const ProductDetail = () => {
                 <div>
                   <h1>상점정보</h1>
                 </div>
-                <div></div>
+                <div>
+                  <Btn
+                    style={{ backgroundColor: "red", color: "white" }}
+                    onClick={handleFollow}
+                  >
+                    팔로우 하기
+                  </Btn>
+                </div>
                 <div></div>
                 <div></div>
                 <div>

@@ -203,20 +203,16 @@ const ShopManagement = styled.div`
 `;
 const MenuBox = styled.div`
   display: flex;
-  height: 50px;
+  line-height: 50px;
   a {
-    flex: 1 1 0%;
-    -webkit-box-align: center;
+    cursor: pointer;
+    text-align: center;
+    width: 20%;
     align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    display: flex;
+    display: block;
     border: 1px solid rgb(238, 238, 238);
     border-left: 0;
     background-color: ${(props) => props.theme.bgColor};
-  }
-  a:first-child {
-    border-left: 1px solid rgb(238, 238, 238);
   }
 `;
 
@@ -291,18 +287,17 @@ const Shop = () => {
           </div>
           <div>
             <MenuBox>
-              <Link to={`products`}>상품</Link>
-              <Link to={`/`}>상점문의</Link>
-              <Link to={`/`}>상점문의</Link>
-              <Link to={`/`}>찜</Link>
-              <Link to={`/`}>상점후기</Link>
-              <Link to={`/`}>팔로잉</Link>
-              <Link to={`/`}>팔로워</Link>
-              <Outlet />
+              <Link to="products">상품</Link>
+              <Link to="comments">상점문의</Link>
+              <Link to="favorites">찜</Link>
+              <Link to="reviews">상점후기</Link>
+              <Link to="followings">팔로잉</Link>
+              <Link to="followers">팔로워</Link>
             </MenuBox>
+          </div>
+          <div>
             <Outlet />
           </div>
-          <div></div>
         </ShopWrapper>
       </Container>
     </Wrapper>

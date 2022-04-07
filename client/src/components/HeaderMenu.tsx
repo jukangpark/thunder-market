@@ -1,7 +1,10 @@
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { isLoggedInState } from "../atoms";
+import { IUser } from "../interface";
 
 const Container = styled.div`
   width: 100%;
@@ -75,9 +78,18 @@ const LogInBtn = styled.button`
   line-height: 1.4;
 `;
 
-
 const HeaderMenu = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [user, setUser] = useState<IUser>();
+
+  useEffect(() => {
+    if (cookies.user) {
+      fetch("/user/info")
+        .then((res) => res.json())
+        .then((data) => setUser(data));
+    }
+  }, []);
 
   return (
     <Container>
@@ -95,16 +107,12 @@ const HeaderMenu = () => {
         <RightMenu>
           {isLoggedIn ? (
             // 여기에 이제 현재 로그인된 유저 아이디 넣어줄겁니당
-            <LogInBtn>박주강님</LogInBtn>
+            <LogInBtn>{user?.email}</LogInBtn>
           ) : (
-            <LogInBtn>
-                로그인/회원가입
-            </LogInBtn>
+            <LogInBtn>로그인/회원가입</LogInBtn>
           )}
 
-          <Link to={isLoggedIn ? `/shop` : `/login`}>
-              내 상점
-          </Link>
+          <Link to={isLoggedIn ? `/shop/${user?._id}` : `/login`}>내 상점</Link>
         </RightMenu>
       </Wrapper>
     </Container>

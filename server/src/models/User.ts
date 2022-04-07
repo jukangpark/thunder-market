@@ -7,8 +7,10 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   reviews: [{ type: mongoose.Schema.Types.ObjectId }],
-  followings: [{ type: mongoose.Schema.Types.ObjectId }],
-  followers: [{ type: mongoose.Schema.Types.ObjectId }],
+  followings: [{ type: Object }],
+  followers: [{ type: Object }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId }],
+  favorites: [{ type: Object }],
 });
 
 userSchema.pre("save", async function () {

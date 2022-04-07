@@ -4,6 +4,7 @@ import {
   getProductList,
   upload,
 } from "../controllers/productController";
+import { addFavorite } from "../controllers/productController";
 import { verifyToken } from "../middleware/authorization";
 import { uploadProductImage } from "../middleware/middlewares";
 
@@ -19,5 +20,7 @@ productRouter
   );
 
 productRouter.route("/:id").get(getProductDetail);
+
+productRouter.route("/:id/addFavorites").get(verifyToken, addFavorite);
 
 export default productRouter;
