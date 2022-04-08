@@ -21,13 +21,15 @@ const Home = () => {
   }, [isLoggedIn]);
 
   return (
-    <Wrapper>
+    <>
       <HeaderMenu />
-      <Header />
-      <MainSlide />
-      <Banner />
-      <TodayProduct />
-    </Wrapper>
+      <Wrapper>
+        <Header />
+        <MainSlide />
+        <Banner />
+        <TodayProduct />
+      </Wrapper>
+    </>
   );
 };
 

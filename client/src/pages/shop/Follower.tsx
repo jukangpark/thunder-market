@@ -1,15 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ShopHeader, Title } from "../../components/StyleTS/LinkHeader";
 
 const Follower = () => {
+  const [follower, setFollower] = useState();
   const { id } = useParams();
   useEffect(() => {
     fetch(`/user/${id}/followers`)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => setFollower(data));
   }, []);
-
-  return <div>Follower</div>;
+  console.log(follower)
+  return (
+    <>
+    <ShopHeader>
+      <Title>
+        팔로워
+        <span></span>
+      </Title>
+    </ShopHeader>
+    </>
+  );
 };
 
 export default Follower;

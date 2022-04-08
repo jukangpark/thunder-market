@@ -276,6 +276,7 @@ const ProductDetail = () => {
       .then((data) => {
         if (data.message) {
           alert(data.message); // 정상적으로 찜하기 목록에 등록되었습니다.
+          
         }
         if (data.message === undefined) {
           alert("로그인 먼저 해주세요");

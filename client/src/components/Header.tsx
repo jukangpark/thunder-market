@@ -53,8 +53,10 @@ const MainInput = styled.input`
   color: ${(props) => props.theme.btnColor};
   background: ${(props) => props.theme.bgColor};
   appearance: none;
+  font-weight: 600;
   -webkit-box-flex: 1;
   flex-grow: 1;
+  letter-spacing: -0.5px;
 `;
 const MainImg = styled.img`
   width: 136px;

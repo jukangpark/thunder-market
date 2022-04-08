@@ -5,15 +5,13 @@ export const ProductsWrapper = styled.div`
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-
   /* display: flex;
   flex-wrap: wrap; */
 `;
 export const ProductContainer = styled.div`
-  /* width: 196px;
+  width: 196px;
   margin-right: 11px;
-  margin-bottom: 11px; */
-
+  margin-bottom: 11px;
   a {
     text-decoration: none;
     display: block;
@@ -22,7 +20,7 @@ export const ProductContainer = styled.div`
 `;
 export const ImgBox = styled.div`
   /* position: relative; */
-  height: 195px;
+  height: 194px;
 `;
 export const ProductImage = styled.div<IProps>`
   height: 100%;
@@ -33,6 +31,7 @@ export const ProductImage = styled.div<IProps>`
 export const ProductInfo = styled.div`
   padding: 15px 10px;
   height: 80px;
+  box-sizing: border-box;
 `;
 export const Description = styled.div`
   position: relative;
