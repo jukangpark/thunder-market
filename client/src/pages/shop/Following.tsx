@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { ShopHeader, Title } from "../../components/StyleTS/LinkHeader";
 
 const Following = () => {
   const { id } = useParams();
@@ -9,7 +10,14 @@ const Following = () => {
       .then((data) => console.log(data));
   }, []);
 
-  return <div>Following</div>;
+  return (
+    <ShopHeader>
+      <Title>
+        팔로잉
+        <span>0</span>
+      </Title>
+    </ShopHeader>
+  );
 };
 
 export default Following;

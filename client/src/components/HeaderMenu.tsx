@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { isLoggedInState } from "../atoms";
+import { isDarkState, isLoggedInState } from "../atoms";
 import { IUser } from "../interface";
 
 const Header = styled.div`
@@ -78,11 +78,58 @@ const LogInBtn = styled.button`
   position: relative;
   line-height: 1.4;
 `;
-
+const ToggleMode = styled.label`
+  width: 50px;
+  height: 26px;
+  position: relative;
+  display: inline-block;
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  margin: 0 15px;
+  top: 7px;
+  input:checked + span:before {
+    -webkit-transform: translateX(24px);
+    -ms-transform: translateX(24px);
+    transform: translateX(24px);
+  }
+`
+const ToggleInput = styled.input`
+  opacity: 0;
+  width: 0;
+  height: 0;
+`
+const ToggleSwitch = styled.span`
+  background-color: ${(props) => props.theme.bgColor};
+  border: 1px solid ${(props) => props.theme.textColor};
+  position: absolute;
+  cursor: pointer;
+  transition: .3s;
+  -webkit-transition: .3s;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  border-radius: 34px;
+  :before {
+    position: absolute;
+    content: "";
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    background-color: ${(props) => props.theme.textColor};
+    border-radius: 50%;
+    transition: .3s;
+    -webkit-transition: .3s;
+  }
+`
 const HeaderMenu = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const navigate = useNavigate();
+  const BtnFn = useSetRecoilState(isDarkState);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [user, setUser] = useState<IUser>();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
 
   useEffect(() => {
     if (cookies.user) {
@@ -91,7 +138,15 @@ const HeaderMenu = () => {
         .then((data) => setUser(data));
     }
   }, []);
-
+  const onClick = () => {
+    BtnFn(prev => !prev)
+  }
+  const LoggedOut = () => {
+    removeCookie("user")
+    setIsLoggedIn(false);
+    navigate("/")
+  }
+  console.log(cookies)
   return (
     <Header>
       <Container>
@@ -109,12 +164,15 @@ const HeaderMenu = () => {
           <RightMenu>
             {isLoggedIn ? (
               // 여기에 이제 현재 로그인된 유저 아이디 넣어줄겁니당
-              <LogInBtn>{user?.email}</LogInBtn>
+              <LogInBtn onClick={LoggedOut}>로그아웃</LogInBtn>
             ) : (
               <LogInBtn>로그인/회원가입</LogInBtn>
             )}
-
             <Link to={isLoggedIn ? `/shop/${user?._id}/products` : `/login`}>내 상점</Link>
+              <ToggleMode>
+                <ToggleInput type={"checkbox"} onClick={onClick} />
+                <ToggleSwitch />
+              </ToggleMode>
           </RightMenu>
         </Wrapper>
       </Container>

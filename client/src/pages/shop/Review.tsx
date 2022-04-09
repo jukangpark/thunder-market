@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { ShopHeader, Title } from "../../components/StyleTS/LinkHeader";
 
 const Review = () => {
   const { id } = useParams();
@@ -9,7 +10,14 @@ const Review = () => {
       .then((data) => console.log(data));
   }, []);
 
-  return <div>Review</div>;
+  return (
+    <ShopHeader>
+      <Title>
+        상점후기
+        <span>0</span>
+      </Title>
+    </ShopHeader>
+  );
 };
 
 export default Review;
