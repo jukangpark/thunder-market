@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Wrapper } from "../components/StyleTS/fundamental";
+import { Wrapper } from "../../components/commonStyle/fundamental";
 
 const Btn = styled.button`
   border-radius: 2px;

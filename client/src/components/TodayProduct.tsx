@@ -11,7 +11,7 @@ import {
   ProductImage,
   ProductInfo,
   ProductsWrapper,
-} from "./StyleTS/ProductStyle";
+} from "./commonStyle/ProductStyle";
 
 const MainSection = styled.section`
   width: 1024px;

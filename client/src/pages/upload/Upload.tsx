@@ -2,9 +2,9 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { Wrapper } from "../components/StyleTS/fundamental";
-import Header from "../components/Header";
-import HeaderMenu from "../components/HeaderMenu";
+import { Wrapper } from "../../components/commonStyle/fundamental";
+import MiniHeader from "../../components/header/MiniHeader";
+import Header from "../../components/header/Header";
 
 const NestedLink = styled.div`
   margin: 0 auto;
@@ -32,7 +32,7 @@ const Upload = () => {
           <title>Thunder Market | upload</title>
         </Helmet>
       </HelmetProvider>
-      <HeaderMenu />
+      <MiniHeader />
       <Header />
       <NestedLink>
         <Link to="new">상품등록</Link>

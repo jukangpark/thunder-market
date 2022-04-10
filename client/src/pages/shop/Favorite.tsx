@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ShopHeader, Title } from "../../components/StyleTS/LinkHeader";
+import { ShopHeader, Title } from "../../components/commonStyle/LinkHeader";
 import { IProducts } from "../../interface";
 
 const Favorite = () => {
@@ -16,11 +16,10 @@ const Favorite = () => {
   return (
     <div>
       <ShopHeader>
-            <Title>
-              찜
-              <span>{favorites?.length}</span>
-            </Title>
-          </ShopHeader>
+        <Title>
+          찜<span>{favorites?.length}</span>
+        </Title>
+      </ShopHeader>
       {favorites?.map((product, index) => (
         <div key={index}>
           <div>{product.name}</div>

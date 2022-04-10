@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ShopHeader, Title } from "../../components/StyleTS/LinkHeader";
+import { ShopHeader, Title } from "../../components/commonStyle/LinkHeader";
 
 const Review = () => {
   const { id } = useParams();

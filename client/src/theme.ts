@@ -1,4 +1,3 @@
-import { RecoilBridge } from "recoil";
 import { DefaultTheme } from "styled-components";
 
 const size = {

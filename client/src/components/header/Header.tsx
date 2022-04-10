@@ -3,9 +3,9 @@ import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { isLoggedInState } from "../atoms";
-import { IUser } from "../interface";
-import SideSlider from "./SideSlider";
+import { isLoggedInState } from "../../atoms";
+import { IUser } from "../../interface";
+import SideSlider from "../SideMenu";
 
 const Container = styled.div`
   width: 100%;
@@ -186,7 +186,6 @@ const Header = () => {
           </MenuLink>
         </HeaderMenu>
       </Wrapper>
-      <SideSlider />
     </Container>
   );
 };

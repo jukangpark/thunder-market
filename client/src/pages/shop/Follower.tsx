@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ShopHeader, Title } from "../../components/StyleTS/LinkHeader";
+import { ShopHeader, Title } from "../../components/commonStyle/LinkHeader";
 
 const Follower = () => {
   const [follower, setFollower] = useState();
@@ -10,15 +10,15 @@ const Follower = () => {
       .then((res) => res.json())
       .then((data) => setFollower(data));
   }, []);
-  console.log(follower)
+  console.log(follower);
   return (
     <>
-    <ShopHeader>
-      <Title>
-        팔로워
-        <span></span>
-      </Title>
-    </ShopHeader>
+      <ShopHeader>
+        <Title>
+          팔로워
+          <span></span>
+        </Title>
+      </ShopHeader>
     </>
   );
 };
