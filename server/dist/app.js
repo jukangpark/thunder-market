@@ -1,20 +1,23 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 const isHeroku = process.env.NODE_ENV === "production";
 // 이 NODE_ENV 는 heroku에 정의되어 있다.
 (() => {
-    if (isHeroku)
-        return; // 해로쿠 환경에서는 이 즉시 실행함수가 실행되지 않도록 막는다.
-    const result = dotenv_1.default.config({ path: path_1.default.join(__dirname, "..", ".env") });
-    // .env 파일의 경로를 dotenv.config 에 넘겨주고 성공여부를 저장함.
-    if (result.parsed == undefined)
-        // .env 파일 parsing 성공 여부 확인
-        throw new Error("Cannot loaded environment variables file."); // parsing 실패시 Throwing
+  if (isHeroku) return; // 해로쿠 환경에서는 이 즉시 실행함수가 실행되지 않도록 막는다.
+  const result = dotenv_1.default.config({
+    path: path_1.default.join(__dirname, "..", ".env"),
+  });
+  // .env 파일의 경로를 dotenv.config 에 넘겨주고 성공여부를 저장함.
+  if (result.parsed == undefined)
+    // .env 파일 parsing 성공 여부 확인
+    throw new Error("Cannot loaded environment variables file."); // parsing 실패시 Throwing
 })();
 require("./db");
 const express_1 = __importDefault(require("express"));
@@ -35,18 +38,17 @@ app.use("/api", apiRouter_1.default);
 app.use("/product", productRouter_1.default);
 app.use("/user", userRouter_1.default);
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/build/index.html");
+  res.sendFile(__dirname + "/build/index.html");
 });
 app.get("*", (req, res) => {
-    if (isHeroku) {
-        res.sendFile(__dirname + "/build/index.html");
-    }
-    else {
-        res.sendFile(process.cwd() + "/dist/build/index.html");
-    }
+  if (isHeroku) {
+    res.sendFile(__dirname + "/build/index.html");
+  } else {
+    res.sendFile(process.cwd() + "/dist/build/index.html");
+  }
 });
 app.listen(PORT, () => {
-    console.log("hello world!");
+  console.log("hello world!");
 });
 // app.ts 를 실행시키려면 지금 타입스크립트로 작성이 되어 있기 때문에
 // 자바스크립트로 변환을 해줘야 합니다.

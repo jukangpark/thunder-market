@@ -28,18 +28,25 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         {isLoggedIn ? (
-          <Route path="/products" element={<Products />}>
-            <Route path="new" element={<Upload />} />
-            <Route path="manage" element={<ProductManage />} />
-            <Route path="purchases" element={<Purchases />} />
-            <Route path="sales" element={<Sales />} />
-          </Route>
+          // <Route path="/products" element={<Products />}>
+          //   <Route path="new" element={<Upload />} />
+          //   <Route path="manage" element={<ProductManage />} />
+          //   <Route path="purchases" element={<Purchases />} />
+          //   <Route path="sales" element={<Sales />} />
+          // </Route>
+          <></>
         ) : (
           <>
             <Route path="/join" element={<Join />} />
             <Route path="/login" element={<Login />} />
           </>
         )}
+        <Route path="/products" element={<Products />}>
+          <Route path="new" element={<Upload />} />
+          <Route path="manage" element={<ProductManage />} />
+          <Route path="purchases" element={<Purchases />} />
+          <Route path="sales" element={<Sales />} />
+        </Route>
 
         <Route path="/shop/:id" element={<Shop />}>
           <Route path="products" element={<Product />} />

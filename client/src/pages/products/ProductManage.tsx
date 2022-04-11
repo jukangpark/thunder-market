@@ -1,4 +1,23 @@
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import { IProduct, IUser } from "../../interface";
+
+const TableContainer = styled.div`
+  table > tbody > tr {
+    border-bottom: 1px solid rgb(220, 219, 228);
+  }
+`;
+
 const ProductManage = () => {
+  const [products, setProducts] = useState<IProduct[]>();
+
+  useEffect(() => {
+    fetch("/user/info")
+      .then((res) => res.json())
+      .then((data) => setProducts(data.products));
+  }, []);
+  console.log(products);
+
   return (
     <div>
       <div>
@@ -20,7 +39,7 @@ const ProductManage = () => {
         </select>
       </div>
 
-      <div>
+      <TableContainer>
         <table>
           <thead>
             <tr>
@@ -35,31 +54,38 @@ const ProductManage = () => {
             </tr>
           </thead>
           <tbody>
+            {products?.map((product) => {
+              <tr>
+                <td style={{ height: "100px" }}>
+                  <img src={product.imageUrl} />
+                </td>
+                <td>
+                  <select>
+                    <option>판매 중</option>
+                    <option>예약 중</option>
+                    <option>삭제</option>
+                    <option>판매완료</option>
+                  </select>
+                </td>
+                <td>상품명</td>
+                <td>가격</td>
+                <td>O</td>
+                <td>5/0</td>
+                <td>2022-04-10 21:00</td>
+                <td>
+                  <button>UP</button>
+                  <button>수정</button>
+                </td>
+              </tr>;
+            })}
             <tr>
               <td>
                 <a href=""></a>
               </td>
-              <td>
-                <select>
-                  <option>판매 중</option>
-                  <option>예약 중</option>
-                  <option>삭제</option>
-                  <option>판매완료</option>
-                </select>
-              </td>
-              <td>상품명</td>
-              <td>가격</td>
-              <td>O</td>
-              <td>5/0</td>
-              <td>2022-04-10 21:00</td>
-              <td>
-                <button>UP</button>
-                <button>수정</button>
-              </td>
             </tr>
           </tbody>
         </table>
-      </div>
+      </TableContainer>
     </div>
   );
 };
