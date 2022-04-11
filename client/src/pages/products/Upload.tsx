@@ -85,7 +85,7 @@ const DeliveryLabel = styled.label<IProps>`
   cursor: pointer;
 `;
 
-function New(): JSX.Element {
+const Upload = () => {
   const [state, setState] = useState({
     file: null,
     base64URL: "",
@@ -322,6 +322,6 @@ function New(): JSX.Element {
       </Form>
     </Wrapper>
   );
-}
+};
 
-export default New;
+export default Upload;

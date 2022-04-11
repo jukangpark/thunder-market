@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
 import MiniHeader from "../../components/header/MiniHeader";
 import Header from "../../components/header/Header";
+import Footer from "../../components/Footer";
 
 const NestedLink = styled.div`
   margin: 0 auto;
@@ -24,7 +25,7 @@ const NestedLink = styled.div`
   }
 `;
 
-const Upload = () => {
+const Products = () => {
   return (
     <Wrapper>
       <HelmetProvider>
@@ -37,11 +38,13 @@ const Upload = () => {
       <NestedLink>
         <Link to="new">상품등록</Link>
         <Link to="manage">상품관리</Link>
-        <Link to="purchases">구매/판매 내역</Link>
+        <Link to="purchases">구매내역</Link>
+        <Link to="sales">판매내역</Link>
       </NestedLink>
       <Outlet />
+      <Footer />
     </Wrapper>
   );
 };
 
-export default Upload;
+export default Products;

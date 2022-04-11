@@ -2,10 +2,8 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { darkTheme, lightTheme } from "./theme";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { isDarkState, isLoggedInState } from "./atoms";
-import { useCookies } from "react-cookie";
-import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkState } from "./atoms";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,

@@ -7,8 +7,9 @@ import { Wrapper } from "../components/commonStyle/fundamental";
 import MiniHeader from "../components/header/MiniHeader";
 import Header from "../components/header/Header";
 import MainSlide from "../components/slide/MainSlide";
-import TodayProduct from "../components/TodayProduct";
+import TodayProducts from "../components/TodayProducts";
 import SideMenu from "../components/SideMenu";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -28,7 +29,8 @@ const Home = () => {
       <MainSlide />
       <SideMenu />
       <Banner />
-      <TodayProduct />
+      <TodayProducts />
+      <Footer />
     </Wrapper>
   );
 };

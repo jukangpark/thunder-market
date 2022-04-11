@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  position: absolute;
-  top: 102px;
+  position: fixed;
+  top: 100px;
   right: calc(50% - 617px);
   z-index: 20;
 `;
+
 const Wrapper = styled.div`
   width: 90px;
   > div {

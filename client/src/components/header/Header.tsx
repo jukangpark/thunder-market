@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { isLoggedInState } from "../../atoms";
 import { IUser } from "../../interface";
-import SideSlider from "../SideMenu";
 
 const Container = styled.div`
   width: 100%;
@@ -164,7 +163,7 @@ const Header = () => {
             </InputBg>
           </InputWrapper>
           <MenuWrapper>
-            <Link to={isLoggedIn ? "/upload/new" : "/login"}>판매하기</Link>
+            <Link to={isLoggedIn ? "/products/new" : "/login"}>판매하기</Link>
             <ShopLink>
               <Link to={isLoggedIn ? `/shop/${user?._id}/products` : "/login"}>
                 내상점
