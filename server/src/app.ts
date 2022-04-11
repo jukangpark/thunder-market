@@ -53,7 +53,7 @@ app.get("*", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("hello world!");
+  console.log(`Server is listening on ${PORT}`);
 });
 
 // app.ts 를 실행시키려면 지금 타입스크립트로 작성이 되어 있기 때문에

@@ -29,6 +29,7 @@ export interface IUser {
   followings: [];
   followers: [];
   _id: string;
+  favorites: [];
 }
 
 export interface IComment {
