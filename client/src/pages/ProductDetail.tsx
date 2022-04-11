@@ -5,7 +5,6 @@ import Header from "../components/header/Header";
 import MiniHeader from "../components/header/MiniHeader";
 import { Wrapper } from "../components/commonStyle/fundamental";
 import { IProduct, IProps } from "../interface";
-import SideMenu from "../components/SideMenu";
 import ShopInfo from "../components/ShopInfo";
 
 const Main = styled.div``;

@@ -17,7 +17,18 @@ const s3ProductUploader = multerS3({
   acl: "public-read",
 });
 
+const s3ProfileImageUploader = multerS3({
+  s3: s3,
+  bucket: "thunder-market/profile",
+  acl: "public-read",
+});
+
 export const uploadProductImage = multer({
   dest: "uploads/product",
   storage: isHeroku ? s3ProductUploader : undefined,
+});
+
+export const uploadProfileImage = multer({
+  dest: "uploads/profile",
+  storage: isHeroku ? s3ProfileImageUploader : undefined,
 });

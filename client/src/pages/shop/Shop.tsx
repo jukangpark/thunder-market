@@ -5,7 +5,6 @@ import { Wrapper } from "../../components/commonStyle/fundamental";
 import MiniHeader from "../../components/header/MiniHeader";
 import Header from "../../components/header/Header";
 import { IUser } from "../../interface";
-import SideMenu from "../../components/SideMenu";
 import Footer from "../../components/Footer";
 
 const Container = styled.div`

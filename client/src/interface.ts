@@ -30,16 +30,16 @@ export interface IUser {
   followers: [];
   _id: string;
   favorites: [];
+  profileImageUrl: string;
+  introduction: string;
+  username: string;
 }
 
 export interface IComment {
   text: string;
   createdAt: string;
-  owner: {
-    comments: string;
-    email: string;
-    _id: string;
-  }
+  owner: IUser;
+  _id: string;
 }
 
 export interface IFormData {

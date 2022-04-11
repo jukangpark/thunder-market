@@ -1,10 +1,10 @@
-import { Express, Request, Response } from "express";
+import { Request, Response } from "express";
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import Product from "../models/Product";
 import Comment from "../models/Comment";
 
+// User 생성
 export const join = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   console.log(req.body);
@@ -17,15 +17,20 @@ export const join = async (req: Request, res: Response) => {
       .end();
   }
 
+  const trimEmail = (email: string) => {
+    const index = email.indexOf("@");
+    return email.slice(0, index);
+  };
+
+  // const index = email.indexOf("@");
+
+  // const username = email.splice(0, index);
+
   try {
     await User.create({
       email,
       password,
-      products: [],
-      comments: [],
-      reviews: [],
-      followings: [],
-      followers: [],
+      username: trimEmail(email),
     });
   } catch (error) {
     return res.status(400).send({ message: "에러가 발생했습니다." }).end();
@@ -216,4 +221,63 @@ export const postUserReview = async (req: Request, res: Response) => {
   user.save();
 
   return res.send({ message: "정상적으로 상품 후기가 등록되었습니다." });
+};
+
+// 유저 프로필 이미지 업로드
+export const postUserProfileImage = async (req: any, res: Response) => {
+  const { user_id } = res.locals.user;
+  const { profileImage } = req.files;
+
+  const isHeroku = process.env.NODE_ENV === "production";
+
+  const user = await User.findById(user_id);
+
+  (user.profileImageUrl = isHeroku
+    ? profileImage[0].location
+    : "/" + profileImage[0].path),
+    await user.save();
+
+  return res.send({
+    message: "정상적으로 프로필 이미지가 업데이트 되었습니다.",
+  });
+};
+
+export const getUserIntro = (req: Request, res: Response) => {
+  const { id } = req.params;
+};
+
+// 유저 소개글 업로드
+export const postUserIntro = async (req: Request, res: Response) => {
+  const { user_id } = res.locals.user;
+  const { id } = req.params;
+
+  const { text } = req.body;
+
+  if (user_id !== id) {
+    return res.send({ message: "자기 자신의 소개글만 수정할 수 있습니다." });
+  }
+
+  const user = await User.findById(user_id);
+  user.introduction = text;
+  await user.save();
+
+  return res.send({
+    message: "정상적으로 소개글이 등록 되었습니다.",
+  });
+};
+
+export const deleteUserComment = async (req: Request, res: Response) => {
+  const { user_id } = res.locals.user;
+  const { id } = req.params;
+  const { commentid } = req.body;
+
+  if (user_id !== id) {
+    return res.send({ message: "댓글 작성자만 삭제할 수 있습니다" });
+  }
+
+  await Comment.findByIdAndDelete(commentid);
+
+  return res.send({
+    message: "정상적으로 댓글이 삭제되었습니다.",
+  });
 };

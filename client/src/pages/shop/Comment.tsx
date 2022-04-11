@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ShopHeader, Title } from "../../components/commonStyle/LinkHeader";
@@ -145,21 +145,27 @@ const Comment = () => {
   const [text, setText] = useState("");
   const { id } = useParams();
 
-  useEffect(() => {
+  const fetchComments = () => {
     fetch(`/user/${id}/comments`)
       .then((res) => res.json())
       .then((data) => setComments(data));
+  };
+
+  useEffect(() => {
+    fetchComments();
   }, []);
 
-  const Counter = (event: any) => {
+  const handleChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     const {
-      target: { value },
+      currentTarget: { value },
     } = event;
+
     setText(value);
   };
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     await fetch(`/user/${id}/comments`, {
       method: "POST",
       headers: {
@@ -169,12 +175,30 @@ const Comment = () => {
         text,
       }),
     });
+
     setText("");
 
-    fetch(`/user/${id}/comments`)
-      .then((res) => res.json())
-      .then((data) => setComments(data));
+    fetchComments();
   };
+
+  const deleteComment = async (event: React.MouseEvent<HTMLElement>) => {
+    const { commentid } = event.currentTarget.dataset;
+
+    await fetch(`/user/${id}/comments`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        commentid,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => alert(data.message));
+
+    fetchComments();
+  };
+
   return (
     <div>
       <ShopHeader>
@@ -185,12 +209,13 @@ const Comment = () => {
       <InquiryForm onSubmit={onSubmit}>
         <TextBox>
           <InquiryText
-            onChange={Counter}
+            onChange={handleChange}
             id="text"
             name="text"
             required={true}
             placeholder="상점 문의 입력"
             maxLength={100}
+            value={text}
           />
         </TextBox>
         <TextLength>
@@ -207,7 +232,7 @@ const Comment = () => {
               </Link>
               <CommentWrapper>
                 <UserName>
-                  {comment.owner.email.slice(0, 9)}
+                  {comment.owner.username}
                   <Moment style={{ fontSize: "13px" }} fromNow>
                     {comment.createdAt}
                   </Moment>
@@ -218,7 +243,7 @@ const Comment = () => {
                     <CommentImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAAAXNSR0IArs4c6QAABIFJREFUSA2tl0lok0EUx5M0tVYpsVvqRhQFe6gH0VKkWrFKl1TrQaSggsvR/eAKoiJCbxZRwV0Ul4N6UbCLbU314EatC0b0oJY0Rg1aEcS0DWn9vfRLnH79EmPNwMt787b5z8z7ZiZmUwLN5XJZ+/r6ivr7+xfhPn9gYGAi3G42m7OQf8D99L9Aj5Cb8XtQVVXVSz/hZo7n2dTUZA+FQptJvpEBs+P5qjb8f9I/Q0wdgLyqLZZsCERWoLe3dx+JdkGjteB++EvonnAG+2qxWL4ij2YF8vCbhG4BfCG6DMhEPwg7YbPZ9hQXFwdEF6sNA9LS0jIjGAxeJeEcCSKZDzoJnaqoqJAtiNtkEj09PdU4ySTmijOxr1NSUlaXl5c/jxU8BEhjY2MBwS4ol2CZTa3D4agtKCjoi5Ugnp6tdbJaZ8k3kXyyXeVOp/OhUUwUiKwEBXkfpzzIQ2A1QbIV/9WYXBZgLpJkKTmlsBdVVlZ26JNaRAFiC9txCTEPx3epqaklyQAhuRm02263LyfvTcaxAep6e3v7GLGpLQwE1NtwKsLwi710lpWVeVSn/5ULCwuDbHENYJ6Qa5rf7z+gz2l2u92jPB6PDyDZfAVbmMFxvVNDQ0O7XpdIn1UtVP2kBlmRDgBZIAdjfYrYrV6vt0pAYPDyVZyIGFSOPfwFqbqRyAzsZlJyvmwifiVUF8ljBWGN1rkAmFDEoHK2a8jMVNu/yoA4R4wAWQX9AUJnBiStaZAN/2Wlng7XjkzDSfuMVekkeiagmLt5QDJZIYcIKDuFG7VEa0RfE0a5NN07xpva1tYmR8Vn0VlRjBUhPT1djmvDhk9SakRJ7hOZa0Tur0EgLE0XA+VzmE1A+UEc9C2ZNaLlFgCmtLQ0ubHDTVZEzox8inYa3BBIMmtkcFjTdHigtLQ0ugtSI61QGbRMk2FDW6I1MjTKZDKqGXLlyw6wE7dVfwFyBarFuIrDbafRBYctmTWyTgNwXeNhZpWHCyhvM1h1V1fXbrSHVAeRk1Ujra2tUyjQrayGj1P8hjpO+PYFyFSAuDFYGXQONfFKdUqGTH6zTJhcTkCs4ZSVSzbawpcee9mJZi80iqJtqK+vl2JKagPEURI6WY1bTPSyPnkYiCjZoiM41YF8MryNC2q23nmkfUAcJnYz9Dg3N3cl+cOnqZovCkSUrMx2nI4KGOgRYPbxdkhVA0YikytF4sh9kyfBL6Mc0ReaamRrVtA/DWVCH6FjGRkZp0tKSr4jx23Nzc22zMzMoDqg9m9AHtzZgFrC6t/RJzEEIk5U+CRO2/2IawlOg4dIJJffXegt5EffjW6sDEBf3hqLkYvQf6MgD+bk5JyTRxE2E5Obi60RWzrdDYA5L/pIiwkk4sCrfHwgENhIkqXoZpHorzGRWGK68b8GKBf0DKCy5TegLHxO8oTcHlm5hJNKckDlcA7MQ5wM2UkoS93DID/gPj79Fwz2Htt6+E643K4xG0DfQKv5lDv+CUjMjAYG7f/NYgDK6302fDp8HFy2WQpXVusj/AMT2PEbeA0W2gj2azwAAAAASUVORK5CYII=" />
                     댓글달기
                   </Btn>
-                  <Btn>
+                  <Btn onClick={deleteComment} data-commentid={comment._id}>
                     <DeleteImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAcCAYAAAB2+A+pAAAAAXNSR0IArs4c6QAAANpJREFUSA1jZCAB7N+/n+Xr16+1QC3J////lwZpZWRkfAqk5nJzczc7Ojr+AYkRA1iIUQRTA7IUaGEdjA+ioQ6oA8qBuPUgghjARIwiJDXJIDYzM7O7r68vIwiD2FB5sBySWrxMkiyGBa+Xl9cumKkwNkwOJk6IZty8efN/QopoIU+Sj2nhALiZoBCgZijgMm/AfDxqMTyu0RnocUWIj64fnT8a1OghQjP+aFDTLGjRDR4NavQQoRl/5AU10Y09UPsKOdwJ8ZHVYmOPvKAeMB/jjGNqtrsGVRwDANq3T3QbKT/vAAAAAElFTkSuQmCC" />
                     삭제하기
                   </Btn>

@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  profileImageUrl: String,
+  username: { type: String },
+  profileImageUrl: { type: String },
   password: { type: String },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
@@ -12,6 +13,7 @@ const userSchema = new mongoose.Schema({
   followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   createdAt: { type: Date, required: true, default: Date.now },
+  introduction: { type: String },
 });
 
 userSchema.pre("save", async function () {
