@@ -3,6 +3,7 @@ import User from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Product from "../models/Product";
+import Comment from "../models/Comment";
 
 export const join = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -105,10 +106,13 @@ export const getUserProducts = async (req: Request, res: Response) => {
   return res.send(products);
 };
 
-// 2. 상품 문의
+// 2. 상점 문의 comment 목록  조회하기
 export const getUserComments = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate({
+    path: "comments",
+    populate: { path: "owner" },
+  });
   const { comments } = user;
   return res.send(comments);
 };
@@ -116,16 +120,18 @@ export const getUserComments = async (req: Request, res: Response) => {
 // 3. 찜
 export const getUserFavorites = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await User.findById(id).populate("products");
+  const user = await User.findById(id).populate("favorites");
   const { favorites } = user;
-  console.log(favorites);
   return res.send(favorites);
 };
 
 // 4. 상점 후기
 export const getUserReviews = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate({
+    path: "reviews",
+    populate: { path: "owner" },
+  });
   const { reviews } = user;
   return res.send(reviews);
 };
@@ -133,20 +139,19 @@ export const getUserReviews = async (req: Request, res: Response) => {
 // 5. 팔로잉 (내가 팔로잉 하는 유저)
 export const getUserFollowings = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await User.findById(id);
-  const { followings } = user;
-  return res.send(followings);
+  const user = await User.findById(id).populate("followings");
+  return res.send(user.followings);
 };
 
 // 6. 팔로워 (나를 팔로우 하는 유저)
 export const getUserFollowers = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await User.findById(id);
-  const { followers } = user;
-  return res.send(followers);
+  const user = await User.findById(id).populate("followers");
+
+  return res.send(user.followers);
 };
 
-// 팔로잉을 누르면 처리할 컨트럴러
+// follow를 누르면 처리할 컨트럴러
 export const postUserFollowings = async (req: Request, res: Response) => {
   const { user_id } = res.locals.user;
   const { id } = req.params;
@@ -155,24 +160,60 @@ export const postUserFollowings = async (req: Request, res: Response) => {
     return res.send({ message: "자기 자신을 팔로우 할 수는 없어요" });
   }
 
-  const user = await User.findById(id);
+  const targetUser = await User.findById(id); // 팔로우를 당한 유저
+
+  // follow 를 누른 유저가 이미 targetUser 를 팔로우가 하고 있는 경우.
+  if (targetUser.followers.includes(user_id)) {
+    return res.send({ message: "해당 유저는 이미 팔로우 되어있습니다." });
+  }
+
   const clickFollowUser = await User.findById(user_id);
 
-  // clickFollowUser.followings.push(user);
-  user.followers.push(clickFollowUser);
+  targetUser.followers.push(user_id);
+  clickFollowUser.followings.push(id);
 
-  await user.save();
-  // await clickFollowUser.save();
+  targetUser.save();
+  clickFollowUser.save();
+
   return res.send({ message: "정상적으로 팔로우 되었습니다." });
 };
 
-export const postUserFollowers = async (req: Request, res: Response) => {
+// POST 상점 문의 등록하기.
+export const postUserComment = async (req: Request, res: Response) => {
+  const { user_id } = res.locals.user;
   const { id } = req.params;
+  const { text } = req.body;
+
+  const comment = await Comment.create({
+    text,
+    owner: user_id,
+    category: "userComment",
+  });
+
   const user = await User.findById(id);
 
-  user.followings.push();
+  user.comments.push(comment._id);
+  user.save();
 
-  await user.save();
+  return res.send({ message: "정상적으로 상품 문의가 등록되었습니다." });
+};
 
-  return res.send();
+// POST 상점 후기 등록하기.
+export const postUserReview = async (req: Request, res: Response) => {
+  const { user_id } = res.locals.user;
+  const { id } = req.params;
+  const { text } = req.body;
+
+  const comment = await Comment.create({
+    text,
+    owner: user_id,
+    category: "userReview",
+  });
+
+  const user = await User.findById(id);
+
+  user.reviews.push(comment._id);
+  user.save();
+
+  return res.send({ message: "정상적으로 상품 후기가 등록되었습니다." });
 };

@@ -8,9 +8,9 @@ import {
   Form,
   Title,
   Error,
-  IFormData,
 } from "../../components/commonStyle/fundamental";
 import MiniHeader from "../../components/header/MiniHeader";
+import { IFormData } from "../../interface";
 
 const Login = () => {
   const navigate = useNavigate();

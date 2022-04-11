@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopHeader, Title } from "../../components/commonStyle/LinkHeader";
 import ProductList from "../../components/ProductList";
-import { IProducts } from "../../interface";
+import { IProduct } from "../../interface";
 
 const Favorite = () => {
   const { id } = useParams();
-  const [favorites, setFavorites] = useState<IProducts[]>();
+  const [favorites, setFavorites] = useState<IProduct[]>();
 
   useEffect(() => {
     fetch(`/user/${id}/favorites`)

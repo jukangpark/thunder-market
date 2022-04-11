@@ -8,8 +8,8 @@ import {
   Title,
   Wrapper,
   Error,
-  IFormData,
 } from "../../components/commonStyle/fundamental";
+import { IFormData } from "../../interface";
 import MiniHeader from "../../components/header/MiniHeader";
 
 const Join = () => {
@@ -44,7 +44,7 @@ const Join = () => {
       .then((data) => {
         alert(data.message);
         if (data.result === "ok") {
-          navigate("/");
+          navigate("/login");
         }
       });
   };

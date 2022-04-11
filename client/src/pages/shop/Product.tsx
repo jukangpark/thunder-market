@@ -3,9 +3,8 @@ import { useCookies } from "react-cookie";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
-import Footer from "../../components/Footer";
 import ProductList from "../../components/ProductList";
-import { IProducts, IUser } from "../../interface";
+import { IProduct, IUser } from "../../interface";
 
 const ContentBlock = styled.div`
   display: block;
@@ -105,7 +104,7 @@ const Sort = styled.div`
 `;
 
 const Product = () => {
-  const [products, setProducts] = useState<IProducts[]>();
+  const [products, setProducts] = useState<IProduct[]>();
   const [empty, setEmpty] = useState(true);
   const { id } = useParams();
   const [cookies] = useCookies(["user"]);

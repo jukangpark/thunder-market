@@ -41,10 +41,19 @@ export const BtnContainer = styled.div`
   width: 420px;
 `;
 
-export const Error = styled.div``;
+export const FollowBtn = styled.div`
+  width: 100%;
+  height: 32px;
+  border: 1px solid rgb(238, 238, 238);
+  color: rgb(136, 136, 136);
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  font-size: 13px;
+  border-radius: 2px;
+  cursor: pointer;
+`;
 
-export interface IFormData {
-  email: string;
-  password: string;
-  password2: string;
-}
+export const Error = styled.div``;

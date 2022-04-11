@@ -2,7 +2,7 @@ export interface IProps {
   imageUrl: string;
 }
 
-export interface IProducts {
+export interface IProduct {
   categories: string;
   change: string;
   delivery: boolean;
@@ -16,16 +16,29 @@ export interface IProducts {
   name: string;
   newProduct: string;
   price: number;
-  __v: number;
   _id: string;
   owner: IUser;
+  createdAt: String;
+  state: string;
 }
 
 export interface IUser {
   email: string;
-  products: IProducts[];
+  products: IProduct[];
   reviews: [];
   followings: [];
   followers: [];
   _id: string;
+}
+
+export interface IComment {
+  text: string;
+  createdAt: string;
+  owner: string;
+}
+
+export interface IFormData {
+  email: string;
+  password: string;
+  password2: string;
 }

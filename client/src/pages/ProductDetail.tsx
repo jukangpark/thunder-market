@@ -3,9 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/header/Header";
 import MiniHeader from "../components/header/MiniHeader";
-import { Btn, Wrapper } from "../components/commonStyle/fundamental";
-import { IProducts, IProps } from "../interface";
+import { Wrapper } from "../components/commonStyle/fundamental";
+import { IProduct, IProps } from "../interface";
 import SideMenu from "../components/SideMenu";
+import ShopInfo from "../components/ShopInfo";
 
 const Main = styled.div``;
 
@@ -243,26 +244,38 @@ const DirectBuy = styled.button`
   color: rgb(255, 255, 255);
   cursor: pointer;
 `;
+
+// 상품 디테일 밑의 상품 정보 등등
+const DescriptionContainer = styled.div`
+  display: flex;
+  width: 100%;
+  section {
+    width: 65%;
+  }
+
+  ul {
+    display: flex;
+
+    li {
+      width: 50%;
+      line-height: 50px;
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        background-color: ${(props) => props.theme.accentColor};
+        color: white;
+        transition-duration: 400ms;
+      }
+    }
+  }
+`;
+
 const ProductDetail = () => {
-  const [product, setProduct] = useState<IProducts>();
+  const [product, setProduct] = useState<IProduct>();
   const { id } = useParams();
   const navigate = useNavigate();
 
   console.log(product);
-
-  const handleFollow = () => {
-    fetch(`/user/${product?.owner._id}/followings`, { method: "POST" })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message) {
-          alert(data.message);
-        }
-        if (data.message === undefined) {
-          alert("로그인 먼저 해주세요");
-          navigate("/login");
-        }
-      });
-  };
 
   useEffect(() => {
     fetch(`/productapi/${id}`)
@@ -332,7 +345,7 @@ const ProductDetail = () => {
                         </Num>
                         <Num>
                           <TimeImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAuRJREFUWAnFV01rE1EUzUwSMWATENpFRNyIi0YI+eiui4LoogWFgkvBH6Dgpip+dONKgivdC3XlpkWELkTQRVw1H4QwWQmhLrKwq1IwxHyM54zvDck4mc6bTO3AY97MO/eeM/e9d+c+LeLzqlQq8Wg0ujIajW6ZprkIs7SmaRfQN9HvsOG5pev6h+Fw+LVYLPb9uNaOAzUajYXBYPAcPHeATR2HF+OHEPMuFou9yGazP71spgowDONMt9t9BOMNtDkvJx5jRxgrJRKJl5lM5rcbzlVArVabR6i3YbDsZhTgXRlTs57P5w+ctv8IAPkiwr2LdskJnuUZU7KPtgoRrXE/EwL45SDeC5tcEgoRS+OR0OUg55xhPyly8tA3OcgleW0BYsEpzTnm9THaknTm874suCy4JYBbDU9c7UoXvugzwllRMvoL3hCcEUsA9zneB91qAfgjc4IzojPD4UuYZP7rRU5y60yvYPab4cIUmSK3ztweplcVX+TWEYqMilGYWHJzEabDdKroK60jO52aAHLbiUhReShwTIHJNcBiYqYLX/IxoIMOIxBYANLweRIXCoWb2FJrEPJdUUiHa8BQNLLh2EY7+IM+a7fbZ3O53G4ymbwKf08B+GWDPDrAtrR6vX4dNdwnD5yfoR9w9hCReE9ws9m82Ov1XqF728sYUbuhMR0CxEoljGz4DdPyQP6gqtXqXayxt1NEHOL9vFWQAPgawHtTgEqvEQm4Mrcg5An6VxDdL24OMPYGEbtvCeCvsd/vcwGF+UdkZRyFmHMuAo7i8fhlVsxWHhClc8kFOMur1BRy+izJct1ORCydMVCehdGnbVlwWXBbAOt2zNs6wrbv05EyjL7JMX5GsAXQG6tVgFZPQgR90vd4RUzOCQFCRAtAFpphTkeZPkE+cSZwFSBEHGCerqG/icbjVdCLtpv05fxy6dDahvLB7X5qh1OnGMfxnFUUj+dWLYHtJo/nBhaZ0vH8D6NELRJSWvu9AAAAAElFTkSuQmCC" />
-                          2시간 전
+                          {product?.createdAt}
                         </Num>
                       </NumBox>
                     </NumDetail>
@@ -374,53 +387,36 @@ const ProductDetail = () => {
                 </InfoWrapper>
               </InfoContainer>
             </Wrapper2>
-            <div>
-              <div>
+            <DescriptionContainer>
+              <section>
+                <ul>
+                  <li>상품 정보</li>
+                  <li>상품 문의</li>
+                </ul>
                 <div>
-                  <h1>상품 정보</h1>
-                </div>
+                  <div>
+                    <h1>상품 정보</h1>
+                  </div>
 
-                <div>
-                  <p>{product?.description}</p>
+                  <div>
+                    <p>{product?.description}</p>
+                  </div>
                 </div>
-              </div>
-              <div>
                 <div>
-                  <h1>상품 문의</h1>
-                </div>
+                  <div>
+                    <h1>상품 문의</h1>
+                  </div>
 
-                <div>
-                  <form>
-                    <input placeholder="상품문의 입력" />
-                    <button>등록</button>
-                  </form>
-                </div>
-              </div>
-              <div>
-                <div>
                   <div>
-                    <h1>상점정보</h1>
-                  </div>
-                  <div>
-                    <Btn
-                      style={{ backgroundColor: "red", color: "white" }}
-                      onClick={handleFollow}
-                    >
-                      팔로우 하기
-                    </Btn>
-                  </div>
-                  <div></div>
-                  <div></div>
-                  <div>
-                    <h1>상점후기</h1>
+                    <form>
+                      <input placeholder="상품문의 입력" />
+                      <button>등록</button>
+                    </form>
                   </div>
                 </div>
-                <div>
-                  <button>연락하기</button>
-                  <button>바로구매</button>
-                </div>
-              </div>
-            </div>
+              </section>
+              <ShopInfo shop={product?.owner} />
+            </DescriptionContainer>
           </ContainerWidth>
         </Container>
       </Main>

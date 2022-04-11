@@ -26,4 +26,13 @@ module.exports = function (app) {
       changeOrigin: true, // cross Origin 가능하게.
     })
   );
+
+  app.use(
+    "/commentapi",
+    // localhost:9000/commentapi
+    createProxyMiddleware({
+      target: "http://localhost:9000", // 서버의 포트를 여기에 작성해주면됨.
+      changeOrigin: true, // cross Origin 가능하게.
+    })
+  );
 };

@@ -11,6 +11,7 @@ const Btn = styled.button`
   line-height: 56px;
   text-align: center;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 const Form = styled.form`

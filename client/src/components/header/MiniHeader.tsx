@@ -131,16 +131,18 @@ const MiniHeader = () => {
         .then((data) => setUser(data));
     }
   }, []);
+
   const onClick = () => {
     BtnFn((prev) => !prev);
   };
+
   const LoggedOut = () => {
     removeCookie("user");
     setIsLoggedIn(false);
     alert("로그아웃이 완료되었습니다.");
     navigate("/");
   };
-  console.log(cookies);
+
   return (
     <Container>
       <LeftMenu>
@@ -155,9 +157,7 @@ const MiniHeader = () => {
       </LeftMenu>
       <RightMenu>
         {isLoggedIn ? (
-          <>
-            <LogInBtn onClick={LoggedOut}>로그아웃</LogInBtn>
-          </>
+          <LogInBtn onClick={LoggedOut}>로그아웃</LogInBtn>
         ) : (
           <>
             <LogInBtn>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IProducts } from "../interface";
+import { IProduct } from "../interface";
 import ProductList from "./ProductList";
 
 const ProductContainer = styled.div`
@@ -12,7 +12,7 @@ const ProductContainer = styled.div`
 `;
 
 const TodayProducts = () => {
-  const [products, setProducts] = useState<IProducts[]>();
+  const [products, setProducts] = useState<IProduct[]>();
 
   useEffect(() => {
     fetch(`/productapi/showlist`)

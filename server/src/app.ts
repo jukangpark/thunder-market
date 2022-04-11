@@ -20,6 +20,7 @@ import cookieParser from "cookie-parser";
 import apiRouter from "./routers/apiRouter";
 import productRouter from "./routers/productRouter";
 import userRouter from "./routers/userRouter";
+import commentRouter from "./routers/commentRouter";
 
 const logger = morgan("dev");
 
@@ -37,6 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", apiRouter);
 app.use("/productapi", productRouter);
 app.use("/user", userRouter);
+app.use("/commentapi", commentRouter);
 
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/build/index.html");

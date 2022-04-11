@@ -16,6 +16,8 @@ const productSchema = new mongoose.Schema({
   delivery: { type: Boolean, required: true },
   description: { type: String, required: true },
   hashtags: { type: String, trim: true },
+  createdAt: { type: Date, required: true, default: Date.now },
+  state: { type: String, default: "판매중" },
 });
 
 // image 는 여러개가 될 수 있기 때문에

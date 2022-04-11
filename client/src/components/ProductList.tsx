@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IProducts } from "../interface";
+import { IProduct } from "../interface";
 import {
   Description,
   ImgBox,
@@ -14,7 +14,7 @@ import {
 } from "./commonStyle/ProductStyle";
 
 interface IProps {
-  products: IProducts[] | undefined;
+  products: IProduct[] | undefined;
 }
 
 const ProductList = ({ products }: IProps) => {

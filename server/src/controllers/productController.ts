@@ -67,16 +67,32 @@ export const getProductDetail = async (req: any, res: Response) => {
   const { id } = req.params;
   const product = await Product.findById(id).populate("owner");
 
+  product.meta.views++; // 조회수 저장하기.
+  product.save();
+
   return res.send(product);
 };
 
 export const addFavorite = async (req: Request, res: Response) => {
   const { user_id } = res.locals.user;
   const { id } = req.params;
-  const user = await User.findById(user_id);
 
   const product = await Product.findById(id);
-  user.favorites.push(product);
+
+  if (user_id === String(product.owner)) {
+    return res.send({
+      message: "내가 올린 상품은 찜하기 목록에 등록할 수 없습니다.",
+    });
+  }
+  const user = await User.findById(user_id);
+
+  if (user.favorites.includes(id)) {
+    return res.send({
+      message: "해당 상품은 이미 찜하기 목록에 등록되어있습니다.",
+    });
+  }
+
+  user.favorites.push(id);
 
   await user.save();
 

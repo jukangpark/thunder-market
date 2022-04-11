@@ -6,11 +6,12 @@ const userSchema = new mongoose.Schema({
   profileImageUrl: String,
   password: { type: String },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-  reviews: [{ type: mongoose.Schema.Types.ObjectId }],
-  followings: [{ type: Object }],
-  followers: [{ type: Object }],
-  comments: [{ type: mongoose.Schema.Types.ObjectId }],
-  favorites: [{ type: Object }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  followings: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+  createdAt: { type: Date, required: true, default: Date.now },
 });
 
 userSchema.pre("save", async function () {
