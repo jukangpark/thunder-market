@@ -29,6 +29,7 @@ time, mark, audio, video {
   letter-spacing: -0.5px;
   direction: ltr;
   -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -40,9 +41,8 @@ body {
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
   min-width: 1236px;
-  box-sizing: border-box;
 }
-ol, ul {
+ol, ul, li {
 	list-style: none;
 }
 blockquote, q {

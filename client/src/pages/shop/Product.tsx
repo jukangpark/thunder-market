@@ -15,6 +15,7 @@ const ContentBlock = styled.div`
     display: flex;
     -webkit-box-pack: justify;
     justify-content: space-between;
+    font-weight: 600;
     > div > span {
       color: ${(props) => props.theme.accentColor};
     }

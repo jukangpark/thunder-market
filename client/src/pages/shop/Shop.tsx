@@ -232,7 +232,6 @@ const Shop = () => {
     <Wrapper>
       <MiniHeader />
       <Header />
-      <SideMenu />
       <Container>
         <ShopWrapper>
           <div>

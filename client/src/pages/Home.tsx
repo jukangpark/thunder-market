@@ -27,7 +27,6 @@ const Home = () => {
       <MiniHeader />
       <Header />
       <MainSlide />
-      <SideMenu />
       <Banner />
       <TodayProducts />
       <Footer />

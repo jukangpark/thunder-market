@@ -7,6 +7,7 @@ export const ShopHeader = styled.div`
     display: flex;
     -webkit-box-pack: justify;
     justify-content: space-between;
+    font-weight: 600;
 `
 export const Title = styled.div`
     span {

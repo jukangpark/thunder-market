@@ -35,7 +35,11 @@ export interface IUser {
 export interface IComment {
   text: string;
   createdAt: string;
-  owner: string;
+  owner: {
+    comments: string;
+    email: string;
+    _id: string;
+  }
 }
 
 export interface IFormData {

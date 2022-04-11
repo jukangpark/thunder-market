@@ -302,7 +302,6 @@ const ProductDetail = () => {
       <Main>
         <MiniHeader />
         <Header />
-        <SideMenu />
         <Container>
           <ContainerWidth>
             <Wrapper2>
