@@ -8,12 +8,13 @@ import MiniHeader from "../components/header/MiniHeader";
 import Header from "../components/header/Header";
 import MainSlide from "../components/slide/MainSlide";
 import TodayProducts from "../components/TodayProducts";
-import SideMenu from "../components/SideMenu";
 import Footer from "../components/Footer";
 
 const Home = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+
+  // 로그인 처리 구조 자체를 바꿔줘야할듯..
 
   useEffect(() => {
     const user = cookies.user;

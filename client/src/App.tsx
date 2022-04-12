@@ -2,8 +2,10 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { darkTheme, lightTheme } from "./theme";
-import { useRecoilValue } from "recoil";
-import { isDarkState } from "./atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { isDarkState, isLoggedInState } from "./atoms";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -74,6 +76,17 @@ button {
 const App = () => {
   const isDark = useRecoilValue(isDarkState);
 
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  // const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+
+  // 로그인 처리 구조 자체를 바꿔줘야할듯..
+
+  const user = cookies.user;
+  const isLoggedIn = Boolean(user);
+
+  // If you are using functional components you could wrap the setState call into useEffect.
+  // 따라서 이렇게 하면 warning 떠요.
+
   return (
     <>
       <ThemeProvider theme={isDark ? lightTheme : darkTheme}>
@@ -83,7 +96,7 @@ const App = () => {
           </Helmet>
         </HelmetProvider>
         <GlobalStyle />
-        <Router />
+        <Router isLoggedIn={isLoggedIn} />
       </ThemeProvider>
     </>
   );

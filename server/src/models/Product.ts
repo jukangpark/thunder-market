@@ -6,6 +6,7 @@ const productSchema = new mongoose.Schema({
   categories: { type: String, required: true },
   meta: {
     views: { type: Number, default: 0 },
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   location: { type: String, required: true },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
