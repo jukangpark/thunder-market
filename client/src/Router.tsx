@@ -74,5 +74,5 @@ const Router = ({ isLoggedIn }: IProps) => {
     </Routes>
   );
 };
-
+// .
 export default Router;
