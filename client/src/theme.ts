@@ -8,7 +8,7 @@ const size = {
 export const darkTheme: DefaultTheme = {
   bgColor: "rgb(255, 255, 255)",
   textColor: "rgb(33, 33, 33)",
-  btnColor: "rgb(102, 102, 102)",
+  btnColor: "rgb(136, 136, 136)",
   accentColor: "rgb(247, 47, 51)",
   mobile: `(max-width: ${size.mobile}px)`,
   tablet: `(min-width: ${size.mobile + 1}px) and (max-width: ${size.tablet}px)`,

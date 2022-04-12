@@ -11,15 +11,15 @@ import TodayProducts from "../components/TodayProducts";
 import Footer from "../components/Footer";
 
 const Home = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  // const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  // const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
 
-  useEffect(() => {
-    const user = cookies.user;
-    if (user) {
-      setIsLoggedIn(true);
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   const user = cookies.user;
+  //   if (user) {
+  //     setIsLoggedIn(true);
+  //   }
+  // }, [isLoggedIn]);
 
   return (
     <Wrapper>

@@ -133,8 +133,6 @@ const MiniHeader = () => {
     }
   }, []);
 
-  console.log(user?.username);
-
   const onClick = () => {
     BtnFn((prev) => !prev);
   };

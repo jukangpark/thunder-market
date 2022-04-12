@@ -89,6 +89,7 @@ export const getUserInfo = async (req: Request, res: Response) => {
     followers,
     _id,
     username,
+    introduction,
   } = findedUser; // user email, products 조회
 
   const userInfo = {
@@ -101,6 +102,7 @@ export const getUserInfo = async (req: Request, res: Response) => {
     followers,
     _id,
     username,
+    introduction,
   };
   return res.send(userInfo);
 };

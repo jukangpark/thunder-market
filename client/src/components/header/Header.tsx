@@ -132,11 +132,12 @@ const MenuB = styled.b`
   font-weight: bolder;
 `;
 const Header = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
 
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [user, setUser] = useState<IUser>();
 
+  const isLoggedIn = Boolean(cookies.user);
+  
   useEffect(() => {
     if (cookies.user) {
       fetch("/user/info")

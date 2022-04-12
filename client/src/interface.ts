@@ -19,7 +19,7 @@ export interface IProduct {
   price: number;
   _id: string;
   owner: IUser;
-  createdAt: String;
+  createdAt: string;
   state: string;
 }
 
