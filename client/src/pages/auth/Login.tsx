@@ -1,6 +1,5 @@
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import {
   Wrapper,
   Btn,
@@ -13,7 +12,7 @@ import MiniHeader from "../../components/header/MiniHeader";
 import { IFormData } from "../../interface";
 
 const Login = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -39,7 +38,7 @@ const Login = () => {
       .then((data) => {
         alert(data.message);
         if (data.result === "ok") {
-          navigate("/");
+          window.location.replace("/");
         }
       });
   };

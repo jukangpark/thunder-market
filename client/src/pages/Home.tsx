@@ -14,8 +14,6 @@ const Home = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
 
-  // 로그인 처리 구조 자체를 바꿔줘야할듯..
-
   useEffect(() => {
     const user = cookies.user;
     if (user) {
