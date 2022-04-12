@@ -12,6 +12,7 @@ export interface IProduct {
   location: string;
   meta: {
     views: number;
+    favorites: string[];
   };
   name: string;
   newProduct: string;

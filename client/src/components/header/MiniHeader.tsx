@@ -132,6 +132,8 @@ const MiniHeader = () => {
     }
   }, []);
 
+  console.log(user?.username);
+
   const onClick = () => {
     BtnFn((prev) => !prev);
   };
@@ -157,7 +159,10 @@ const MiniHeader = () => {
       </LeftMenu>
       <RightMenu>
         {isLoggedIn ? (
-          <LogInBtn onClick={LoggedOut}>로그아웃</LogInBtn>
+          <>
+            <Link to={`/shop/${user?._id}/products`}>{user?.username}</Link>
+            <LogInBtn onClick={LoggedOut}>로그아웃</LogInBtn>
+          </>
         ) : (
           <>
             <LogInBtn>

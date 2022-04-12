@@ -92,9 +92,11 @@ export const addFavorite = async (req: Request, res: Response) => {
     });
   }
 
+  product.meta.favorites.push(id);
   user.favorites.push(id);
 
   await user.save();
+  await product.save();
 
   return res.send({ message: "정상적으로 찜하기 목록에 등록되었습니다." });
 };
