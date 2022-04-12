@@ -15,19 +15,23 @@ const Container = styled.div`
   justify-content: center;
   background-color: ${(props) => props.theme.bgColor};
 `;
+
 const ContainerWidth = styled.div`
   width: 1024px;
 `;
+
 const Wrapper2 = styled.div`
   display: flex;
   padding: 30px 0;
 `;
+
 const ImgWrapper = styled.div`
   border: 1px solid rgb(238, 238, 238);
   position: relative;
   width: 100%;
   height: 100%;
 `;
+
 const ImgBox = styled.div`
   width: 430px;
   height: 430px;

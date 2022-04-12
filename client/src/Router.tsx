@@ -5,8 +5,6 @@ import Upload from "./pages/products/Upload";
 import Login from "./pages/auth/Login";
 import ProductDetail from "./pages/ProductDetail";
 import Shop from "./pages/shop/Shop";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { isLoggedInState } from "./atoms";
 import Products from "./pages/products/Products";
 import ProductManage from "./pages/products/Manage";
 import Purchases from "./pages/products/Purchases";
@@ -19,29 +17,11 @@ import Follower from "./pages/shop/Follower";
 import Sales from "./pages/products/Sales";
 import Talk from "./pages/talk/Talk";
 import { useCookies } from "react-cookie";
-import { useEffect } from "react";
 
-interface IProps {
-  isLoggedIn: boolean;
-}
+const Router = () => {
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
-const Router = ({ isLoggedIn }: IProps) => {
-  // const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-  // const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
-
-  // 로그인 처리 구조 자체를 바꿔줘야할듯..
-
-  // useEffect(() => {
-  //   const user = cookies.user;
-  //   if (user) {
-  //     setIsLoggedIn(true);
-  //   }
-  // }, [isLoggedIn]);
-
-  // console.log(isLoggedIn);
-  // 로그인이 되어있는대도 여기서 false 가 나옵니다.
-  // 이유가 뭘까요?
-  // 그래서 route 가 loggedIn ? 안에 정의되어있는대도 화면이 안나옴 .. 하
+  const isLoggedIn = Boolean(cookies.user);
 
   return (
     <Routes>

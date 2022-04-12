@@ -118,11 +118,12 @@ const ToggleSwitch = styled.span`
   }
 `;
 const MiniHeader = () => {
-  const navigate = useNavigate();
   const BtnFn = useSetRecoilState(isDarkState);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [user, setUser] = useState<IUser>();
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  // const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+
+  const isLoggedIn = Boolean(cookies.user);
 
   useEffect(() => {
     if (cookies.user) {
@@ -140,9 +141,10 @@ const MiniHeader = () => {
 
   const LoggedOut = () => {
     removeCookie("user");
-    setIsLoggedIn(false);
+    //await 안해주면 로그아웃 처리 안된 상태에서 setIsloggedIn 이 (false) 가됨.
+    // setIsLoggedIn(false);
     alert("로그아웃이 완료되었습니다.");
-    navigate("/");
+    window.location.replace("/"); // 홈화면으로 갔을 때 새로고침 해서 cookie에 있는 user 값 사라지게 갱신
   };
 
   return (
@@ -164,12 +166,10 @@ const MiniHeader = () => {
             <LogInBtn onClick={LoggedOut}>로그아웃</LogInBtn>
           </>
         ) : (
-          <>
-            <LogInBtn>
-              <Link to="/login">로그인</Link>
-              <Link to="/join">회원 가입</Link>
-            </LogInBtn>
-          </>
+          <LogInBtn>
+            <Link to="/login">로그인</Link>
+            <Link to="/join">회원 가입</Link>
+          </LogInBtn>
         )}
         <Link to={isLoggedIn ? `/shop/${user?._id}/products` : `/login`}>
           내 상점
