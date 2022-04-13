@@ -219,8 +219,12 @@ const SideMenu = () => {
             <CurrentNum>{products?.length}</CurrentNum>
           </Current>
           <div>
-            {products?.map((x) => (
-              <Link to={`/product/${x._id}`} style={{ display: "block" }}>
+            {products?.map((x, index) => (
+              <Link
+                key={index}
+                to={`/product/${x._id}`}
+                style={{ display: "block" }}
+              >
                 <ImgBox imageUrl={x.imageUrl} />
               </Link>
             ))}
