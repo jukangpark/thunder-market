@@ -278,12 +278,30 @@ const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  console.log(product);
-
   useEffect(() => {
     fetch(`/productapi/${id}`)
       .then((res) => res.json())
-      .then((data) => setProduct(data));
+      .then((data) => {
+        setProduct(data);
+
+        const oldProductsString =
+          window.localStorage.getItem("products") || "[]";
+
+        const oldProductArray = JSON.parse(oldProductsString);
+
+        let newArray = [];
+        newArray = oldProductArray.filter((x: any) => x._id !== data._id);
+
+        window.localStorage.setItem(
+          "products",
+          JSON.stringify([
+            ...newArray,
+            { name: data.name, imageUrl: data.imageUrl, _id: data._id },
+          ])
+        );
+
+        // oldProducts.push(data);
+      });
   }, []);
 
   const addFavorite = () => {
