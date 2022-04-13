@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link, useParams } from "react-router-dom";
+import { RecoilBridge } from "recoil";
 import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
 import ProductList from "../../components/ProductList";
@@ -86,6 +87,7 @@ const Sort = styled.div`
     position: relative;
     display: block;
     cursor: pointer;
+    color: ${(props) => props.theme.textColor};
     ::after {
       content: "";
       position: absolute;
@@ -94,8 +96,8 @@ const Sort = styled.div`
       width: 1px;
       height: 12px;
       border-right: 1px solid rgb(204, 204, 204);
+      }
     }
-  }
   a:last-child {
     margin-right: 0;
     ::after {
@@ -110,12 +112,16 @@ const Product = () => {
   const { id } = useParams();
   const [cookies] = useCookies(["user"]);
   const [user, setUser] = useState<IUser>();
+  const [recent, setRecent] = useState(true);
+  const [popular, setPopular] = useState(false);
+  const [low, setLow] = useState(false);
+  const [high, setHigh] = useState(false);
 
   useEffect(() => {
     fetch(`/user/${id}/products`)
       .then((res) => res.json())
       .then((data) => {
-        setProducts(data);
+        setProducts(data.sort(current("createdAt")));
         if (data.length === 0) {
           setEmpty(false);
         }
@@ -134,21 +140,47 @@ const Product = () => {
   };
   const lowPrice = () => {
     products?.sort(lowCompare("price"));
+    setLow(true);
+    setRecent(false);
+    setPopular(false);
+    setHigh(false);
   };
+
   const highCompare = (price: string) => {
     return (a: any, b: any) =>
       a[price] < b[price] ? 1 : a[price] > b[price] ? -1 : 0;
   };
   const highPrice = () => {
     products?.sort(highCompare("price"));
+    setLow(false);
+    setRecent(false);
+    setPopular(false);
+    setHigh(true);
   };
+
   const popularityCompare = (views: string) => {
     return (a: any, b: any) =>
       a[views] < b[views] ? 1 : a[views] > b[views] ? -1 : 0;
   };
   const popularity = () => {
     products?.sort(popularityCompare("views"));
+    setLow(false);
+    setRecent(false);
+    setPopular(true);
+    setHigh(false);
   };
+
+  const current = (createdAt:string) => {
+    return (a: any, b:any) => a[createdAt] < b[createdAt] ? 1 : a[createdAt] > b[createdAt] ? -1 : 0;
+  }
+  const clickCurrent = () => {
+    products?.sort(current("createdAt"));
+    setLow(false);
+    setRecent(true);
+    setPopular(false);
+    setHigh(false);
+  }
+
   return (
     <Wrapper>
       <ContentBlock>
@@ -176,14 +208,32 @@ const Product = () => {
                 <div>{products?.length}</div>
               </Gross>
               <Sort>
-                <Link to={`/shop/${user?._id}/products`}>최신순</Link>
-                <Link to={`/shop/${user?._id}/products`} onClick={popularity}>
+                <Link 
+                to={`/shop/${user?._id}/products`}
+                onClick={clickCurrent}
+                style={recent ? {color:"rgb(247, 51, 47)", fontWeight:"600"} : {color: "rgb(136, 136, 136)"}}
+                >
+                  최신순
+                </Link>
+                <Link
+                to={`/shop/${user?._id}/products`}
+                onClick={popularity}
+                style={popular ? {color:"rgb(247, 51, 47)", fontWeight:"600"} : {color: "rgb(136, 136, 136)"}}
+                >
                   인기순
                 </Link>
-                <Link to={`/shop/${user?._id}/products`} onClick={lowPrice}>
+                <Link
+                to={`/shop/${user?._id}/products`}
+                onClick={lowPrice}
+                style={low ? {color:"rgb(247, 51, 47)", fontWeight:"600"} : {color: "rgb(136, 136, 136)"}}
+                >
                   저가순
                 </Link>
-                <Link to={`/shop/${user?._id}/products`} onClick={highPrice}>
+                <Link
+                to={`/shop/${user?._id}/products`}
+                onClick={highPrice}
+                style={high ? {color:"rgb(247, 51, 47)", fontWeight:"600"} : {color: "rgb(136, 136, 136)"}}
+                >
                   고가순
                 </Link>
               </Sort>

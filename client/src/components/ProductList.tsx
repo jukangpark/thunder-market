@@ -1,3 +1,4 @@
+import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import { IProduct } from "../interface";
 import {
@@ -11,6 +12,7 @@ import {
   ProductImage,
   ProductInfo,
   ProductsWrapper,
+  Time,
 } from "./commonStyle/ProductStyle";
 
 interface IProps {
@@ -30,13 +32,16 @@ const ProductList = ({ products }: IProps) => {
               />
             </ImgBox>
             <ProductInfo>
-              <Description>{product.name}</Description>
+              <Description>{product.name.slice(0, 15)}</Description>
               <PriceAndTime>
                 <Price>
                   {product.price
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </Price>
+                <Time>
+                <Moment fromNow>{product.createdAt}</Moment>
+                </Time>
               </PriceAndTime>
             </ProductInfo>
             <LocationInfo>

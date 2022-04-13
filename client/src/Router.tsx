@@ -17,6 +17,7 @@ import Follower from "./pages/shop/Follower";
 import Sales from "./pages/products/Sales";
 import Talk from "./pages/talk/Talk";
 import { useCookies } from "react-cookie";
+import Profile from "./pages/shop/Profile";
 
 const Router = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);

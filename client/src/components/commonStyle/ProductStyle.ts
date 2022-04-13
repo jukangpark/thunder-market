@@ -59,7 +59,10 @@ export const Price = styled.div`
     margin-left: 3px;
   }
 `;
-
+export const Time = styled.div`
+  font-size: 12px;
+  color: ${(props) => props.theme.btnColor};
+`
 export const LocationInfo = styled.div`
   height: 40px;
   border-top: 1px solid rgb(238, 238, 238);

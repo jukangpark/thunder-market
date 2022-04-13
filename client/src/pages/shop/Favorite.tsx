@@ -191,8 +191,8 @@ const LocationImg = styled.img`
 const Favorite = () => {
   const { id } = useParams();
   const [favorites, setFavorites] = useState<IProduct[]>();
-  const [AllChecked, setAllChecked] = useState<boolean>(false);
-  const [checked, setChecked] = useState<boolean>(false);
+  const [AllChecked, setAllChecked] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     fetch(`/user/${id}/favorites`)

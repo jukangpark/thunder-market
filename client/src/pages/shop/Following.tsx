@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ShopHeader, Title } from "../../components/commonStyle/LinkHeader";
+import { ProductImage } from "../../components/commonStyle/ProductStyle";
 import { IUser } from "../../interface";
+
+interface IImg {
+  imageUrl: string
+}
 
 const Container = styled.div`
   padding-bottom: 100px;
@@ -89,15 +94,17 @@ const ProductBox = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  gap: 10px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  > a {
+  a {
     margin-right: 18px;
   }
 `
-const ProductImg = styled.img`
+const ProductImg = styled.div<IImg>`
   width: 190px;
   height: 190px;
+  background-image: url(${(props) => props.imageUrl});
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 `
 const Following = () => {
   const [followings, setFollowings] = useState<IUser[]>();
@@ -109,7 +116,6 @@ const Following = () => {
       .then((data) => setFollowings(data));
   }, []);
 
-  console.log("팔로잉배열?", followings);
   return (
     <Container>
       <ShopHeader>
@@ -138,13 +144,15 @@ const Following = () => {
                 <FollowingBox>
                   <FollowingImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAcCAYAAAAX4C3rAAAAAXNSR0IArs4c6QAAAyRJREFUWAntVs9LFHEUf9/vqpDpbLegIDr0i4pOHTp0UjQikCwS1p1dpUSQlDAIii57CLpEhBehJHQbtz+goCy0Q7cOHaKI7MehU3WI3VlNXN15vTfTyLDOd2fWUezgwvL9znufz/t+5vu+3/dGQMhfsafniFWy+kBgOyLuYZoQ4jugeCEb5FjzxMSHkKHWBBNBLMxkGszZz3dJ1gAJlH54EmwB4Kh2YP9VkcmU/DBRbb4Lu0FZZOHTl2eIcFklkrHsY4yNJY7Ljzri8PA2N0ZVoc5OYosLDh6xxeEEI4MQBV1PFH7++vgnnd7NWKVQPpOc7qCAq/1iwOGu9oS1mAm9DywwBIhdS8t4lHlKoXxxqqVbtShz7EunAgTYC936FQS8DwhLQshz8dyjKaYohfLtDoipdvtwsb+/UU1wPPlE8ia96D0qJ4sQg7PaZPapy1EKJYJdglxgLWMl10wmO83i/Ld8KnVcFcdMpm6T7xb9F6i2dMQN47kXqxTqBUWdoyUuIMBOKOO0mUif9MajlxKFRGrEsqzrtJPzMRE7s8MwXnoxPFcKtYt5JTrkcyVX6+xI0cUwqI5plrCm8rrexqGo/MlCd3oMwRqixzkp4XRzLvvKbxmlUO44foRQtgqu6Ooqawf39dCOjZHYRlGGJ8WEfp5KWQ7Aukh2U0KsXTOM16r4ys5kt8yl8jtKjfplfKJyl5L1sWN+LZXTTGdxhMbBFaoQeQHyVDyXfbNi85koRTgL4agPJ8CEo34imUQvgfGcMUSTO/YzwO96Ca1BIhmrFMpO7t0Ufobn4X5ixuFUR+/IGdcIcSMWEy3bDeNtdbTjVabeJf8vHyWBQl3Bm/2Z5+rYGtdrB1ZSz8XXnP06SHUuRR8Fh2iBpoiLzNEtf08X/YE2OfkwYiywhS709u4tlZYfU307ETWgL1+I6bqGOr1pfPyHrz+EUfJObqhIFoHYWl5cznLBD6HJF2Kne8N20rMkHae2op7u85hqmko+kzUxIoDRwktrpct/F2et/Jp4lPjDNRE8YG6hUW+3J1zAFLE5AKF0V+31StYmOLaErvem/wV6ElIsklNjOAAAAABJRU5ErkJggg==" />
                   팔로잉
-                  {/* 버튼 클릭 시 팔로잉 하는 기능 추가 */}
+                  {/* 버튼 클릭 시 팔로잉 취소하는 기능 추가 */}
                 </FollowingBox>
               </ProfileBox>
               <ProductBox>
-                <Link to={`/product/${user._id}`}>
-                  <ProductImg src={`${user.products}`} />
-                </Link>
+                {user.products?.slice(0, 3).map((img) => (
+                  <Link to={`/product/${img._id}`} key={img._id}>
+                    <ProductImg imageUrl={`${img.imageUrl.replaceAll("\\", "/")}`} />
+                  </Link>
+                ))}
               </ProductBox>
             </Wrapper>
           )
