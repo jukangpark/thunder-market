@@ -298,6 +298,7 @@ const Shop = () => {
     file: null,
     profileImage: "",
 })
+  const [intro, setIntro] = useState(false);
 
   useEffect(() => {
     fetch("/user/info")
@@ -353,11 +354,11 @@ const handleProfile = (event: any) => {
             <ProFileForm
                 method="POST"
                 action="/user/profile/image"
-                encType="multipart/from-data"
+                encType="multipart/form-data"
             >
                 {profile.profileImage ? (
-                    <ProfileLabel
-                        style={{ backgroundImage: `url(${profile?.profileImage})` }}
+                    <ProfileLabel 
+                        style={{ backgroundImage: `url(${profile?.profileImage.replaceAll("\\", "/")})` }}
                         htmlFor="profileImage"
                     />
                 ) : (
@@ -395,7 +396,7 @@ const handleProfile = (event: any) => {
                     <div>
                       {user?.profileImageUrl ? (
                         <ProfileImage
-                          style={{ backgroundImage: `url(${user?.profileImageUrl})` }}
+                          style={{ backgroundImage: `url(${user?.profileImageUrl.replaceAll("\\", "/")})` }}
                           onClick={onClick}
                         />
                       ) : (
@@ -451,7 +452,9 @@ const handleProfile = (event: any) => {
                 </div>
                 <div></div>
                 <div>
-                  <IntroModify>소개글 수정</IntroModify>
+                  {intro ? null : (
+                    <IntroModify>소개글 수정</IntroModify>
+                  )}
                 </div>
               </MyInfo>
             </div>
