@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  changeState,
   getProductDetail,
   getProductList,
   upload,
@@ -22,5 +23,7 @@ productRouter
 productRouter.route("/:id").get(getProductDetail);
 
 productRouter.route("/:id/addFavorites").get(verifyToken, addFavorite);
+
+productRouter.route("/changeState").post(verifyToken, changeState);
 
 export default productRouter;

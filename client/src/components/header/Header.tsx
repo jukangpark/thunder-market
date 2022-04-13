@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { isLoggedInState } from "../../atoms";
 import { IUser } from "../../interface";
 import SideMenu from "../SideMenu";
 
@@ -131,10 +129,11 @@ const MenuB = styled.b`
   color: ${(props) => props.theme.textColor};
   font-weight: bolder;
 `;
-const Header = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
 
+const Header = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const isLoggedIn = Boolean(cookies.user);
+
   const [user, setUser] = useState<IUser>();
 
   useEffect(() => {

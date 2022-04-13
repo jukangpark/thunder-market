@@ -7,7 +7,7 @@ import Comment from "../models/Comment";
 // User 생성
 export const join = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log(req.body);
+
   const exists = await User.findOne({ email });
 
   if (exists) {
@@ -31,6 +31,8 @@ export const join = async (req: Request, res: Response) => {
       email,
       password,
       username: trimEmail(email),
+      // introduction: "",
+      // profileImageUrl: "",
     });
   } catch (error) {
     return res.status(400).send({ message: "에러가 발생했습니다." }).end();
@@ -89,6 +91,9 @@ export const getUserInfo = async (req: Request, res: Response) => {
     followers,
     _id,
     username,
+    introduction,
+    profileImageUrl,
+    createdAt,
   } = findedUser; // user email, products 조회
 
   const userInfo = {
@@ -101,6 +106,9 @@ export const getUserInfo = async (req: Request, res: Response) => {
     followers,
     _id,
     username,
+    introduction,
+    profileImageUrl,
+    createdAt,
   };
   return res.send(userInfo);
 };
@@ -146,7 +154,11 @@ export const getUserReviews = async (req: Request, res: Response) => {
 // 5. 팔로잉 (내가 팔로잉 하는 유저)
 export const getUserFollowings = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await User.findById(id).populate("followings");
+  const user = await User.findById(id).populate({
+    path: "followings",
+    populate: { path: "products" },
+  });
+
   return res.send(user.followings);
 };
 

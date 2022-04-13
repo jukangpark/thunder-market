@@ -227,6 +227,8 @@ const Shop = () => {
       .then((data) => setUser(data));
   }, []);
 
+  console.log(user);
+
   return (
     <Wrapper>
       <MiniHeader />

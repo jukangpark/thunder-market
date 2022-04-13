@@ -34,6 +34,7 @@ export interface IUser {
   profileImageUrl: string;
   introduction: string;
   username: string;
+  createAt: number;
 }
 
 export interface IComment {
