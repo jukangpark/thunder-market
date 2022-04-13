@@ -144,9 +144,14 @@ const ProductManage = () => {
 
     if (event.currentTarget.value === "삭제") {
       if (window.confirm("정말 삭제하시겠습니까?")) {
-        handleChangeStateApi(productid, state);
+        return handleChangeStateApi(productid, state); // 여기서 코드 빠져나오기.
+      } else {
+        return; // window.confirm 에서 취소를 눌렀을 때 함수 종료.
       }
     }
+
+    handleChangeStateApi(productid, state);
+    // 위에서 삭제하고 return  하지않으면 에러뜸.
   };
 
   useEffect(() => {
@@ -206,6 +211,7 @@ const ProductManage = () => {
                         name="state"
                         onChange={handleChange}
                         data-productid={product._id}
+                        value={product.state}
                       >
                         {/* value={product.state} */}
                         <option value="판매 중">판매 중</option>

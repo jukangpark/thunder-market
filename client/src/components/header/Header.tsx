@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IUser } from "../../interface";
 import SideMenu from "../SideMenu";
@@ -132,12 +132,30 @@ const MenuB = styled.b`
 
 const Header = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [keyword, setKeyword] = useState("");
   const isLoggedIn = Boolean(cookies.user);
 
   const [user, setUser] = useState<IUser>();
 
+  const navigate = useNavigate();
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (keyword === "") {
+      return alert("검색어를 입력해주세요");
+    }
+
+    navigate(`/search`, { state: { keyword } });
+    window.location.replace("/search"); // 홈화면으로 갔을 때 새로고침 해서 cookie에 있는 user 값 사라지게 갱신
+  };
+
+  const handleChange = (event: FormEvent<HTMLInputElement>) => {
+    setKeyword(event.currentTarget.value);
+  };
+
   useEffect(() => {
-    if (cookies.user) {
+    if (isLoggedIn) {
       fetch("/user/info")
         .then((res) => res.json())
         .then((data) => setUser(data));
@@ -154,10 +172,12 @@ const Header = () => {
 
           <InputWrapper>
             <InputBg>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <MainInput
+                  onChange={handleChange}
                   type="text"
                   placeholder="상품명, 지역명, @상점명 입력"
+                  value={keyword}
                 />
               </form>
             </InputBg>

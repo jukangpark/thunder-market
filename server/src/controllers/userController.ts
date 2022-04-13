@@ -180,13 +180,26 @@ export const postUserFollowings = async (req: Request, res: Response) => {
   }
 
   const targetUser = await User.findById(id); // 팔로우를 당한 유저
+  const clickFollowUser = await User.findById(user_id); // 팔로우를 클릭한 유저
 
   // follow 를 누른 유저가 이미 targetUser 를 팔로우가 하고 있는 경우.
   if (targetUser.followers.includes(user_id)) {
-    return res.send({ message: "해당 유저는 이미 팔로우 되어있습니다." });
-  }
+    const deletedArray = targetUser.followers.filter(
+      (x: any) => String(x) !== user_id
+    );
 
-  const clickFollowUser = await User.findById(user_id);
+    const deletedFollowingArray = clickFollowUser.followers.filter(
+      (x: any) => String(x) !== id
+    );
+
+    targetUser.followers = deletedArray;
+    clickFollowUser.followings = deletedFollowingArray;
+
+    await targetUser.save();
+    await clickFollowUser.save();
+
+    return res.send({ message: "해당 유저를 팔로우 취소 하였습니다." });
+  }
 
   targetUser.followers.push(user_id);
   clickFollowUser.followings.push(id);
