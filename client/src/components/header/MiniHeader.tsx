@@ -121,7 +121,6 @@ const MiniHeader = () => {
   const BtnFn = useSetRecoilState(isDarkState);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [user, setUser] = useState<IUser>();
-  // const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
 
   const isLoggedIn = Boolean(cookies.user);
 

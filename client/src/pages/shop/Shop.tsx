@@ -226,7 +226,9 @@ const Shop = () => {
       .then((res) => res.json())
       .then((data) => setUser(data));
   }, []);
-  console.log(user)
+
+  console.log(user);
+
   return (
     <Wrapper>
       <MiniHeader />

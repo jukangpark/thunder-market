@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useRecoilState } from "recoil";
-import { isLoggedInState } from "../atoms";
+// import { useEffect } from "react";
+// import { useCookies } from "react-cookie";
+// import { useRecoilState } from "recoil";
+// import { isLoggedInState } from "../atoms";
 import Banner from "../components/Banner";
 import { Wrapper } from "../components/commonStyle/fundamental";
 import MiniHeader from "../components/header/MiniHeader";

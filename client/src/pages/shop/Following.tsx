@@ -109,6 +109,7 @@ const Following = () => {
       .then((data) => setFollowings(data));
   }, []);
 
+  console.log("팔로잉배열?", followings);
   return (
     <Container>
       <ShopHeader>

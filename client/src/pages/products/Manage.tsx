@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IProduct } from "../../interface";
 import { Link } from "react-router-dom";
@@ -100,7 +100,7 @@ const TableContainer = styled.div`
           font-size: 17px;
           letter-spacing: 0.5px;
         }
-        select {
+        form > select {
           font-size: 17px;
           width: 110px;
           height: 48px;
@@ -116,12 +116,44 @@ const TableContainer = styled.div`
 const ProductManage = () => {
   const [products, setProducts] = useState<IProduct[]>();
 
+  const handleChangeStateApi = (productid: string, state: string) => {
+    fetch("/productapi/changeState", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productid,
+        state,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => alert(data.message));
+
+    // 상품의 상태 변경 혹은 삭제 후 products 상태 변경
+    fetch("/user/info")
+      .then((res) => res.json())
+      .then((data) => setProducts(data.products));
+  };
+
+  const handleChange = (event: React.FormEvent<HTMLSelectElement>) => {
+    const { productid } = event.currentTarget.dataset;
+    const { value: state } = event.currentTarget;
+
+    if (productid === undefined) return;
+
+    if (event.currentTarget.value === "삭제") {
+      if (window.confirm("정말 삭제하시겠습니까?")) {
+        handleChangeStateApi(productid, state);
+      }
+    }
+  };
+
   useEffect(() => {
     fetch("/user/info")
       .then((res) => res.json())
       .then((data) => setProducts(data.products));
   }, []);
-  console.log(products);
 
   return (
     <div>
@@ -169,12 +201,19 @@ const ProductManage = () => {
                     </Link>
                   </td>
                   <td style={{ width: "13%" }}>
-                    <select>
-                      <option>판매 중</option>
-                      <option>예약 중</option>
-                      <option>삭제</option>
-                      <option>판매완료</option>
-                    </select>
+                    <form>
+                      <select
+                        name="state"
+                        onChange={handleChange}
+                        data-productid={product._id}
+                      >
+                        {/* value={product.state} */}
+                        <option value="판매 중">판매 중</option>
+                        <option value="예약 중">예약 중</option>
+                        <option value="삭제">삭제</option>
+                        <option value="판매완료">판매완료</option>
+                      </select>
+                    </form>
                   </td>
                   <td style={{ width: "17%" }}>
                     <Link
