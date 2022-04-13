@@ -129,10 +129,6 @@ const MenuB = styled.b`
   color: ${(props) => props.theme.textColor};
   font-weight: bolder;
 `;
-<<<<<<< HEAD
-const Header = () => {
-=======
->>>>>>> products/manage/api
 
 const Header = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -140,8 +136,6 @@ const Header = () => {
 
   const [user, setUser] = useState<IUser>();
 
-  const isLoggedIn = Boolean(cookies.user);
-  
   useEffect(() => {
     if (cookies.user) {
       fetch("/user/info")
