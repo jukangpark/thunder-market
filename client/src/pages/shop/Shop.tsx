@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { FormEventHandler, useEffect, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
@@ -411,6 +411,7 @@ const Shop = () => {
       .then((res) => res.json())
       .then((data) => setUser(data));
   }
+
   const onSubmit = async () => {
     await fetch(`/user/${id}/introduction`, {
       method: "POST",
@@ -551,8 +552,6 @@ const Shop = () => {
                         {user?.introduction}
                       </textarea>
                       <button
-                        onClick={clickModify}
-                        type="button"
                       >확인</button>
                     </form>
                   </IntroductionModify>
