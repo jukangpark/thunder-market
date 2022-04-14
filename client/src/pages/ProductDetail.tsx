@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/header/Header";
 import MiniHeader from "../components/header/MiniHeader";
@@ -283,6 +283,10 @@ const ProductDetail = () => {
     fetch(`/productapi/${id}`)
       .then((res) => res.json())
       .then((data) => {
+        if (data.message === "해당 상품은 삭제되었습니다.") {
+          alert(data.message);
+          window.location.replace("/"); // 홈화면으로 갔을 때 새로고침 해서 cookie에 있는 user 값 사라지게 갱신
+        }
         setProduct(data);
 
         const oldProductsString =

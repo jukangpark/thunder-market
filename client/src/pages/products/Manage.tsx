@@ -144,6 +144,13 @@ const ProductManage = () => {
 
     if (event.currentTarget.value === "삭제") {
       if (window.confirm("정말 삭제하시겠습니까?")) {
+        const productsString = window.localStorage.getItem("products") || "[]";
+        const oldProducts = JSON.parse(productsString);
+        const editArray = oldProducts.filter(
+          (product: any) => product._id !== productid
+        );
+        window.localStorage.setItem("products", JSON.stringify(editArray));
+        // 최근본 상품에서 상품 찾아서 삭제해주기.
         return handleChangeStateApi(productid, state); // 여기서 코드 빠져나오기.
       } else {
         return; // window.confirm 에서 취소를 눌렀을 때 함수 종료.

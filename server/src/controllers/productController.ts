@@ -67,6 +67,10 @@ export const getProductDetail = async (req: any, res: Response) => {
   const { id } = req.params;
   const product = await Product.findById(id).populate("owner");
 
+  if (product === null) {
+    return res.send({ message: "해당 상품은 삭제되었습니다." });
+  }
+
   product.meta.views++; // 조회수 저장하기.
   product.save();
 
