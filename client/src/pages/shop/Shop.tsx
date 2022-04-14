@@ -233,7 +233,7 @@ const BgOverlay = styled.div`
   background: #000;
   opacity: 0.5;
   z-index: 0;
-`
+`;
 const ProfileBg = styled.div`
   position: absolute;
   background-size: cover;
@@ -337,7 +337,7 @@ const IntroductionModify = styled.div`
     background-color: rgb(250, 250, 250);
     color: rgb(136, 136, 136);
   }
-`
+`;
 
 const Shop = () => {
   const { id } = useParams();
@@ -351,13 +351,15 @@ const Shop = () => {
   });
 
   const clickModify = () => {
-    setIntro(!intro)
-  }
+    setIntro(!intro);
+  };
   useEffect(() => {
     fetch("/user/info")
       .then((res) => res.json())
       .then((data) => setUser(data));
   }, []);
+
+  console.log(user);
 
   const onClick = () => {
     setChange(true);
@@ -401,16 +403,16 @@ const Shop = () => {
 
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     const {
-      currentTarget: { value }
+      currentTarget: { value },
     } = event;
     setText(value);
-  }
+  };
 
   const fetchIntro = () => {
     fetch(`/user/${id}/introduction`)
       .then((res) => res.json())
       .then((data) => setUser(data));
-  }
+  };
   const onSubmit = async () => {
     await fetch(`/user/${id}/introduction`, {
       method: "POST",
@@ -418,12 +420,12 @@ const Shop = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        text
-      })
-    })
+        text,
+      }),
+    });
     setText("");
     fetchIntro();
-  }
+  };
   return (
     <Wrapper>
       {change ? (
@@ -437,7 +439,12 @@ const Shop = () => {
             >
               {profile.profileImage ? (
                 <ProfileLabel
-                  style={{ backgroundImage: `url(${profile?.profileImage.replaceAll("\\", "/")})` }}
+                  style={{
+                    backgroundImage: `url(${profile?.profileImage.replaceAll(
+                      "\\",
+                      "/"
+                    )})`,
+                  }}
                   htmlFor="profileImage"
                 />
               ) : (
@@ -479,7 +486,12 @@ const Shop = () => {
                     <div>
                       {user?.profileImageUrl ? (
                         <ProfileImage
-                          style={{ backgroundImage: `url(${user?.profileImageUrl.replaceAll("\\", "/")})` }}
+                          style={{
+                            backgroundImage: `url(${user?.profileImageUrl.replaceAll(
+                              "\\",
+                              "/"
+                            )})`,
+                          }}
                           onClick={onClick}
                         />
                       ) : (
@@ -518,7 +530,9 @@ const Shop = () => {
                   <TextBox>
                     <TextImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAfBJREFUSA3tU79rFFEQntkcuBesDF5pdyRFrjNaiJBgERA0pEh1P4yCC4rWFiH/gIWN1W4iIclZeKRIlS6gSZkUQQsbOwtBwUp2n4f3xm827LK32eICd90NHDvvm+/N9+bHMcGioHEkInfVH7Yx86ey155n2WlWTCQ/hMQZtojmY6ae67gVxxhaGpWIConQhBFzH1XYZQVGaWL5obbr3ihFNDcTLVLoN06KhICfdTdbt/IxE9SfG7/xLI93/ebtKGi+y+N6DoPGTwfD+iNbq26WIAcvr+AV1Z6V6SyuvhDVLNMFvEdSw6xrF/jIzUKfIcR7pvvvjXQ6E3EiEY6+/36NS5OY3yvZbk0ll8PNR3dI+DEe8eSvvzqT4JHfugF/HZOfMxtNL8E1p+ZWDdyJS3vLIovYxVM8WV82m5CB/QL2EcRrxDKvW6QxJg5R3eG5Lwvwr2bunID/DcI3QfxQ9t6vlzSIsr5YkRcIVFNy4ohch7uCRHHfUjiumB7k4PMwKgN/Tg8lLu3rdyR/Uk2ct7FQviMDn+NlyLOxUW12+DiLW2v95Ix1PcavnZzzX7Gyhs3VlU+tWAgi7tPdIGXBCf16KoR1/+p6/fE+blD3wOkTGi9DtkOX8gtnpIPvm8mlUhaTxzMq7ssA6Lh1AzSpmPIfjjO10v2iE7IAAAAASUVORK5CYII=" />
                     상점오픈일
-                    <Moment style={{ marginLeft: "5px" }} fromNow>{user?.createdAt}</Moment>
+                    <div>
+                      <Moment fromNow>{user?.createdAt}</Moment>
+                    </div>
                   </TextBox>
                   <TextBox>
                     <TextImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAQBJREFUSA1jZCASNOz/z3L34Z1aBkaGZLCW/wxzleVVmhscGf8QYwQLMYpAakCW/GdgqGMAElBQBxQDMethAvhoJnySKHIwnyALYhNDlkdiE28RkiZymMRbBIwTDAuwiWEogggQHUegiAfHCSy4oIkBh7kjQJgxdtHtUIZ/jJP+M/yXoIV/GRkYXzAw/c9joqUlIIeDPQD0CPGpjkLvMoG8BfYehQbh0g4LOkZcCkDiMQtuIwocfAqhcksSVHGaR8egI8Kl1FAy6iOyQ5HoQhVkA3qqIiVVjsYR2XE0woIOubBFZsPCD1kMmQ2TR6bxBx20ZAcbAmQjawSzCckjaQAAJL9HBV3GwxoAAAAASUVORK5CYII=" />
@@ -538,9 +552,7 @@ const Shop = () => {
                 </div>
                 {intro ? (
                   <IntroductionModify>
-                    <form
-                      onSubmit={onSubmit}
-                    >
+                    <form onSubmit={onSubmit}>
                       <textarea
                         name="text"
                         id="text"
@@ -550,18 +562,15 @@ const Shop = () => {
                       >
                         {user?.introduction}
                       </textarea>
-                      <button
-                        onClick={clickModify}
-                        type="button"
-                      >확인</button>
+                      <button onClick={clickModify} type="button">
+                        확인
+                      </button>
                     </form>
                   </IntroductionModify>
                 ) : (
                   <div>{user?.introduction}</div>
                 )}
-                {intro ? (
-                  null
-                ) : (
+                {intro ? null : (
                   <div>
                     <IntroModify onClick={clickModify}>소개글 수정</IntroModify>
                   </div>
@@ -571,12 +580,22 @@ const Shop = () => {
           </div>
           <div>
             <MenuBox>
-              <Link to="products">상품<b>{user?.products.length}</b></Link>
+              <Link to="products">
+                상품<b>{user?.products.length}</b>
+              </Link>
               <Link to="comments">상점문의</Link>
-              <Link to="favorites">찜<b>{user?.favorites.length}</b></Link>
-              <Link to="reviews">상점후기<b>{user?.reviews.length}</b></Link>
-              <Link to="followings">팔로잉<b>{user?.followings.length}</b></Link>
-              <Link to="followers">팔로워<b>{user?.followers.length}</b></Link>
+              <Link to="favorites">
+                찜<b>{user?.favorites.length}</b>
+              </Link>
+              <Link to="reviews">
+                상점후기<b>{user?.reviews.length}</b>
+              </Link>
+              <Link to="followings">
+                팔로잉<b>{user?.followings.length}</b>
+              </Link>
+              <Link to="followers">
+                팔로워<b>{user?.followers.length}</b>
+              </Link>
             </MenuBox>
           </div>
           <div>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link, useParams } from "react-router-dom";
-import { RecoilBridge } from "recoil";
 import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
 import ProductList from "../../components/ProductList";
@@ -96,8 +95,8 @@ const Sort = styled.div`
       width: 1px;
       height: 12px;
       border-right: 1px solid rgb(204, 204, 204);
-      }
     }
+  }
   a:last-child {
     margin-right: 0;
     ::after {
@@ -170,16 +169,17 @@ const Product = () => {
     setHigh(false);
   };
 
-  const current = (createdAt:string) => {
-    return (a: any, b:any) => a[createdAt] < b[createdAt] ? 1 : a[createdAt] > b[createdAt] ? -1 : 0;
-  }
+  const current = (createdAt: string) => {
+    return (a: any, b: any) =>
+      a[createdAt] < b[createdAt] ? 1 : a[createdAt] > b[createdAt] ? -1 : 0;
+  };
   const clickCurrent = () => {
     products?.sort(current("createdAt"));
     setLow(false);
     setRecent(true);
     setPopular(false);
     setHigh(false);
-  }
+  };
 
   return (
     <Wrapper>
@@ -208,31 +208,47 @@ const Product = () => {
                 <div>{products?.length}</div>
               </Gross>
               <Sort>
-                <Link 
-                to={`/shop/${user?._id}/products`}
-                onClick={clickCurrent}
-                style={recent ? {color:"rgb(247, 51, 47)", fontWeight:"600"} : {color: "rgb(136, 136, 136)"}}
+                <Link
+                  to={`/shop/${user?._id}/products`}
+                  onClick={clickCurrent}
+                  style={
+                    recent
+                      ? { color: "rgb(247, 51, 47)", fontWeight: "600" }
+                      : { color: "rgb(136, 136, 136)" }
+                  }
                 >
                   최신순
                 </Link>
                 <Link
-                to={`/shop/${user?._id}/products`}
-                onClick={popularity}
-                style={popular ? {color:"rgb(247, 51, 47)", fontWeight:"600"} : {color: "rgb(136, 136, 136)"}}
+                  to={`/shop/${user?._id}/products`}
+                  onClick={popularity}
+                  style={
+                    popular
+                      ? { color: "rgb(247, 51, 47)", fontWeight: "600" }
+                      : { color: "rgb(136, 136, 136)" }
+                  }
                 >
                   인기순
                 </Link>
                 <Link
-                to={`/shop/${user?._id}/products`}
-                onClick={lowPrice}
-                style={low ? {color:"rgb(247, 51, 47)", fontWeight:"600"} : {color: "rgb(136, 136, 136)"}}
+                  to={`/shop/${user?._id}/products`}
+                  onClick={lowPrice}
+                  style={
+                    low
+                      ? { color: "rgb(247, 51, 47)", fontWeight: "600" }
+                      : { color: "rgb(136, 136, 136)" }
+                  }
                 >
                   저가순
                 </Link>
                 <Link
-                to={`/shop/${user?._id}/products`}
-                onClick={highPrice}
-                style={high ? {color:"rgb(247, 51, 47)", fontWeight:"600"} : {color: "rgb(136, 136, 136)"}}
+                  to={`/shop/${user?._id}/products`}
+                  onClick={highPrice}
+                  style={
+                    high
+                      ? { color: "rgb(247, 51, 47)", fontWeight: "600" }
+                      : { color: "rgb(136, 136, 136)" }
+                  }
                 >
                   고가순
                 </Link>

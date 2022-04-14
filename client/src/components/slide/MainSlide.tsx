@@ -3,29 +3,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const Wrapper = styled.div`
-  max-width: 1024px;
-  position: relative;
-  margin: 0 auto;
-`;
-const SlickSlide = styled.div`
-  div {
-    text-align: center;
-  }
-  img {
-    display: block;
-  }
-`;
-const SlickBtn = styled.button`
-  cursor: pointer;
-  outline: none;
-  background-color: transparent;
-`;
-const SlideImg = styled.img`
-  height: 298.25px;
-  margin: 0 auto;
-`;
 const RestyledSlider = styled(Slider)`
+  div > img {
+    display: block;
+    height: 300px;
+    margin: 0 auto;
+  }
+
   .slick-arrow {
     z-index: 1;
     background-position: center center;
@@ -57,38 +41,33 @@ const RestyledSlider = styled(Slider)`
     transform: translateZ(0);
   }
 `;
+
 const MainSlide = () => {
+  const imgArray = [
+    "https://media.bunjang.co.kr/images/nocrop/799185237.jpg",
+    "https://media.bunjang.co.kr/images/nocrop/794647554.jpg",
+    "https://media.bunjang.co.kr/images/nocrop/794647434.jpg",
+  ];
+
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
     autoplay: true,
-    autoplaySpeed: 10000,
+    autoplaySpeed: 3000,
     slidesToShow: 1,
     SlideToScroll: 1,
     draggable: true,
     style: { position: "relative", display: "block" },
   };
   return (
-    <Wrapper>
-      <RestyledSlider {...settings}>
-        <SlickSlide>
-          <SlickBtn>
-            <SlideImg src="https://media.bunjang.co.kr/images/nocrop/799185237.jpg" />
-          </SlickBtn>
-        </SlickSlide>
-        <SlickSlide>
-          <SlickBtn>
-            <SlideImg src="https://media.bunjang.co.kr/images/nocrop/794647554.jpg" />
-          </SlickBtn>
-        </SlickSlide>
-        <SlickSlide>
-          <SlickBtn>
-            <SlideImg src="https://media.bunjang.co.kr/images/nocrop/794647434.jpg" />
-          </SlickBtn>
-        </SlickSlide>
-      </RestyledSlider>
-    </Wrapper>
+    <RestyledSlider {...settings}>
+      {imgArray.map((x, index) => (
+        <div key={index}>
+          <img src={x} alt={`${index}`} />
+        </div>
+      ))}
+    </RestyledSlider>
   );
 };
 export default MainSlide;
