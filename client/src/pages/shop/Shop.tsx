@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
@@ -350,16 +350,39 @@ const Shop = () => {
     profileImage: "",
   });
 
-  const clickModify = () => {
-    setIntro(!intro);
-  };
-  useEffect(() => {
+  const fetchUserInfo = () => {
     fetch("/user/info")
       .then((res) => res.json())
       .then((data) => setUser(data));
-  }, []);
+  };
 
-  console.log(user);
+  const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    await fetch(`/user/${id}/introduction`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => alert(data.message));
+
+    setIntro(!intro);
+    fetchUserInfo();
+  };
+
+  const clickModify = async () => {
+    console.log(text);
+
+    setIntro(!intro);
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   const onClick = () => {
     setChange(true);
@@ -408,24 +431,30 @@ const Shop = () => {
     setText(value);
   };
 
-  const fetchIntro = () => {
-    fetch(`/user/${id}/introduction`)
-      .then((res) => res.json())
-      .then((data) => setUser(data));
-  };
-  const onSubmit = async () => {
-    await fetch(`/user/${id}/introduction`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text,
-      }),
-    });
-    setText("");
-    fetchIntro();
-  };
+  // const fetchIntro = () => {
+  //   fetch(`/user/${id}/introduction`)
+  //     .then((res) => res.json())
+  //     .then((data) => setUser(data));
+  // };
+
+  // const onSubmit = async () => {
+  //   console.log(text);
+
+  //   await fetch(`/user/${id}/introduction`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       text,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => alert(data.message));
+  //   setText("");
+  //   fetchIntro();
+  // };
+
   return (
     <Wrapper>
       {change ? (
@@ -552,19 +581,16 @@ const Shop = () => {
                 </div>
                 {intro ? (
                   <IntroductionModify>
-                    <form onSubmit={onSubmit}>
+                    <form>
                       <textarea
                         name="text"
                         id="text"
                         onChange={onChange}
                         value={text}
                         placeholder="소개글 입력"
-                      >
-                        {user?.introduction}
-                      </textarea>
-                      <button onClick={clickModify} type="button">
-                        확인
-                      </button>
+                      />
+
+                      <button onClick={handleSubmit}>확인</button>
                     </form>
                   </IntroductionModify>
                 ) : (
