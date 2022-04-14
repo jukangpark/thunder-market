@@ -22,10 +22,6 @@ export const join = async (req: Request, res: Response) => {
     return email.slice(0, index);
   };
 
-  // const index = email.indexOf("@");
-
-  // const username = email.splice(0, index);
-
   try {
     await User.create({
       email,
@@ -264,9 +260,7 @@ export const postUserProfileImage = async (req: any, res: Response) => {
     : "/" + profileImage[0].path),
     await user.save();
 
-  return res.send({
-    message: "정상적으로 프로필 이미지가 업데이트 되었습니다.",
-  });
+  return res.redirect(`/shop/${user_id}/products`);
 };
 
 export const getUserIntro = (req: Request, res: Response) => {
@@ -307,4 +301,28 @@ export const deleteUserComment = async (req: Request, res: Response) => {
   return res.send({
     message: "정상적으로 댓글이 삭제되었습니다.",
   });
+};
+
+// User 의 favorites 목록 삭제하기
+export const deleteUserFavorites = async (req: Request, res: Response) => {
+  const { user_id } = res.locals.user;
+  const { favorites } = req.body;
+  const { id } = req.params;
+
+  if (user_id !== id) {
+    return res.send({ message: "댓글 작성자만 삭제할 수 있습니다" });
+  }
+
+  const user = await User.findById(user_id);
+
+  const oldArray = [...user.favorites];
+
+  const updatedArray = oldArray.filter((x) => !favorites.includes(String(x)));
+  // 차집합 배열
+
+  user.favorites = updatedArray;
+
+  await user.save();
+
+  return res.send({ message: "정상적으로 찜 목록이 수정되었습니다." });
 };
