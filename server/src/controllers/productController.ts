@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 import Product from "../models/Product";
 import User from "../models/User";
 
@@ -88,12 +87,22 @@ export const addFavorite = async (req: Request, res: Response) => {
   const user = await User.findById(user_id);
 
   if (user.favorites.includes(id)) {
+    const deletedArray = user.favorites.filter((x: any) => String(x) !== id);
+    const deletedArrayInProduct = product.meta.favorites.filter(
+      (x: any) => String(x) !== user_id
+    );
+    user.favorites = deletedArray;
+    product.meta.favorites = deletedArrayInProduct;
+
+    await user.save();
+    await product.save();
+
     return res.send({
-      message: "해당 상품은 이미 찜하기 목록에 등록되어있습니다.",
+      message: "상품을 찜하기 목록에서 삭제하였습니다.",
     });
   }
 
-  product.meta.favorites.push(id);
+  product.meta.favorites.push(user_id);
   user.favorites.push(id);
 
   await user.save();
@@ -106,33 +115,67 @@ export const addFavorite = async (req: Request, res: Response) => {
 export const changeState = async (req: Request, res: Response) => {
   const { productid, state } = req.body;
 
-  console.log(productid, state);
-
   const { user_id } = res.locals.user;
   const loggedInUser = await User.findById(user_id);
 
   if (state === "삭제") {
     await Product.findByIdAndDelete(productid);
 
-    // 유저가 올린 상품 목록에서 삭제해줘야하니까.
+    const deletedProductArray = loggedInUser.products.filter(
+      (product: any) => String(product) !== productid
+    );
 
-    // loggedInUser.products = loggedInUser.products.filter((product: any) => {
-    //   console.log(String(product), productid); // false 여기서 두번 나옴.. 왜그런거지???
-    //   // 둘다 스트링 자료형이고 둘 다 같은거 아닙니까?
-    // });
+    loggedInUser.products = deletedProductArray;
+    await loggedInUser.save();
 
-    // await loggedInUser.update(); // 여기서 에러 발생.
-    return res.send({ message: "상품이 정상적으로 삭제되었습니다." });
-  } // 삭제완료
+    const favoriteUsers = await User.find({ favorites: productid });
+    // 상품을 찜하기 목록에 저장한 모든 유저들의 배열을 받는다.
 
-  // const deleteObjectId = new mongoose.Types.ObjectId(state);
-  // const index = user.products.indexOf(deleteObjectId); // 이건 string 이라서 맞는게 없네요..
-  // user.products.splice(index, 1);
+    if (!favoriteUsers)
+      return res.send({ message: "상품이 정상적으로 삭제되었습니다." });
+    // 상품을 찜하기 목록에 아무도 저장하지 않았다면 여기서 함수를 빠져나갑니다.
 
-  // const favoriteUsers = await User.find({ favorites: productid });
-  // console.log("이상품을 좋아요 누른 유저", favoriteUsers);
-  // user.products.
-  // user 의 favorites 배열에 들어간 상품 objectId값도 삭제해줘야함.
+    // 상품을 찜하기 목록에 저장한 모든 유저들의 배열에서 상품 objectId값을 없앤다.
+    favoriteUsers.map(async (userId) => {
+      const user = await User.findById(userId); // 몇번을 db 에서 찾을거냐??! ㅡ ㅅ ㅡ
 
-  return res.send({ message: "정상적으로 상품의 상태가 변경되었습니다." });
+      const deletedFavoritesArray = user.favorites.filter(
+        (x: any) => String(x) !== productid
+      );
+
+      user.favorites = deletedFavoritesArray;
+
+      await user.save();
+    });
+    return res.send({ message: "상품이 정상적으로 삭제되었습니다." }); // 삭제완료
+  }
+
+  await Product.findByIdAndUpdate(productid, { state });
+  return res.send({
+    message: `정상적으로 상품의 상태가 ${state}으로 변경되었습니다.`,
+  });
+};
+
+// 검색 컨트럴러
+export const searchProduct = async (req: any, res: Response) => {
+  const { keyword } = req.query;
+  if (keyword === "") {
+    return res.send({
+      message: "검색어를 입력해주세요",
+      redirect_path: "/search",
+    });
+  }
+  let results;
+  if (keyword) {
+    results = await Product.find({
+      name: {
+        $regex: new RegExp(`${keyword}`, "i"),
+      },
+    });
+  }
+
+  return res.send(results);
+  // return res.send(results).redirect("/search"); 는 클라이언트에게 두개의 응답을 보내는거라면서 막아버림.
+  // How to send a JSON response and
+  // redirect to some html page after success in Node.js using express?
 };

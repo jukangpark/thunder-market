@@ -17,7 +17,7 @@ import Follower from "./pages/shop/Follower";
 import Sales from "./pages/products/Sales";
 import Talk from "./pages/talk/Talk";
 import { useCookies } from "react-cookie";
-import Profile from "./pages/shop/Profile";
+import Result from "./pages/search/Result";
 
 const Router = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -52,6 +52,7 @@ const Router = () => {
         <Route path="followers" element={<Follower />} />
       </Route>
       <Route path="/talk" element={<Talk />} />
+      <Route path="/search" element={<Result />} />
     </Routes>
   );
 };

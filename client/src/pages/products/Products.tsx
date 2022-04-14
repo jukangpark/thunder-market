@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
 import MiniHeader from "../../components/header/MiniHeader";
 import Header from "../../components/header/Header";
-import Footer from "../../components/Footer";
 
 const NestedLink = styled.div`
   margin: 0 auto;
@@ -42,7 +41,6 @@ const Products = () => {
         <Link to="sales">판매내역</Link>
       </NestedLink>
       <Outlet />
-      <Footer />
     </Wrapper>
   );
 };

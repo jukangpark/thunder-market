@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import styled from "styled-components";
+import { IUser } from "../interface";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   position: absolute;
@@ -77,30 +81,11 @@ const CurrentNum = styled.div`
   border-bottom: 2px dotted rgb(136, 136, 136);
   padding-bottom: 10px;
 `;
-const CurrentImgBox = styled.div`
-  width: 100%;
-`;
-const CurrentImgLink = styled.a`
-  display: block;
-  width: 100%;
-  margin-bottom: 5px;
-  border: 1px solid transparent;
-  position: relative;
-  font-size: 13px;
-  :last-child {
-    margin-bottom: 0;
-  }
-`;
-const CurrentImgCover = styled.div`
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-`;
+
 const CurrentImg = styled.img`
   width: 100%;
 `;
+
 const CurrentBtnBox = styled.div`
   margin-top: 8px;
   display: flex;
@@ -138,8 +123,8 @@ const DownloadText = styled.div`
 `;
 const DownloadImgBox = styled.div`
   box-shadow: rgb(0 0 0 / 12%) 0px 0px 7px 0px;
-  width: 50px;
-  height: 50px;
+  width: 66px;
+  height: 66px;
   padding: 8px;
   margin: 16px auto 6px;
 `;
@@ -162,7 +147,47 @@ const DirectTopBtn = styled.button`
   color: rgb(102, 102, 102);
   cursor: pointer;
 `;
+
+interface IState {
+  name: string;
+  imageUrl: string;
+  _id: string;
+}
+
+interface IProps {
+  imageUrl: string;
+}
+
+const ImgBox = styled.div<IProps>`
+  height: 60px;
+  background-image: url(${(props) => props.imageUrl});
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-bottom: 5px;
+`;
+
 const SideMenu = () => {
+  const [user, setUser] = useState<IUser>();
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const isLoggedIn = Boolean(cookies.user);
+  const [products, setProducts] = useState<IState[]>();
+
+  const productsString = window.localStorage.getItem("products");
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetch("/user/info")
+        .then((res) => res.json())
+        .then((data) => setUser(data));
+    }
+
+    if (productsString === null) return;
+    const products = JSON.parse(productsString);
+
+    setProducts(products);
+  }, []);
+
   const onClick = () => {
     window.scrollTo({
       top: 0,
@@ -178,28 +203,32 @@ const SideMenu = () => {
           <FirstImg>
             {/* 좋아요 누르면 이곳에 좋아요 한 만큼 숫자가 올라가야함 */}
             <FirstLink>
-              <HeartImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAX1JREFUOBGdk7FLw0AUxnPXFhdHRdBdVJBCGgedBP8GoYJQHMRBRNBF1EGnTkopXcRBBEFB/A+cnNuIhEBHQcFBnHRolsTfqwZiWmLSg8t733vf++7d5U4Zv8NxnDHP846Ai8xxpdRDEAT7lmU5YKPZbE5hlonPYfPknrB18m9YQ8nHtu0l3/dvcEcER8ZnLpcrUzTLPGYORXLifmity6Zp3ivXdYc7nU4b0kSMlArS4Tu1MxqR7UFFZCVqRxE71DjzqZZOJi1o1CaTOamy0xraSypqAoldPcvWHhM4aVO2LhQKNbb3lbYizqPWI1bVxWLxla4O4oQMeI9L2ZYzMnDqXKxqhuIuVWpKpVJNQPdmhwI8gxP8nRD/Y09pYDfk/BGSYKvVarDVzZDQz3IuDTrZiuZ6hBBRvL0z7HqUGPqInPO2NrBBGBPbIyRBEaOzC9yK4Mi4pJO1uIjk+wpJAjGN2BXuimDGNSKriPg/MMMXsTw/4BbBO/EzlA5O/QbfD5IxtG4t8AAAAABJRU5ErkJggg==" />
-              0
+              {isLoggedIn ? (
+                <HeartImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAAEhyb7BAAAAAXNSR0IArs4c6QAAAhBJREFUOBGdVL9v01AQvjs7cRp1QiDBhFClqFsS7AwBIVWABJWYGCohRsTA1LFTgYkBCdQFxMDE1KlCqH9BJyBOkyxIpWLq0IEfGRroC2193Nn1i5sQQfsGv/u+++587+7ZAJmFplKbZ46WLLdb9lkBmnKwAcifXAYuAUPJSlA0a4KuWEb1CkzZP5BoUnui00Rk3z9n9vE5OrlFjPbuamicXhW6YmliJs84j1URXY9pZpZSg6cKkGdmJk13ZycJEAJxXwTuAMMXMt3eZkronhUkGKaSmiv+T2YoZsWpjTmcjkUpYQtTAuH+RLv5OvWBqQavpAM/uHrpvJL9sr8gRb/lev2UYjl8sC2VnFXwt1Uo5ovSkPECDer/+r060rXhbIww/U8RAj4hx3Hrw9EWI3wrtMMXlF//8J4I71jHoSG96UsLziiMX+e1wmUieJgVFjrNQhZbW9rx5khDDz3JFajWrgFHy3LzTtsINRC2yYEbHMFl8T0bHR1uOUS3862PIe5Wgscy+UdHEhwTyLkWdXLfZTDxGI8ZP5BLN0nO1howJ7OQMSTP5VkZ4OeTpdCPBppe6cIte73NxdpNiKJ30tDc/ySVwB4hXc23Gw3V20RpsKn6D2RKL1M8vMtne4CEc956YyXrG0mUOk3FX5Lq5lOsOyEueO0w/jFkebXHJlKn/ETcfre3IqKvXie8p9y49QcxxqrZMCDi2QAAAABJRU5ErkJggg==" />
+              ) : (
+                <HeartImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAX1JREFUOBGdk7FLw0AUxnPXFhdHRdBdVJBCGgedBP8GoYJQHMRBRNBF1EGnTkopXcRBBEFB/A+cnNuIhEBHQcFBnHRolsTfqwZiWmLSg8t733vf++7d5U4Zv8NxnDHP846Ai8xxpdRDEAT7lmU5YKPZbE5hlonPYfPknrB18m9YQ8nHtu0l3/dvcEcER8ZnLpcrUzTLPGYORXLifmity6Zp3ivXdYc7nU4b0kSMlArS4Tu1MxqR7UFFZCVqRxE71DjzqZZOJi1o1CaTOamy0xraSypqAoldPcvWHhM4aVO2LhQKNbb3lbYizqPWI1bVxWLxla4O4oQMeI9L2ZYzMnDqXKxqhuIuVWpKpVJNQPdmhwI8gxP8nRD/Y09pYDfk/BGSYKvVarDVzZDQz3IuDTrZiuZ6hBBRvL0z7HqUGPqInPO2NrBBGBPbIyRBEaOzC9yK4Mi4pJO1uIjk+wpJAjGN2BXuimDGNSKriPg/MMMXsTw/4BbBO/EzlA5O/QbfD5IxtG4t8AAAAABJRU5ErkJggg==" />
+              )}
+
+              {isLoggedIn ? user?.favorites.length : 0}
             </FirstLink>
           </FirstImg>
         </FirstBox>
         <SecondBox>
           <SecondText>최근본상품</SecondText>
           <Current>
-            <CurrentNum>5{/* 이곳에 최근 본 상품의 수 */}</CurrentNum>
+            <CurrentNum>{products?.length}</CurrentNum>
           </Current>
-          <CurrentImgBox>
-            <CurrentImgLink>
-              <CurrentImg src="https://media.bunjang.co.kr/product/182962402_1_1648593260_w140.jpg" />
-              <CurrentImgCover></CurrentImgCover>
-            </CurrentImgLink>
-            <CurrentImgLink>
-              <CurrentImg src="https://media.bunjang.co.kr/product/183688321_1_1648699461_w140.jpg" />
-            </CurrentImgLink>
-            <CurrentImgLink>
-              <CurrentImg src="https://media.bunjang.co.kr/product/183570194_1_1648594942_w140.jpg" />
-            </CurrentImgLink>
-          </CurrentImgBox>
+          <div>
+            {products?.map((x, index) => (
+              <Link
+                key={index}
+                to={`/product/${x._id}`}
+                style={{ display: "block" }}
+              >
+                <ImgBox imageUrl={x.imageUrl.replaceAll("\\", "/")} />
+              </Link>
+            ))}
+          </div>
           <CurrentBtnBox>
             <CurrentBtn>
               <CurrentBtnImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAASCAYAAAEVsH/dAAAAAXNSR0IArs4c6QAAAWZJREFUKBVjYACChoaG7SBiIYgDBo2NjftgbGQaqOgkiM8EFZRDloSwZ86cycXQ3t6ugCnV2dnJiyIKtObG/v37WcCCIFf09PSIoKgACn5FEYBxgNawAiWvgviMMEEQDbRaiYWF5SVcrLu7Wwxo0Qa4AMgZQIEjcIFVq1axwcyCCwJVvIBzoAwmRkbGCU1NTZboEgxA1TOANqtgk9jS1tYmDJJAcSfQwtNCQkI2KILI2oHOlPn+/fthoNix+vr6WAyFQPsEf/78eQDoqJeCgoK+eXl5P1Gs6evr4/z8+fP2////83JwcDhVVFR8RLaBEehx5mvXrq0CChpwcnLalpeXP0NWAGOzXL9+PQ3I8WFmZvbFpQikGO5GoO86gfw0VlZW++rq6ksgSWQAVwgSBLqPCRiAS4FMC2DU2dTU1DyFKUZRCBOcP38+x6NHj3YA+VxAjzkDnfQZq0KYBlAM/P79eynQ9HgA91p/71jKrhEAAAAASUVORK5CYII=" />

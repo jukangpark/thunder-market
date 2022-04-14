@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
 import MiniHeader from "../../components/header/MiniHeader";
 import Header from "../../components/header/Header";
 import { IUser } from "../../interface";
 import Footer from "../../components/Footer";
+import Moment from "react-moment";
 
 const Overlay = styled.div`
   width: 100%;
@@ -15,43 +16,43 @@ const Overlay = styled.div`
   transform: translateX(-50%);
   z-index: 30;
   background: #000;
-  opacity: .8;
-`
+  opacity: 0.8;
+`;
 
 const FormWrapper = styled.div`
-    width: 600px;
-    height: 450px;
-    background: white;
-    z-index: 40;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 30px;
-    transition: .5s ease-out;
-`
+  width: 600px;
+  height: 450px;
+  background: white;
+  z-index: 40;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  transition: 0.5s ease-out;
+`;
 
 const ProFileForm = styled.form`
   display: grid;
   align-items: center;
   justify-content: center;
- input {
-   display: none;
- }
-`
+  input {
+    display: none;
+  }
+`;
 
 const ProfileLabel = styled.label`
-width: 300px;
-height: 300px;
-cursor: pointer;
-margin-bottom: 15px;
-display: block;
-background-position: center;
-background-size: cover;
-border-radius: 50%;
-border: 1px solid #999;
-margin-top: 30px;
-`
+  width: 300px;
+  height: 300px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  display: block;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  border: 1px solid #999;
+  margin-top: 30px;
+`;
 const BtnBox = styled.div`
   margin-top: 30px;
   display: flex;
@@ -64,17 +65,17 @@ const BtnBox = styled.div`
     font-size: 13px;
     cursor: pointer;
   }
-`
+`;
 const RegisterBtn = styled.button`
   background: rgb(247, 51, 47);
   color: white;
   margin-right: 10px;
-`
+`;
 
 const CancelBtn = styled.button`
   background: rgb(204, 204, 204);
   color: rgb(36, 36, 36);
-`
+`;
 
 const Container = styled.div`
   display: flex;
@@ -198,6 +199,7 @@ const IntroModify = styled.button`
   color: ${(props) => props.theme.textColor};
   border: 1px solid rgb(238, 238, 238);
   font-size: 11px;
+  cursor: pointer;
 `;
 const ProfileSize = styled.div`
   width: 310px;
@@ -224,15 +226,26 @@ const ProfileSize = styled.div`
     box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px;
   }
 `;
+const BgOverlay = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.5;
+  z-index: 0;
+`
 const ProfileBg = styled.div`
   position: absolute;
   background-size: cover;
   background-repeat: no-repeat;
-  z-index: 0;
+  z-index: -1;
   width: 100%;
   height: 100%;
-  background-image: url("/pc-static/media/pattern-shop.066ca385.png");
+  background-image: url("https://i.pinimg.com/550x/44/62/7a/44627a15e37008a60b70c389d813a54e.jpg");
   background-color: rgb(181, 181, 181);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 `;
 
 const ShopName = styled.div`
@@ -268,6 +281,7 @@ const ShopManagement = styled.div`
 const MenuBox = styled.div`
   display: flex;
   line-height: 50px;
+  text-align: center;
   a {
     cursor: pointer;
     text-align: center;
@@ -277,29 +291,68 @@ const MenuBox = styled.div`
     border: 1px solid rgb(238, 238, 238);
     border-left: 0;
     background-color: ${(props) => props.theme.bgColor};
+    b {
+      margin-left: 5px;
+    }
   }
 `;
 
 const ProfileImage = styled.label`
-width: 100px;
-height: 100px;
-cursor: pointer;
-margin-bottom: 15px;
-display: block;
-background-position: center;
-background-size: cover;
-border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  display: block;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+`;
+const IntroductionModify = styled.div`
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  display: flex;
+  form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+  textarea {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    resize: none;
+    border: 1px solid rgb(238, 238, 238);
+    outline: none;
+  }
+  button {
+    width: 100px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    border: 1px solid rgb(238, 238, 238);
+    border-left: 0;
+    background-color: rgb(250, 250, 250);
+    color: rgb(136, 136, 136);
+  }
 `
 
 const Shop = () => {
+  const { id } = useParams();
   const [user, setUser] = useState<IUser>();
+  const [text, setText] = useState("");
   const [change, setChange] = useState(false);
+  const [intro, setIntro] = useState(false);
   const [profile, setProfile] = useState({
     file: null,
     profileImage: "",
-})
-  const [intro, setIntro] = useState(false);
+  });
 
+  const clickModify = () => {
+    setIntro(!intro)
+  }
   useEffect(() => {
     fetch("/user/info")
       .then((res) => res.json())
@@ -307,79 +360,108 @@ const Shop = () => {
   }, []);
 
   const onClick = () => {
-    setChange(true)
-  }
+    setChange(true);
+  };
   const offClick = (event: any) => {
     event.preventDefault();
-    setChange(false)
+    setChange(false);
     setProfile({
       file: null,
       profileImage: "",
-    })
-  }
+    });
+  };
 
-const getProfile = (file: any) => {
+  const getProfile = (file: any) => {
     return new Promise((resolve) => {
-        let baseUrl: any = "";
+      let baseUrl: any = "";
 
-        let reader = new FileReader();
+      let reader = new FileReader();
 
-        reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
 
-        reader.onload = () => {
-            baseUrl = reader.result;
-            resolve(baseUrl)
-        }
-    })
-}
+      reader.onload = () => {
+        baseUrl = reader.result;
+        resolve(baseUrl);
+      };
+    });
+  };
 
-const handleProfile = (event: any) => {
+  const handleProfile = (event: any) => {
     const file = event.target.files[0];
 
     getProfile(file).then((result: any) => {
-        file["base64"] = result;
+      file["base64"] = result;
 
-        setProfile({
-            file,
-            profileImage: result
-        })
+      setProfile({
+        file,
+        profileImage: result,
+      });
+    });
+  };
+
+  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
+    const {
+      currentTarget: { value }
+    } = event;
+    setText(value);
+  }
+
+  const fetchIntro = () => {
+    fetch(`/user/${id}/introduction`)
+      .then((res) => res.json())
+      .then((data) => setUser(data));
+  }
+  const onSubmit = async () => {
+    await fetch(`/user/${id}/introduction`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text
+      })
     })
-}
+    setText("");
+    fetchIntro();
+  }
   return (
     <Wrapper>
       {change ? (
-      <>
-      <Overlay onClick={offClick}/>
-      <FormWrapper>
+        <>
+          <Overlay onClick={offClick} />
+          <FormWrapper>
             <ProFileForm
-                method="POST"
-                action="/user/profile/image"
-                encType="multipart/form-data"
+              method="POST"
+              action="/user/profile/image"
+              encType="multipart/form-data"
             >
-                {profile.profileImage ? (
-                    <ProfileLabel 
-                        style={{ backgroundImage: `url(${profile?.profileImage.replaceAll("\\", "/")})` }}
-                        htmlFor="profileImage"
-                    />
-                ) : (
-                    <ProfileLabel
-                        style={{ backgroundImage: "url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxjaXJjbGUgZmlsbD0iI0ZBRkFGQSIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+CiAgICAgICAgPHBhdGggZD0iTTM2LjIxNiA0MS42ODNjLjI0OC0xLjkzMS40OTgtMy44NjIuNzUtNS43OTRoNi43OWwtLjI4MyA1LjUzN2MwIC4wMTcuMDA3LjAzNC4wMDcuMDUxLS4wMDIuMDEtLjAwMi4wMi0uMDAyLjAzLS4wOTggMS44NzYtMS44OTcgMy4zOTItNC4wMzUgMy4zOTItMS4wNjYgMC0yLjAxOC0uMzktMi42MTUtMS4wNzItLjUxLS41ODUtLjcyMi0xLjMyNS0uNjEyLTIuMTQ0em04Ljg4OCA0LjA3OGMxLjIyNCAxLjI4OSAzLjAwOSAyLjAyOCA0Ljg5IDIuMDI4IDEuODkgMCAzLjY3NC0uNzQgNC45LTIuMDMzLjEwNy0uMTEyLjIwNy0uMjI4LjMwNC0uMzQ1IDEuMjggMS40NDcgMy4yMTcgMi4zNzggNS4zNSAyLjM3OC4xMTIgMCAuMjE2LS4wMjcuMzI4LS4wMzJWNjMuNkgzOS4xMTVWNDcuNzU3Yy4xMTIuMDA1LjIxNS4wMzIuMzI4LjAzMiAyLjEzMyAwIDQuMDcxLS45MzEgNS4zNTEtMi4zOC4wOTkuMTIxLjIuMjM4LjMxLjM1MnptMS41NDUtOS44NzJoNi42OThsLjI4MiA1LjYxOWMwIC4wMTUtLjAwNy4wMjctLjAwNy4wNGwuMDA0LjA4NmEyLjkzOSAyLjkzOSAwIDAgMS0uODI2IDIuMTMyYy0xLjM2NyAxLjQ0LTQuMjMzIDEuNDQxLTUuNjA0LjAwM2EyLjk1IDIuOTUgMCAwIDEtLjgzLTIuMTQybC4wMDQtLjA3OGMwLS4wMTYtLjAwOC0uMDMtLjAwOC0uMDQ4bC4yODctNS42MTJ6bTE2LjM3NiAwYy4yNTIgMS45MzMuNTAyIDMuODY1Ljc1MyA1LjgwNC4xMDkuODEtLjEwNCAxLjU0Ny0uNjE0IDIuMTMyLS41OTYuNjgzLTEuNTUgMS4wNzQtMi42MTYgMS4wNzQtMi4xMzcgMC0zLjkzMi0xLjUxNC00LjAzNC0zLjM4OGEuMzU5LjM1OSAwIDAgMC0uMDAzLS4wNDRjMC0uMDE1LjAwNi0uMDI3LjAwNi0uMDRsLS4yNzgtNS41MzhoNi43ODZ6TTM2LjIyNiA0Ni45NDZ2MTguMDk4YzAgLjc5OC42NDYgMS40NDUgMS40NDQgMS40NDVoMjQuNjVjLjc5OSAwIDEuNDQ1LS42NDcgMS40NDUtMS40NDVWNDYuOTQ2Yy41OS0uMzI4IDEuMTM3LS43MTkgMS41NzUtMS4yMiAxLjA2MS0xLjIxNCAxLjUyMi0yLjc4NSAxLjMwMS00LjQxLS4zLTIuMzU1LS42MDctNC43MDctLjkxOC03LjA2YTEuNDQzIDEuNDQzIDAgMCAwLTEuNDMxLTEuMjU3SDM1LjY5OWMtLjcyNCAwLTEuMzM4LjUzOC0xLjQzMSAxLjI1Ny0uMzExIDIuMzU0LS42MTcgNC43MDctLjkxNiA3LjA1LS4yMjEgMS42MzcuMjQgMy4yMDggMS4zIDQuNDIxLjQzOS41MDIuOTg0Ljg5MyAxLjU3NCAxLjIyeiIgZmlsbD0iI0NDQyIvPgogICAgPC9nPgo8L3N2Zz4K)" }}
-                        htmlFor="profileImage"
-                    />
-                )}
-                <input
-                    type="file"
-                    name="profileImage"
-                    id="profileImage"
-                    onChange={handleProfile}
+              {profile.profileImage ? (
+                <ProfileLabel
+                  style={{ backgroundImage: `url(${profile?.profileImage.replaceAll("\\", "/")})` }}
+                  htmlFor="profileImage"
                 />
-                <BtnBox>
+              ) : (
+                <ProfileLabel
+                  style={{
+                    backgroundImage:
+                      "url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxjaXJjbGUgZmlsbD0iI0ZBRkFGQSIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+CiAgICAgICAgPHBhdGggZD0iTTM2LjIxNiA0MS42ODNjLjI0OC0xLjkzMS40OTgtMy44NjIuNzUtNS43OTRoNi43OWwtLjI4MyA1LjUzN2MwIC4wMTcuMDA3LjAzNC4wMDcuMDUxLS4wMDIuMDEtLjAwMi4wMi0uMDAyLjAzLS4wOTggMS44NzYtMS44OTcgMy4zOTItNC4wMzUgMy4zOTItMS4wNjYgMC0yLjAxOC0uMzktMi42MTUtMS4wNzItLjUxLS41ODUtLjcyMi0xLjMyNS0uNjEyLTIuMTQ0em04Ljg4OCA0LjA3OGMxLjIyNCAxLjI4OSAzLjAwOSAyLjAyOCA0Ljg5IDIuMDI4IDEuODkgMCAzLjY3NC0uNzQgNC45LTIuMDMzLjEwNy0uMTEyLjIwNy0uMjI4LjMwNC0uMzQ1IDEuMjggMS40NDcgMy4yMTcgMi4zNzggNS4zNSAyLjM3OC4xMTIgMCAuMjE2LS4wMjcuMzI4LS4wMzJWNjMuNkgzOS4xMTVWNDcuNzU3Yy4xMTIuMDA1LjIxNS4wMzIuMzI4LjAzMiAyLjEzMyAwIDQuMDcxLS45MzEgNS4zNTEtMi4zOC4wOTkuMTIxLjIuMjM4LjMxLjM1MnptMS41NDUtOS44NzJoNi42OThsLjI4MiA1LjYxOWMwIC4wMTUtLjAwNy4wMjctLjAwNy4wNGwuMDA0LjA4NmEyLjkzOSAyLjkzOSAwIDAgMS0uODI2IDIuMTMyYy0xLjM2NyAxLjQ0LTQuMjMzIDEuNDQxLTUuNjA0LjAwM2EyLjk1IDIuOTUgMCAwIDEtLjgzLTIuMTQybC4wMDQtLjA3OGMwLS4wMTYtLjAwOC0uMDMtLjAwOC0uMDQ4bC4yODctNS42MTJ6bTE2LjM3NiAwYy4yNTIgMS45MzMuNTAyIDMuODY1Ljc1MyA1LjgwNC4xMDkuODEtLjEwNCAxLjU0Ny0uNjE0IDIuMTMyLS41OTYuNjgzLTEuNTUgMS4wNzQtMi42MTYgMS4wNzQtMi4xMzcgMC0zLjkzMi0xLjUxNC00LjAzNC0zLjM4OGEuMzU5LjM1OSAwIDAgMC0uMDAzLS4wNDRjMC0uMDE1LjAwNi0uMDI3LjAwNi0uMDRsLS4yNzgtNS41MzhoNi43ODZ6TTM2LjIyNiA0Ni45NDZ2MTguMDk4YzAgLjc5OC42NDYgMS40NDUgMS40NDQgMS40NDVoMjQuNjVjLjc5OSAwIDEuNDQ1LS42NDcgMS40NDUtMS40NDVWNDYuOTQ2Yy41OS0uMzI4IDEuMTM3LS43MTkgMS41NzUtMS4yMiAxLjA2MS0xLjIxNCAxLjUyMi0yLjc4NSAxLjMwMS00LjQxLS4zLTIuMzU1LS42MDctNC43MDctLjkxOC03LjA2YTEuNDQzIDEuNDQzIDAgMCAwLTEuNDMxLTEuMjU3SDM1LjY5OWMtLjcyNCAwLTEuMzM4LjUzOC0xLjQzMSAxLjI1Ny0uMzExIDIuMzU0LS42MTcgNC43MDctLjkxNiA3LjA1LS4yMjEgMS42MzcuMjQgMy4yMDggMS4zIDQuNDIxLjQzOS41MDIuOTg0Ljg5MyAxLjU3NCAxLjIyeiIgZmlsbD0iI0NDQyIvPgogICAgPC9nPgo8L3N2Zz4K)",
+                  }}
+                  htmlFor="profileImage"
+                />
+              )}
+              <input
+                type="file"
+                name="profileImage"
+                id="profileImage"
+                onChange={handleProfile}
+              />
+              <BtnBox>
                 <RegisterBtn>등록</RegisterBtn>
                 <CancelBtn onClick={offClick}>취소</CancelBtn>
-                </BtnBox>
+              </BtnBox>
             </ProFileForm>
-        </FormWrapper>
-      </>
+          </FormWrapper>
+        </>
       ) : null}
       <MiniHeader />
       <Header />
@@ -391,6 +473,7 @@ const handleProfile = (event: any) => {
                 <div>
                   <ProfileSize>
                     <div>
+                      <BgOverlay></BgOverlay>
                       <ProfileBg></ProfileBg>
                     </div>
                     <div>
@@ -401,7 +484,10 @@ const handleProfile = (event: any) => {
                         />
                       ) : (
                         <ProfileImage
-                          style={{ backgroundImage: "url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxjaXJjbGUgZmlsbD0iI0ZBRkFGQSIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+CiAgICAgICAgPHBhdGggZD0iTTM2LjIxNiA0MS42ODNjLjI0OC0xLjkzMS40OTgtMy44NjIuNzUtNS43OTRoNi43OWwtLjI4MyA1LjUzN2MwIC4wMTcuMDA3LjAzNC4wMDcuMDUxLS4wMDIuMDEtLjAwMi4wMi0uMDAyLjAzLS4wOTggMS44NzYtMS44OTcgMy4zOTItNC4wMzUgMy4zOTItMS4wNjYgMC0yLjAxOC0uMzktMi42MTUtMS4wNzItLjUxLS41ODUtLjcyMi0xLjMyNS0uNjEyLTIuMTQ0em04Ljg4OCA0LjA3OGMxLjIyNCAxLjI4OSAzLjAwOSAyLjAyOCA0Ljg5IDIuMDI4IDEuODkgMCAzLjY3NC0uNzQgNC45LTIuMDMzLjEwNy0uMTEyLjIwNy0uMjI4LjMwNC0uMzQ1IDEuMjggMS40NDcgMy4yMTcgMi4zNzggNS4zNSAyLjM3OC4xMTIgMCAuMjE2LS4wMjcuMzI4LS4wMzJWNjMuNkgzOS4xMTVWNDcuNzU3Yy4xMTIuMDA1LjIxNS4wMzIuMzI4LjAzMiAyLjEzMyAwIDQuMDcxLS45MzEgNS4zNTEtMi4zOC4wOTkuMTIxLjIuMjM4LjMxLjM1MnptMS41NDUtOS44NzJoNi42OThsLjI4MiA1LjYxOWMwIC4wMTUtLjAwNy4wMjctLjAwNy4wNGwuMDA0LjA4NmEyLjkzOSAyLjkzOSAwIDAgMS0uODI2IDIuMTMyYy0xLjM2NyAxLjQ0LTQuMjMzIDEuNDQxLTUuNjA0LjAwM2EyLjk1IDIuOTUgMCAwIDEtLjgzLTIuMTQybC4wMDQtLjA3OGMwLS4wMTYtLjAwOC0uMDMtLjAwOC0uMDQ4bC4yODctNS42MTJ6bTE2LjM3NiAwYy4yNTIgMS45MzMuNTAyIDMuODY1Ljc1MyA1LjgwNC4xMDkuODEtLjEwNCAxLjU0Ny0uNjE0IDIuMTMyLS41OTYuNjgzLTEuNTUgMS4wNzQtMi42MTYgMS4wNzQtMi4xMzcgMC0zLjkzMi0xLjUxNC00LjAzNC0zLjM4OGEuMzU5LjM1OSAwIDAgMC0uMDAzLS4wNDRjMC0uMDE1LjAwNi0uMDI3LjAwNi0uMDRsLS4yNzgtNS41MzhoNi43ODZ6TTM2LjIyNiA0Ni45NDZ2MTguMDk4YzAgLjc5OC42NDYgMS40NDUgMS40NDQgMS40NDVoMjQuNjVjLjc5OSAwIDEuNDQ1LS42NDcgMS40NDUtMS40NDVWNDYuOTQ2Yy41OS0uMzI4IDEuMTM3LS43MTkgMS41NzUtMS4yMiAxLjA2MS0xLjIxNCAxLjUyMi0yLjc4NSAxLjMwMS00LjQxLS4zLTIuMzU1LS42MDctNC43MDctLjkxOC03LjA2YTEuNDQzIDEuNDQzIDAgMCAwLTEuNDMxLTEuMjU3SDM1LjY5OWMtLjcyNCAwLTEuMzM4LjUzOC0xLjQzMSAxLjI1Ny0uMzExIDIuMzU0LS42MTcgNC43MDctLjkxNiA3LjA1LS4yMjEgMS42MzcuMjQgMy4yMDggMS4zIDQuNDIxLjQzOS41MDIuOTg0Ljg5MyAxLjU3NCAxLjIyeiIgZmlsbD0iI0NDQyIvPgogICAgPC9nPgo8L3N2Zz4K)" }}
+                          style={{
+                            backgroundImage:
+                              "url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxjaXJjbGUgZmlsbD0iI0ZBRkFGQSIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+CiAgICAgICAgPHBhdGggZD0iTTM2LjIxNiA0MS42ODNjLjI0OC0xLjkzMS40OTgtMy44NjIuNzUtNS43OTRoNi43OWwtLjI4MyA1LjUzN2MwIC4wMTcuMDA3LjAzNC4wMDcuMDUxLS4wMDIuMDEtLjAwMi4wMi0uMDAyLjAzLS4wOTggMS44NzYtMS44OTcgMy4zOTItNC4wMzUgMy4zOTItMS4wNjYgMC0yLjAxOC0uMzktMi42MTUtMS4wNzItLjUxLS41ODUtLjcyMi0xLjMyNS0uNjEyLTIuMTQ0em04Ljg4OCA0LjA3OGMxLjIyNCAxLjI4OSAzLjAwOSAyLjAyOCA0Ljg5IDIuMDI4IDEuODkgMCAzLjY3NC0uNzQgNC45LTIuMDMzLjEwNy0uMTEyLjIwNy0uMjI4LjMwNC0uMzQ1IDEuMjggMS40NDcgMy4yMTcgMi4zNzggNS4zNSAyLjM3OC4xMTIgMCAuMjE2LS4wMjcuMzI4LS4wMzJWNjMuNkgzOS4xMTVWNDcuNzU3Yy4xMTIuMDA1LjIxNS4wMzIuMzI4LjAzMiAyLjEzMyAwIDQuMDcxLS45MzEgNS4zNTEtMi4zOC4wOTkuMTIxLjIuMjM4LjMxLjM1MnptMS41NDUtOS44NzJoNi42OThsLjI4MiA1LjYxOWMwIC4wMTUtLjAwNy4wMjctLjAwNy4wNGwuMDA0LjA4NmEyLjkzOSAyLjkzOSAwIDAgMS0uODI2IDIuMTMyYy0xLjM2NyAxLjQ0LTQuMjMzIDEuNDQxLTUuNjA0LjAwM2EyLjk1IDIuOTUgMCAwIDEtLjgzLTIuMTQybC4wMDQtLjA3OGMwLS4wMTYtLjAwOC0uMDMtLjAwOC0uMDQ4bC4yODctNS42MTJ6bTE2LjM3NiAwYy4yNTIgMS45MzMuNTAyIDMuODY1Ljc1MyA1LjgwNC4xMDkuODEtLjEwNCAxLjU0Ny0uNjE0IDIuMTMyLS41OTYuNjgzLTEuNTUgMS4wNzQtMi42MTYgMS4wNzQtMi4xMzcgMC0zLjkzMi0xLjUxNC00LjAzNC0zLjM4OGEuMzU5LjM1OSAwIDAgMC0uMDAzLS4wNDRjMC0uMDE1LjAwNi0uMDI3LjAwNi0uMDRsLS4yNzgtNS41MzhoNi43ODZ6TTM2LjIyNiA0Ni45NDZ2MTguMDk4YzAgLjc5OC42NDYgMS40NDUgMS40NDQgMS40NDVoMjQuNjVjLjc5OSAwIDEuNDQ1LS42NDcgMS40NDUtMS40NDVWNDYuOTQ2Yy41OS0uMzI4IDEuMTM3LS43MTkgMS41NzUtMS4yMiAxLjA2MS0xLjIxNCAxLjUyMi0yLjc4NSAxLjMwMS00LjQxLS4zLTIuMzU1LS42MDctNC43MDctLjkxOC03LjA2YTEuNDQzIDEuNDQzIDAgMCAwLTEuNDMxLTEuMjU3SDM1LjY5OWMtLjcyNCAwLTEuMzM4LjUzOC0xLjQzMSAxLjI1Ny0uMzExIDIuMzU0LS42MTcgNC43MDctLjkxNiA3LjA1LS4yMjEgMS42MzcuMjQgMy4yMDggMS4zIDQuNDIxLjQzOS41MDIuOTg0Ljg5MyAxLjU3NCAxLjIyeiIgZmlsbD0iI0NDQyIvPgogICAgPC9nPgo8L3N2Zz4K)",
+                          }}
                           onClick={onClick}
                         />
                       )}
@@ -432,7 +518,7 @@ const handleProfile = (event: any) => {
                   <TextBox>
                     <TextImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAfBJREFUSA3tU79rFFEQntkcuBesDF5pdyRFrjNaiJBgERA0pEh1P4yCC4rWFiH/gIWN1W4iIclZeKRIlS6gSZkUQQsbOwtBwUp2n4f3xm827LK32eICd90NHDvvm+/N9+bHMcGioHEkInfVH7Yx86ey155n2WlWTCQ/hMQZtojmY6ae67gVxxhaGpWIConQhBFzH1XYZQVGaWL5obbr3ihFNDcTLVLoN06KhICfdTdbt/IxE9SfG7/xLI93/ebtKGi+y+N6DoPGTwfD+iNbq26WIAcvr+AV1Z6V6SyuvhDVLNMFvEdSw6xrF/jIzUKfIcR7pvvvjXQ6E3EiEY6+/36NS5OY3yvZbk0ll8PNR3dI+DEe8eSvvzqT4JHfugF/HZOfMxtNL8E1p+ZWDdyJS3vLIovYxVM8WV82m5CB/QL2EcRrxDKvW6QxJg5R3eG5Lwvwr2bunID/DcI3QfxQ9t6vlzSIsr5YkRcIVFNy4ohch7uCRHHfUjiumB7k4PMwKgN/Tg8lLu3rdyR/Uk2ct7FQviMDn+NlyLOxUW12+DiLW2v95Ix1PcavnZzzX7Gyhs3VlU+tWAgi7tPdIGXBCf16KoR1/+p6/fE+blD3wOkTGi9DtkOX8gtnpIPvm8mlUhaTxzMq7ssA6Lh1AzSpmPIfjjO10v2iE7IAAAAASUVORK5CYII=" />
                     상점오픈일
-                    <div>1일 전</div>
+                    <Moment style={{ marginLeft: "5px" }} fromNow>{user?.createdAt}</Moment>
                   </TextBox>
                   <TextBox>
                     <TextImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAQBJREFUSA1jZCASNOz/z3L34Z1aBkaGZLCW/wxzleVVmhscGf8QYwQLMYpAakCW/GdgqGMAElBQBxQDMethAvhoJnySKHIwnyALYhNDlkdiE28RkiZymMRbBIwTDAuwiWEogggQHUegiAfHCSy4oIkBh7kjQJgxdtHtUIZ/jJP+M/yXoIV/GRkYXzAw/c9joqUlIIeDPQD0CPGpjkLvMoG8BfYehQbh0g4LOkZcCkDiMQtuIwocfAqhcksSVHGaR8egI8Kl1FAy6iOyQ5HoQhVkA3qqIiVVjsYR2XE0woIOubBFZsPCD1kMmQ2TR6bxBx20ZAcbAmQjawSzCckjaQAAJL9HBV3GwxoAAAAASUVORK5CYII=" />
@@ -450,23 +536,47 @@ const handleProfile = (event: any) => {
                     <div>0회</div>
                   </TextBox>
                 </div>
-                <div></div>
-                <div>
-                  {intro ? null : (
-                    <IntroModify>소개글 수정</IntroModify>
-                  )}
-                </div>
+                {intro ? (
+                  <IntroductionModify>
+                    <form
+                      onSubmit={onSubmit}
+                    >
+                      <textarea
+                        name="text"
+                        id="text"
+                        onChange={onChange}
+                        value={text}
+                        placeholder="소개글 입력"
+                      >
+                        {user?.introduction}
+                      </textarea>
+                      <button
+                        onClick={clickModify}
+                        type="button"
+                      >확인</button>
+                    </form>
+                  </IntroductionModify>
+                ) : (
+                  <div>{user?.introduction}</div>
+                )}
+                {intro ? (
+                  null
+                ) : (
+                  <div>
+                    <IntroModify onClick={clickModify}>소개글 수정</IntroModify>
+                  </div>
+                )}
               </MyInfo>
             </div>
           </div>
           <div>
             <MenuBox>
-              <Link to="products">상품</Link>
+              <Link to="products">상품<b>{user?.products.length}</b></Link>
               <Link to="comments">상점문의</Link>
-              <Link to="favorites">찜</Link>
-              <Link to="reviews">상점후기</Link>
-              <Link to="followings">팔로잉</Link>
-              <Link to="followers">팔로워</Link>
+              <Link to="favorites">찜<b>{user?.favorites.length}</b></Link>
+              <Link to="reviews">상점후기<b>{user?.reviews.length}</b></Link>
+              <Link to="followings">팔로잉<b>{user?.followings.length}</b></Link>
+              <Link to="followers">팔로워<b>{user?.followers.length}</b></Link>
             </MenuBox>
           </div>
           <div>

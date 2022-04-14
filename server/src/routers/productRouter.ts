@@ -3,6 +3,7 @@ import {
   changeState,
   getProductDetail,
   getProductList,
+  searchProduct,
   upload,
 } from "../controllers/productController";
 import { addFavorite } from "../controllers/productController";
@@ -20,10 +21,11 @@ productRouter
     upload
   );
 
+productRouter.route("/search").get(searchProduct);
+productRouter.route("/changeState").post(verifyToken, changeState);
+
 productRouter.route("/:id").get(getProductDetail);
 
 productRouter.route("/:id/addFavorites").get(verifyToken, addFavorite);
-
-productRouter.route("/changeState").post(verifyToken, changeState);
 
 export default productRouter;

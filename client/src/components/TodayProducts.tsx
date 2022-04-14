@@ -17,8 +17,12 @@ const TodayProducts = () => {
   useEffect(() => {
     fetch(`/productapi/showlist`)
       .then((res) => res.json())
-      .then((data) => setProducts(data));
+      .then((data) => setProducts(data.sort(current("createdAt"))));
   }, []);
+
+  const current = (createdAt:string) => {
+    return (a: any, b:any) => a[createdAt] < b[createdAt] ? 1 : a[createdAt] > b[createdAt] ? -1 : 0;
+  }
 
   return (
     <ProductContainer>
