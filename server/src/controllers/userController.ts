@@ -75,37 +75,42 @@ export const login = async (req: Request, res: Response) => {
 
 export const getUserInfo = async (req: Request, res: Response) => {
   const { user_id } = res.locals.user;
-  const findedUser = await User.findById(user_id).populate("products"); // db 에서 User 조회
+  let userInfo;
+  try {
+    const findedUser = await User.findById(user_id).populate("products"); // db 에서 User 조회
 
-  const {
-    email,
-    products,
-    comments,
-    favorites,
-    reviews,
-    followings,
-    followers,
-    _id,
-    username,
-    introduction,
-    profileImageUrl,
-    createdAt,
-  } = findedUser; // user email, products 조회
+    const {
+      email,
+      products,
+      comments,
+      favorites,
+      reviews,
+      followings,
+      followers,
+      _id,
+      username,
+      introduction,
+      profileImageUrl,
+      createdAt,
+    } = findedUser; // user email, products 조회
 
-  const userInfo = {
-    email,
-    products,
-    comments,
-    favorites,
-    reviews,
-    followings,
-    followers,
-    _id,
-    username,
-    introduction,
-    profileImageUrl,
-    createdAt,
-  };
+    userInfo = {
+      email,
+      products,
+      comments,
+      favorites,
+      reviews,
+      followings,
+      followers,
+      _id,
+      username,
+      introduction,
+      profileImageUrl,
+      createdAt,
+    };
+  } catch {
+    return res.status(400).send({ message: "에러가 발생했습니다." }).end();
+  }
   return res.send(userInfo);
 };
 
