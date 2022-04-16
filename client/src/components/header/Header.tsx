@@ -185,10 +185,13 @@ const Header = () => {
           <MenuWrapper>
             <Link to={isLoggedIn ? "/products/new" : "/login"}>판매하기</Link>
             <ShopLink>
-              <Link to={isLoggedIn ? `/shop/${user?._id}/products` : "/login"}>
-                내상점
-              </Link>
+              {Boolean(user) ? (
+                <Link to={`/shop/${user?._id}/products`}>내 상점</Link>
+              ) : (
+                <Link to={`/login`}>내 상점</Link>
+              )}
             </ShopLink>
+
             <TalkBtn>
               <Link to={isLoggedIn ? "/talk" : "/login"}>번개톡</Link>
             </TalkBtn>
