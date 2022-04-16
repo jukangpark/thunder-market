@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IProduct } from "../../interface";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 interface IProps {
   imageUrl: string;
@@ -115,6 +116,9 @@ const TableContainer = styled.div`
 
 const ProductManage = () => {
   const [products, setProducts] = useState<IProduct[]>();
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+
+  const isLoggedIn = Boolean(cookies.user);
 
   const handleChangeStateApi = (productid: string, state: string) => {
     fetch("/productapi/changeState", {
@@ -131,9 +135,11 @@ const ProductManage = () => {
       .then((data) => alert(data.message));
 
     // 상품의 상태 변경 혹은 삭제 후 products 상태 변경
-    fetch("/user/info")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products));
+    if (isLoggedIn) {
+      fetch("/user/loggedIn/info")
+        .then((res) => res.json())
+        .then((data) => setProducts(data.products));
+    }
   };
 
   const handleChange = (event: React.FormEvent<HTMLSelectElement>) => {
@@ -162,9 +168,11 @@ const ProductManage = () => {
   };
 
   useEffect(() => {
-    fetch("/user/info")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products));
+    if (isLoggedIn) {
+      fetch("/user/loggedIn/info")
+        .then((res) => res.json())
+        .then((data) => setProducts(data.products));
+    }
   }, []);
 
   return (

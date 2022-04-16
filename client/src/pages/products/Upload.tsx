@@ -233,7 +233,7 @@ const Upload = () => {
           <div>
             <button>내 위치</button>
             <button>주소 검색</button>
-            <input placeholder="지역" name="location" />
+            <input placeholder="지역" name="location" required />
           </div>
         </div>
 
@@ -263,6 +263,7 @@ const Upload = () => {
               type="number"
               name="price"
               style={{ marginBottom: "16px" }}
+              required
             />
 
             <input

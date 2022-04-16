@@ -17,10 +17,8 @@ import "./db";
 import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import apiRouter from "./routers/apiRouter";
 import productRouter from "./routers/productRouter";
 import userRouter from "./routers/userRouter";
-import commentRouter from "./routers/commentRouter";
 
 const logger = morgan("dev");
 
@@ -35,10 +33,8 @@ app.use(express.json());
 app.use(express.static("build"));
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", apiRouter);
 app.use("/productapi", productRouter);
 app.use("/user", userRouter);
-app.use("/commentapi", commentRouter);
 
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/build/index.html");

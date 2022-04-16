@@ -177,7 +177,7 @@ const SideMenu = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      fetch("/user/info")
+      fetch("/user/loggedIn/info")
         .then((res) => res.json())
         .then((data) => setUser(data));
     }

@@ -2,6 +2,7 @@ import express from "express";
 import {
   deleteUserComment,
   deleteUserFavorites,
+  getLoggedInUserInfo,
   getUserComments,
   getUserFavorites,
   getUserFollowers,
@@ -24,7 +25,9 @@ const userRouter = express.Router();
 
 userRouter.route("/join").post(join);
 userRouter.route("/login").post(login);
-userRouter.route("/info").get(verifyToken, getUserInfo);
+userRouter.route("/loggedIn/info").get(verifyToken, getLoggedInUserInfo);
+userRouter.route("/:id/info").get(getUserInfo);
+
 userRouter.route("/:id/products").get(getUserProducts);
 userRouter
   .route("/:id/comments")

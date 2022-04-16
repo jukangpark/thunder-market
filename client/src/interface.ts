@@ -29,12 +29,12 @@ export interface IUser {
   reviews: [];
   followings: [];
   followers: [];
-  _id: string;
   favorites: [];
   profileImageUrl: string;
   introduction: string;
   username: string;
   createdAt: number;
+  _id: string;
 }
 
 export interface IComment {
