@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
@@ -81,7 +80,7 @@ const Gross = styled.div`
 `;
 const Sort = styled.div`
   font-size: 13px;
-  a {
+  > div {
     margin-right: 20px;
     position: relative;
     display: block;
@@ -97,7 +96,8 @@ const Sort = styled.div`
       border-right: 1px solid rgb(204, 204, 204);
     }
   }
-  a:last-child {
+
+  > div:last-child {
     margin-right: 0;
     ::after {
       border-right: 0;
@@ -106,10 +106,9 @@ const Sort = styled.div`
 `;
 
 const Product = () => {
+  const { id } = useParams();
   const [products, setProducts] = useState<IProduct[]>();
   const [empty, setEmpty] = useState(true);
-  const { id } = useParams();
-  const [cookies] = useCookies(["user"]);
   const [user, setUser] = useState<IUser>();
   const [recent, setRecent] = useState(true);
   const [popular, setPopular] = useState(false);
@@ -125,12 +124,6 @@ const Product = () => {
           setEmpty(false);
         }
       });
-
-    if (cookies.user) {
-      fetch("/user/info")
-        .then((res) => res.json())
-        .then((data) => setUser(data));
-    }
   }, []);
 
   const lowCompare = (price: string) => {
@@ -158,8 +151,9 @@ const Product = () => {
   };
 
   const popularityCompare = (views: string) => {
+    console.log("인기순으로 정렬되었습니다.");
     return (a: any, b: any) =>
-      a[views] < b[views] ? 1 : a[views] > b[views] ? -1 : 0;
+      a[views] > b[views] ? 1 : a[views] < b[views] ? -1 : 0;
   };
   const popularity = () => {
     products?.sort(popularityCompare("views"));
@@ -208,8 +202,7 @@ const Product = () => {
                 <div>{products?.length}</div>
               </Gross>
               <Sort>
-                <Link
-                  to={`/shop/${user?._id}/products`}
+                <div
                   onClick={clickCurrent}
                   style={
                     recent
@@ -218,9 +211,9 @@ const Product = () => {
                   }
                 >
                   최신순
-                </Link>
-                <Link
-                  to={`/shop/${user?._id}/products`}
+                </div>
+                <div
+                  // to={`/shop/${id}/products`}
                   onClick={popularity}
                   style={
                     popular
@@ -229,9 +222,8 @@ const Product = () => {
                   }
                 >
                   인기순
-                </Link>
-                <Link
-                  to={`/shop/${user?._id}/products`}
+                </div>
+                <div
                   onClick={lowPrice}
                   style={
                     low
@@ -240,9 +232,8 @@ const Product = () => {
                   }
                 >
                   저가순
-                </Link>
-                <Link
-                  to={`/shop/${user?._id}/products`}
+                </div>
+                <div
                   onClick={highPrice}
                   style={
                     high
@@ -251,7 +242,7 @@ const Product = () => {
                   }
                 >
                   고가순
-                </Link>
+                </div>
               </Sort>
             </ProductAmount>
           </GrossBox>

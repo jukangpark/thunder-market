@@ -7,6 +7,7 @@ import Header from "../../components/header/Header";
 import { IUser } from "../../interface";
 import Footer from "../../components/Footer";
 import Moment from "react-moment";
+import { useCookies } from "react-cookie";
 
 const Overlay = styled.div`
   width: 100%;
@@ -340,18 +341,32 @@ const IntroductionModify = styled.div`
 `;
 
 const Shop = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // params 에서 id값 이거 어케하지....
   const [user, setUser] = useState<IUser>();
+  const [loggedInUser, setLoggedInUser] = useState<IUser>();
   const [text, setText] = useState("");
   const [change, setChange] = useState(false);
   const [intro, setIntro] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const isLoggedIn = Boolean(cookies.user);
+
   const [profile, setProfile] = useState({
     file: null,
     profileImage: "",
   });
 
+  useEffect(() => {
+    fetchUserInfo();
+
+    if (isLoggedIn) {
+      fetch("/user/loggedIn/info")
+        .then((res) => res.json())
+        .then((data) => setLoggedInUser(data));
+    }
+  }, [id]);
+
   const fetchUserInfo = () => {
-    fetch("/user/info")
+    fetch(`/user/${id}/info`)
       .then((res) => res.json())
       .then((data) => setUser(data));
   };
@@ -380,11 +395,10 @@ const Shop = () => {
     setIntro(!intro);
   };
 
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
-
   const onClick = () => {
+    if (loggedInUser?._id !== user?._id) {
+      return;
+    }
     setChange(true);
   };
   const offClick = (event: any) => {
@@ -430,30 +444,6 @@ const Shop = () => {
     } = event;
     setText(value);
   };
-
-  // const fetchIntro = () => {
-  //   fetch(`/user/${id}/introduction`)
-  //     .then((res) => res.json())
-  //     .then((data) => setUser(data));
-  // };
-
-  // const onSubmit = async () => {
-  //   console.log(text);
-
-  //   await fetch(`/user/${id}/introduction`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       text,
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => alert(data.message));
-  //   setText("");
-  //   fetchIntro();
-  // };
 
   return (
     <Wrapper>

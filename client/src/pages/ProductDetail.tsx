@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/header/Header";
 import MiniHeader from "../components/header/MiniHeader";
@@ -7,6 +7,7 @@ import { Wrapper } from "../components/commonStyle/fundamental";
 import { IProduct, IProps } from "../interface";
 import ShopInfo from "../components/ShopInfo";
 import Moment from "react-moment";
+import Footer from "../components/Footer";
 
 const Main = styled.div``;
 
@@ -252,19 +253,71 @@ const DirectBuy = styled.button`
 // 상품 디테일 밑의 상품 정보 등등
 const DescriptionContainer = styled.div`
   display: flex;
-  width: 100%;
+  flex: 1 1 0%;
   section {
-    width: 65%;
+    border-top: 1.5px solid rgb(33, 33, 33);
+    padding-right: 30px;
+    border-right: 1px solid rgb(238, 238, 238);
+    > div:nth-child(2) {
+    font-size: 18px;
+    padding: 48px 0 16px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    font-weight: bold;
+  } 
+  > div:nth-child(3) {
+    white-space: pre-wrap;
+    margin: 40px 0px;
+    line-height: 1.5;
+  }
+  > div:nth-child(4) {
+    padding: 20px 0px;
+    border-top: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(238, 238, 238);
+    display: flex;
+    >div {
+      width: 221px;
+      border-right: 1px solid rgb(238, 238, 238);
+      > div:nth-child(1) {
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-size: 13px;
+      color: rgb(178, 178, 178);
+      > img {
+        width: 16px;
+        height: 18px;
+        margin-right: 7px;
+      }
+    }
+      > div:nth-child(2) {
+        font-size: 13px;
+        color: ${(props) => props.theme.textColor};
+        padding: 0px 15px;
+        display: flex;
+        flex-wrap: wrap;
+        -webkit-box-pack: center;
+        justify-content: center;
+        line-height: 1.5;
+        min-height: 19px;
+      }
+    }
+    > div:last-child {
+      border-right: 0;
+    }
+  }
   }
 
   ul {
+    width: 100%;
     display: flex;
-
     li {
       width: 50%;
       line-height: 50px;
       text-align: center;
       cursor: pointer;
+      box-sizing: border-box;
       &:hover {
         background-color: ${(props) => props.theme.accentColor};
         color: white;
@@ -274,8 +327,72 @@ const DescriptionContainer = styled.div`
   }
 `;
 
+const ProductComment = styled.div`
+  margin-top: 10px;
+  > div:first-child {
+    padding: 60px 0px 15px;
+    font-size: 18px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    span {
+      color: rgb(247, 47, 51);
+      margin-left: 5px;
+    }
+  }
+  > div:nth-child(2) {
+    border: 1px solid rgb(238, 238, 238);
+    border-top: none;
+    > form {
+      > div:first-child {
+        width: 100%;
+        padding: 20px;
+        height: 80px;
+        border-bottom: 1px solid rgb(238, 238, 238);
+        > textarea {
+          width: 100%;
+          height: 100%;
+          resize: none;
+          font-size: 13px;
+          line-height: 1.5;
+          outline: none;
+          border: none;
+        }
+      }
+      > div:last-child {
+          display: flex;
+          width: 100%;
+          height: 50px;
+          -webkit-box-align: center;
+          align-items: center;
+          -webkit-box-pack: justify;
+          justify-content: space-between;
+          padding: 0px 10px;
+          >div {
+            margin-left: 10px;
+            font-size: 12px;
+            color: ${(props) => props.theme.btnColor};
+          }
+          > button {
+            border: 1px solid rgb(238, 238, 238);
+            height: 32px;
+            display: flex;
+            align-items: center;
+            padding: 0px 20px;
+            font-size: 13px;
+            color: ${(props) => props.theme.btnColor};
+            > img {
+              margin-right: 4px;
+              width: 15px;
+              height: 16px;
+            }
+          }
+        }
+    }
+  }
+`
+
 const ProductDetail = () => {
   const [product, setProduct] = useState<IProduct>();
+  const [text, setText] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -283,6 +400,10 @@ const ProductDetail = () => {
     fetch(`/productapi/${id}`)
       .then((res) => res.json())
       .then((data) => {
+        if (data.message === "해당 상품은 삭제되었습니다.") {
+          alert(data.message);
+          window.location.replace("/"); // 홈화면으로 갔을 때 새로고침 해서 cookie에 있는 user 값 사라지게 갱신
+        }
         setProduct(data);
 
         const oldProductsString =
@@ -323,6 +444,13 @@ const ProductDetail = () => {
         setProduct(data);
       });
   };
+
+  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
+    const { 
+      currentTarget: { value },
+    } = event;
+    setText(value)
+  }
 
   return (
     <Wrapper>
@@ -420,32 +548,73 @@ const ProductDetail = () => {
                   <li>상품 문의</li>
                 </ul>
                 <div>
-                  <div>
-                    <h1>상품 정보</h1>
-                  </div>
-
-                  <div>
-                    <p>{product?.description}</p>
-                  </div>
+                  <h1>상품 정보</h1>
+                </div>
+                <div>
+                  {product?.description}
                 </div>
                 <div>
                   <div>
-                    <h1>상품 문의</h1>
+                    <div>
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAiCAYAAABIiGl0AAAAAXNSR0IArs4c6QAAA6xJREFUWAm1l01IVFEUx51xNAtxIcEENuQIrqTxO8OEmj5IAncVUS2E2kS0axO4C5KiFi0lXIh9QBC1kKgwclNGjaNOSUEapVRiUSHoTOo4/c743vjem/vGp8xcuHPu+Z//Of9778y9740rz0EbGxsrjsViQait9JpEIuF1uVzbGCfo0/jT2GGwx6WlpQN+vz+Gn7G5MkXD4fAOil6C047dlImrxxCfg9tVUFBwtbq6ekbHrVYpzAoLo9FoJ+QL9AJrkkN/3u12d9bW1l5hMsvWnDTh4eHh8uXl5fvMutFK3qD/jLxTDQ0Nv4z5JuHR0VH/4uLiKwjy/WWtseJPLKTZKO7Wq4dCoa1LS0tP8bMqKvURrcT0TU1NbRZfWkqYWXVrhJVI9j+bZmZmbuplk1s9NDR0GNEnOpgrKz8ydBrZ8rBHRHCur0MsCvc1Pazl1GF301PbqOFpBh3Z4Rv0oIvVBgBG01hqYKCwsPBMIBD4bAxHIpGKhYWFbrB9RtxuzDEr9yB6zI5gwV/U19cfYLvktjI1mQh19rOI5wSCpqDC4bgelaXvUcRMEGJzAO0qUZ2oxdrx53XMzsI9KMJldgQDPsgPYtLgK4fCoeigMmgA2R2fCG83YMohxCFlQAHCDSlgE8Tkytx8yDZmbHCKMxIMQSdcJueWFU8Y8pRDiA3KgAJ0yJ1wJMwqGrlSWxQ6Jkg4wjWBamfCzQzfqmOrqGwNXo/c56uoeaTFejSuOWjxmNx7KXiHwYIlpnIr4I1xVo9TPF8nyFgwiYFV6LidhZfgJaFXv6vvUeCEHVmBy7UZ0fAAds3rUq+BcD8X0SFZcR5XWJcecGhFqEnrjkW12rfEJoV5PRlgJg+1QM4MGqG6uroHKWEZsNXnCfzNmWpe3iL1z9LjJmGuux+AF3MlTO1rrDb1FExutS5GQB5tj3Q/WxbRSElJyWVjPZOwBLxe70mI8sKXrTaZn59/pLKy8p+xYJqwz+eLFhUVtUH6aCRuZMwC/tBba2pqvlnz04SFUFVV9Zsj1krSd2vCOvwYNdo4sx9UOUphIfJ9f8XsRXxclbgGNiuiHNOXdjxbYUlgtuMINzN8Y1dAgU+BtTDxfkUsBWUUFhYFfmKCTKAvlWU/kDfPJo7mO3vKSiR5V69Fkrg8DPj32IHtwE2+FhvzmFivx+M5xz/ENV8sJM+xsC4yMjKyKx6P32YC8rdE2iz9HKu8m/QcfqxbWOry7N2CkRfznZzR0/yIvjBeV/sPFdozA8TD8zUAAAAASUVORK5CYII=" alt="can't do that" />
+                      거래지역
+                    </div>
+                    <div>
+                      {product?.location}
+                    </div>
+                  </div>
+                  <div>
+                    <div>
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAkCAYAAADo6zjiAAAAAXNSR0IArs4c6QAAANJJREFUWAntWEEKxCAMjGJ70h/4Aq/+/wm99gX9gTcVujsLe1pQoWj2kJyERCeZkNCOut9WSqHruiilRDjPtH3fyVpL3nvato1Uzvk+z5NqrTNxf942xlAIgTQqXw2ObIAJbA3auQzYenbPW8UBW7cCVvgkAXYGTK/PMcZeSNN/HEfT//8M9CpoljfgZGdAEhAGZA90GZA9MLDMHoXIGLIz0J0C+R6QPfBoyAcus08BfwL4R+cyaAXaOceF/xEqNJQKiAWrDZjAVqslGrQcrH8lmhfQ0lJsYYep+gAAAABJRU5ErkJggg==" alt="can't do that" />
+                      카테고리
+                    </div>
+                    <div>
+                      {product?.categories}
+                    </div>
+                  </div>
+                  <div>
+                    <div>
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAkCAYAAACaJFpUAAAAAXNSR0IArs4c6QAAAbpJREFUSA3tVzFSwkAU3c2EggKK1BxAoRAmXIKjYAkztsYDaCk34Ara6QEIVKAdDWoFDQUFDPF9hgxZJOEFRhvzZ3aS3f/ef5v3N0zQKmX0er0LrfWD0IIgaNXr9fc0JTQLHg6HzmKxuAX+GsPe8la4Pubz+btKpTLbriVejgriKezBYNBcr9ceKjkx1WaWZXm1Wq2Dp5dNxEaiYL/fb0DwHuMytkIkAbE3TFuu6z5Hlo3bg4K+74uACDUMNDmB8BOgbQjLBowwBLd98oBoYoR9MggpJmJtB/31ov3dCJJ9SqFlQI3+6rR9MkqlmEh/Mdoa71XA8nK5nCqVSqpQKGwo8/lcTSYTtVwu2RJ8n0SsXC4r29611nEcVSwW1Wg0okUtdmvyZFGxkCdrkmODFgxtPFQ4KbePpwX3iafOaUE5IHGRlNvn0IJyGlernz+TsiY5NnZH7ghDjr6cxj97LWQ/Ijoej49sLTlNW5pchs9mgrxXJDKzlDSKh2WW8l6RyMxS0ige9j8s/eINOQ+JD+FPsfTlvDI8G38pXi18V96AMuVpJyOnomVVq9UP3FyhTBfjN+yVml3REK1volCeXrtQ40gAAAAASUVORK5CYII=" alt="can't do that" />
+                      상품태그
+                    </div>
+                    <div>
+                      {product?.hashtags}
+                    </div>
+                  </div>
+                </div>
+                <ProductComment>
+                  <div>
+                    상품 문의
+                    <span>{product?.owner.reviews.length}</span>
                   </div>
 
                   <div>
                     <form>
-                      <input placeholder="상품문의 입력" />
-                      <button>등록</button>
+                      <div>
+                        <textarea
+                        placeholder="상품문의 입력"
+                        maxLength={100}
+                        onChange={onChange}
+                        value={text}
+                        />
+                      </div>
+                      <div>
+                        <div> {text.length} / 100</div>
+                        <button>
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAgCAYAAAAFQMh/AAAAAXNSR0IArs4c6QAABFdJREFUSA3Nl11MVEcUgPfnIj8B1kRi4AFI9cEiITFGfZXUYNWKxJ9CtBqC0WCMuoEGgfIPBsVsU7MpVdRV0qZpgkZLjU2qrYD6oCTw4A+YoGktTQhiIE1hC7td8Dsb7ua6ruxd2IdOMsy5Z84535wzM/cuRkOYW0tLS8zw8PCR6enpfKPRaCH865mZmRuKolysrKx8qeKMqhCO0WazJUxMTNwBlAF0gJjXkBGNHzN+wHi4pqbme2GFDexwOOIGBwf/JHgccW0pKSm1BQUFkwKRVl9fv4cqnDWZTNbq6urWsIA7OjqUrq6uH4DmwFDI7nRtbW2Zl6j509DQ8JHH42k3m83rzBr9vMS2tjZzT0+PlG9LVFTURrJahvxZZmZmdGdn56/aoCzwd/Qr0a0yaSdClQXa39//HRlm4fvH5ORkc0xMzKdk3kU/Ttan/GOS7RXsc+YNxtnU19fXSuBNERERWfHx8euBucfHx38LAv8PO8u8wAKtq6u7TIBsMthYUVHRW1xcPBoZGbmBhTjngrMVW7F5FfLhAmrkhDoYd3I3s7ib3QTytebm5tiRkZGbKBbHxsZucDqdUtr19NMs9CH6K4zHQgLjLNALOOdKpkAf+IgaQV4iQ0ND7aiW+sE9QG+npaVl6y61QCnvOcY8oJveBxV+YWGhMzU1NRvxLyk75e0Wf9rfsv+5ubkeXRnPQr8h0F7KuxnofQEEa5z6RZz6XvzTgV7nuuWXlpb+I3667jFvm69xzAf6CdB7wYDqfEZGRgnQ3QJNTEzMs1qt/6pzQUtNee04FwDfCvSu6hhsxK+EEp9UoZTfrfWZE8wL4CuMD7Cn2VVVVZ1ax7lkDmAxi5VT7M3UHyq+7wWzYhvzh+g5QO+IsZ6Gn5VMv5wLKnGUQMHItAn9EZxz+IzdDmQTSAf0KJmeCQYV33cyBir7YmVuO9BfAgEC6SjvYaB2PVDxf+s6seITOJfgvAOovH10NfwKMTxL/1FOb6A99Q/kKzWZ1jF5nIO0iz3VDSXTAyw2JKgswpsxH+hdHIg2AoyQ7QDjIAu4zAJu+a9U+wx0P7YX0enOVPX37jHQJBQu+nkCyX3bhq5SNQo0Ut58bC4wFzJU4nlLDWwNcj/lrhIlmXxB0OUiB2rM72X+EtVp17un/nHUPRZwrzpJ0BUEnZJSIqch/8xh65B5dHtYaOtCoBLHJN9Pxg8J9EQUs20ZwQ8CdaDfhywfCAPlzUP+FvGn+WY6G9+gjI2NreaBV7HpqU+pKJ8DSIiOju52u92LXS7XM6C7BcpCFgwVjkJWUmYDXx5fxnwMfL8q7Ha7a2pqygxQoDcWmqmwpAl4LeN4WVnZy/LyckNTU1McoJVkJz9D00dHR9PFkOfepKQkXS8HsQ/WjJzkAYwS6A/IKB1Asjghexie0x+he2GxWOxFRUVDMheOJqd6EV3usMhX2etHjI+Tk5Ofav8FQRfe1tjYuCS8Ef/n0d4Ah7Y0Xn+VgFMAAAAASUVORK5CYII=" alt="cant't do that" />
+                          등록
+                        </button>
+                      </div>
                     </form>
                   </div>
-                </div>
+                </ProductComment>
               </section>
               <ShopInfo shop={product?.owner} />
             </DescriptionContainer>
           </ContainerWidth>
         </Container>
       </Main>
+      <Footer />
     </Wrapper>
   );
 };

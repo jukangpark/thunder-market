@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ShopHeader, Title } from "../../components/commonStyle/LinkHeader";
-import { ProductImage } from "../../components/commonStyle/ProductStyle";
 import { IUser } from "../../interface";
 
 interface IImg {
@@ -131,7 +130,7 @@ const Following = () => {
           return (
             <Wrapper key={index}>
               <ProfileBox>
-                <Link to={`shop`}>
+                <Link to={`/shop/${user._id}/products`}>
                   <ProfileImg
                     src={
                       user.profileImageUrl
@@ -140,12 +139,12 @@ const Following = () => {
                     }
                   />
                 </Link>
-                <Link to={`shop`}>{user.username}</Link>
+                <Link to={`/shop/${user._id}/products`}>{user.username}</Link>
                 <ProductsAndFollower>
-                  <Link to={`/shop/${id}`}>
+                  <Link to={`/shop/${user._id}/products`}>
                     상품 <b>{user.products.length}</b>
                   </Link>
-                  <Link to={`/`}>
+                  <Link to={`/shop/${user._id}/followers`}>
                     팔로워 <b>{user.followers.length}</b>
                   </Link>
                 </ProductsAndFollower>
@@ -156,10 +155,10 @@ const Following = () => {
                 </FollowingBox>
               </ProfileBox>
               <ProductBox>
-                {user.products?.slice(0, 3).map((img) => (
-                  <Link to={`/product/${img._id}`} key={img._id}>
+                {user.products?.slice(0, 3).map((product) => (
+                  <Link to={`/product/${product._id}`} key={product._id}>
                     <ProductImg
-                      imageUrl={`${img.imageUrl.replaceAll("\\", "/")}`}
+                      imageUrl={`${product.imageUrl.replaceAll("\\", "/")}`}
                     />
                   </Link>
                 ))}

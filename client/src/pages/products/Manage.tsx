@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IProduct } from "../../interface";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 interface IProps {
   imageUrl: string;
@@ -115,6 +116,9 @@ const TableContainer = styled.div`
 
 const ProductManage = () => {
   const [products, setProducts] = useState<IProduct[]>();
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+
+  const isLoggedIn = Boolean(cookies.user);
 
   const handleChangeStateApi = (productid: string, state: string) => {
     fetch("/productapi/changeState", {
@@ -131,9 +135,11 @@ const ProductManage = () => {
       .then((data) => alert(data.message));
 
     // 상품의 상태 변경 혹은 삭제 후 products 상태 변경
-    fetch("/user/info")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products));
+    if (isLoggedIn) {
+      fetch("/user/loggedIn/info")
+        .then((res) => res.json())
+        .then((data) => setProducts(data.products));
+    }
   };
 
   const handleChange = (event: React.FormEvent<HTMLSelectElement>) => {
@@ -144,6 +150,13 @@ const ProductManage = () => {
 
     if (event.currentTarget.value === "삭제") {
       if (window.confirm("정말 삭제하시겠습니까?")) {
+        const productsString = window.localStorage.getItem("products") || "[]";
+        const oldProducts = JSON.parse(productsString);
+        const editArray = oldProducts.filter(
+          (product: any) => product._id !== productid
+        );
+        window.localStorage.setItem("products", JSON.stringify(editArray));
+        // 최근본 상품에서 상품 찾아서 삭제해주기.
         return handleChangeStateApi(productid, state); // 여기서 코드 빠져나오기.
       } else {
         return; // window.confirm 에서 취소를 눌렀을 때 함수 종료.
@@ -155,9 +168,11 @@ const ProductManage = () => {
   };
 
   useEffect(() => {
-    fetch("/user/info")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products));
+    if (isLoggedIn) {
+      fetch("/user/loggedIn/info")
+        .then((res) => res.json())
+        .then((data) => setProducts(data.products));
+    }
   }, []);
 
   return (
