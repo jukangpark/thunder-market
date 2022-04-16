@@ -392,7 +392,7 @@ export const deleteUserFavorites = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   if (user_id !== id) {
-    return res.send({ message: "댓글 작성자만 삭제할 수 있습니다" });
+    return res.send({ message: "상점 주인만 삭제할 수 있습니다" });
   }
 
   const user = await User.findById(user_id);

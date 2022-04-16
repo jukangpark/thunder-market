@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useCookies } from "react-cookie";
 import Moment from "react-moment";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -125,6 +126,9 @@ const LocationBox = styled.div`
 const Favorite = () => {
   const { id } = useParams();
   const [favorites, setFavorites] = useState<IProduct[]>();
+  const [cookies] = useCookies();
+  const isLoggedIn = Boolean(cookies.user);
+
   // const [inputEl, setInputEl] = useState();
 
   let favoritesArray = [] as any;
@@ -195,7 +199,8 @@ const Favorite = () => {
 
       <BtnContainer>
         <input type="checkbox" onClick={handleAllCheck} />
-        <button onClick={handleFetch}>선택삭제</button>
+
+        {isLoggedIn ? <button onClick={handleFetch}>선택삭제</button> : null}
       </BtnContainer>
 
       <ProductContainer>

@@ -31,7 +31,7 @@ userRouter.route("/:id/info").get(getUserInfo);
 userRouter.route("/:id/products").get(getUserProducts);
 userRouter
   .route("/:id/comments")
-  .get(verifyToken, getUserComments)
+  .get(getUserComments)
   .post(verifyToken, postUserComment)
   .delete(verifyToken, deleteUserComment);
 

@@ -5,6 +5,7 @@ import { ShopHeader, Title } from "../../components/commonStyle/LinkHeader";
 import { IComment } from "../../interface";
 import Moment from "react-moment";
 import "moment/locale/ko";
+import { useCookies } from "react-cookie";
 
 const InquiryForm = styled.form`
   border-right: 1px solid rgb(238, 238, 238);
@@ -144,6 +145,9 @@ const Comment = () => {
   const [comments, setComments] = useState<IComment[]>();
   const [text, setText] = useState("");
   const { id } = useParams();
+  const [cookies] = useCookies();
+
+  const isLoggedIn = Boolean(cookies.user);
 
   const fetchComments = () => {
     fetch(`/user/${id}/comments`)
@@ -208,23 +212,26 @@ const Comment = () => {
           상점문의<span>{comments?.length}</span>
         </Title>
       </ShopHeader>
-      <InquiryForm onSubmit={onSubmit}>
-        <TextBox>
-          <InquiryText
-            onChange={handleChange}
-            id="text"
-            name="text"
-            required={true}
-            placeholder="상점 문의 입력"
-            maxLength={100}
-            value={text}
-          />
-        </TextBox>
-        <TextLength>
-          <Length> {text.length} / 100</Length>
-          <Registration>등록</Registration>
-        </TextLength>
-      </InquiryForm>
+      {isLoggedIn ? (
+        <InquiryForm onSubmit={onSubmit}>
+          <TextBox>
+            <InquiryText
+              onChange={handleChange}
+              id="text"
+              name="text"
+              required={true}
+              placeholder="상점 문의 입력"
+              maxLength={100}
+              value={text}
+            />
+          </TextBox>
+          <TextLength>
+            <Length> {text.length} / 100</Length>
+            <Registration>등록</Registration>
+          </TextLength>
+        </InquiryForm>
+      ) : null}
+
       {comments?.map((comment, index) => (
         <CommentList key={index}>
           <div>
