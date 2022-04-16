@@ -20,7 +20,7 @@ const FormContainer = styled.div`
   display: flex;
   margin: 2.5rem 0px 2rem;
 
-  form > input {
+  > form > input {
     width: 400px;
     height: 48px;
     font-size: 16px;

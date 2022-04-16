@@ -305,8 +305,8 @@ const ProductDetail = () => {
       });
   }, []);
 
-  const addFavorite = () => {
-    fetch(`/productapi/${id}/addFavorites`)
+  const addFavorite = async () => {
+    await fetch(`/productapi/${id}/addFavorites`)
       .then((res) => res.json())
       .then((data) => {
         if (data.message) {
@@ -316,6 +316,11 @@ const ProductDetail = () => {
           alert("로그인 먼저 해주세요");
           navigate("/login");
         }
+      });
+    fetch(`/productapi/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
       });
   };
 
@@ -398,7 +403,7 @@ const ProductDetail = () => {
                         <ZimBtn>
                           <LovedImg src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICAgIDxwYXRoIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTTcuMDA1IDEuMDQ1aC4yMzNjLjI4LjIyOC41MzcuNDkuNzYyLjc3Ny4yMjUtLjI4OC40ODEtLjU0OS43NjItLjc3N2guMjMzYTYuMTYgNi4xNiAwIDAgMC0uMDktLjExM0M5LjY4NC4zNDQgMTAuNjI4IDAgMTEuNiAwIDE0LjA2NCAwIDE2IDIuMTEgMTYgNC43OTZjMCAzLjI5Ni0yLjcyIDUuOTgxLTYuODQgMTAuMDYyTDggMTZsLTEuMTYtMS4xNTFDMi43MiAxMC43NzcgMCA4LjA5MiAwIDQuNzk2IDAgMi4xMSAxLjkzNiAwIDQuNCAwYy45NzIgMCAxLjkxNi4zNDQgMi42OTUuOTMyYTYuMTYgNi4xNiAwIDAgMC0uMDkuMTEzeiIvPgo8L3N2Zz4K" />
                           <span>찜</span>
-                          <span>0</span>
+                          <span>{product?.meta.favorites.length}</span>
                         </ZimBtn>
                       </ZimBox>
                       <Message>연락하기</Message>

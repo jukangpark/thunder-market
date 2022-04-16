@@ -1,6 +1,7 @@
 import express from "express";
 import {
   deleteUserComment,
+  deleteUserFavorites,
   getUserComments,
   getUserFavorites,
   getUserFollowers,
@@ -30,7 +31,12 @@ userRouter
   .get(verifyToken, getUserComments)
   .post(verifyToken, postUserComment)
   .delete(verifyToken, deleteUserComment);
-userRouter.route("/:id/favorites").get(getUserFavorites);
+
+userRouter
+  .route("/:id/favorites")
+  .get(getUserFavorites)
+  .post(verifyToken, deleteUserFavorites);
+
 userRouter
   .route("/:id/reviews")
   .get(getUserReviews)

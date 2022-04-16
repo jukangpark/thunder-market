@@ -23,7 +23,7 @@ const Categories = styled.div`
   box-sizing: border-box;
   font-size: 13px;
 
-  option {
+  > option {
     cursor: pointer;
     box-shadow: rgb(238 238 238) 0px 1px 1px 0px;
     padding-left: 20px;
