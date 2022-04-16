@@ -151,8 +151,9 @@ const Product = () => {
   };
 
   const popularityCompare = (views: string) => {
+    console.log("인기순으로 정렬되었습니다.");
     return (a: any, b: any) =>
-      a[views] < b[views] ? 1 : a[views] > b[views] ? -1 : 0;
+      a[views] > b[views] ? 1 : a[views] < b[views] ? -1 : 0;
   };
   const popularity = () => {
     products?.sort(popularityCompare("views"));
@@ -212,6 +213,7 @@ const Product = () => {
                   최신순
                 </div>
                 <div
+                  // to={`/shop/${id}/products`}
                   onClick={popularity}
                   style={
                     popular
