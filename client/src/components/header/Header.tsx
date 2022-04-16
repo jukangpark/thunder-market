@@ -187,9 +187,7 @@ const Header = () => {
             <ShopLink>
               {Boolean(user) ? (
                 <Link to={`/shop/${user?._id}/products`}>내 상점</Link>
-              ) : (
-                <Link to={`/login`}>내 상점</Link>
-              )}
+              ) : null}
             </ShopLink>
 
             <TalkBtn>
