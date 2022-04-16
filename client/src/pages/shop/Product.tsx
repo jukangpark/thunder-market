@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "../../components/commonStyle/fundamental";
@@ -81,7 +80,7 @@ const Gross = styled.div`
 `;
 const Sort = styled.div`
   font-size: 13px;
-  a {
+  > div {
     margin-right: 20px;
     position: relative;
     display: block;
@@ -97,7 +96,8 @@ const Sort = styled.div`
       border-right: 1px solid rgb(204, 204, 204);
     }
   }
-  a:last-child {
+
+  > div:last-child {
     margin-right: 0;
     ::after {
       border-right: 0;
@@ -201,8 +201,7 @@ const Product = () => {
                 <div>{products?.length}</div>
               </Gross>
               <Sort>
-                <Link
-                  to={`/shop/${user?._id}/products`}
+                <div
                   onClick={clickCurrent}
                   style={
                     recent
@@ -211,9 +210,8 @@ const Product = () => {
                   }
                 >
                   최신순
-                </Link>
-                <Link
-                  to={`/shop/${user?._id}/products`}
+                </div>
+                <div
                   onClick={popularity}
                   style={
                     popular
@@ -222,9 +220,8 @@ const Product = () => {
                   }
                 >
                   인기순
-                </Link>
-                <Link
-                  to={`/shop/${user?._id}/products`}
+                </div>
+                <div
                   onClick={lowPrice}
                   style={
                     low
@@ -233,9 +230,8 @@ const Product = () => {
                   }
                 >
                   저가순
-                </Link>
-                <Link
-                  to={`/shop/${user?._id}/products`}
+                </div>
+                <div
                   onClick={highPrice}
                   style={
                     high
@@ -244,7 +240,7 @@ const Product = () => {
                   }
                 >
                   고가순
-                </Link>
+                </div>
               </Sort>
             </ProductAmount>
           </GrossBox>
