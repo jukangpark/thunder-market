@@ -125,8 +125,8 @@ const MiniHeader = () => {
   const isLoggedIn = Boolean(cookies.user);
 
   useEffect(() => {
-    if (cookies.user) {
-      fetch("/user/info")
+    if (isLoggedIn) {
+      fetch("/user/loggedIn/info")
         .then((res) => res.json())
         .then((data) => setUser(data));
     }

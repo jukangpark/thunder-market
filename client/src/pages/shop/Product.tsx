@@ -106,10 +106,9 @@ const Sort = styled.div`
 `;
 
 const Product = () => {
+  const { id } = useParams();
   const [products, setProducts] = useState<IProduct[]>();
   const [empty, setEmpty] = useState(true);
-  const { id } = useParams();
-  const [cookies] = useCookies(["user"]);
   const [user, setUser] = useState<IUser>();
   const [recent, setRecent] = useState(true);
   const [popular, setPopular] = useState(false);
@@ -125,12 +124,6 @@ const Product = () => {
           setEmpty(false);
         }
       });
-
-    if (cookies.user) {
-      fetch("/user/info")
-        .then((res) => res.json())
-        .then((data) => setUser(data));
-    }
   }, []);
 
   const lowCompare = (price: string) => {

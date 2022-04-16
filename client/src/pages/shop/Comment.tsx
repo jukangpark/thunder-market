@@ -174,7 +174,9 @@ const Comment = () => {
       body: JSON.stringify({
         text,
       }),
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => alert(data.message));
 
     setText("");
 
@@ -198,7 +200,7 @@ const Comment = () => {
 
     fetchComments();
   };
-  
+
   return (
     <div>
       <ShopHeader>
