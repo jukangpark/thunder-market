@@ -74,7 +74,10 @@ export const getProductDetail = async (req: any, res: Response) => {
   const { id } = req.params;
   let product;
   try {
-    product = await Product.findById(id).populate("owner");
+    product = await Product.findById(id).populate({
+      path: "owner",
+      populate: { path: "products" },
+    });
 
     if (product === null) {
       return res.status(200).send({ message: "해당 상품은 삭제되었습니다." });
