@@ -14,18 +14,18 @@
 ### 주요 기능
 
 - 회원가입, 로그인
-  <img src="https://user-images.githubusercontent.com/75718898/163774207-43c2c983-c06f-4fd1-8faa-bac7353eacec.png" alt="회원가입" />
+  <img width="600px" src="https://user-images.githubusercontent.com/75718898/163774207-43c2c983-c06f-4fd1-8faa-bac7353eacec.png" alt="회원가입" />
 
 - 상품 업로드
-  <img src="https://user-images.githubusercontent.com/75718898/163773901-46a69a32-989d-40eb-8bff-f40fcb45cf4d.png" alt="맥 미니"/>
+  <img width="600px" src="https://user-images.githubusercontent.com/75718898/163773901-46a69a32-989d-40eb-8bff-f40fcb45cf4d.png" alt="맥 미니"/>
 
 - 프로필 사진 업데이트, 소개글 작성, 상품 정렬, 상점 후기, 팔로잉, 찜
 
 - 최근 본 상품 목록
-  <img src="https://user-images.githubusercontent.com/75718898/163774823-8ece9e98-2d48-45c8-9270-48e22534b0f9.png" alt="최근본상품">
+  <img width="600px" src="https://user-images.githubusercontent.com/75718898/163774823-8ece9e98-2d48-45c8-9270-48e22534b0f9.png" alt="최근본상품">
 
 - light/dark 모드
-  <img src="https://user-images.githubusercontent.com/75718898/163775033-d55dfa4a-5226-47e2-bf34-2345b4a6f0fd.png" alt="토글 모드" />
+  <img width="600px" src="https://user-images.githubusercontent.com/75718898/163775033-d55dfa4a-5226-47e2-bf34-2345b4a6f0fd.png" alt="토글 모드" />
 
 ### TroubleShooting
 
