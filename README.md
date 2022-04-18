@@ -19,7 +19,7 @@
 <h4>상품 업로드</h4>
   <img width="600px" src="https://user-images.githubusercontent.com/75718898/163773901-46a69a32-989d-40eb-8bff-f40fcb45cf4d.png" alt="맥 미니"/>
 
-- 프로필 사진 업데이트, 소개글 작성, 상품 정렬, 상점 후기, 팔로잉, 찜
+<h4>프로필 사진 업데이트, 소개글 작성, 상품 정렬, 상점 후기, 팔로잉, 찜</h4>
 
 <h4>최근 본 상품 목록</h4>
   <img width="600px" src="https://user-images.githubusercontent.com/75718898/163774823-8ece9e98-2d48-45c8-9270-48e22534b0f9.png" alt="최근본상품">
