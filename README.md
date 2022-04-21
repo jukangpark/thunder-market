@@ -3,7 +3,7 @@
 ### 서비스 소개
 
 <img src="https://user-images.githubusercontent.com/75718898/163774624-70d7e30f-a41a-4b5b-8030-18ec795f012c.png" alt="메인화면"/>
-<a href="https://thunder-market.herokuapp.com/">published</a>
+<a href="https://jkp-thunder-market.herokuapp.com">published</a>
 
 > 중고 거래를 할 수 있도록 도와주는 웹 앱
 
